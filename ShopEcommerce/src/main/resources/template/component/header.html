@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header ShopEcommerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/style.css">
+</head>
+<body>
+    <header class="main-header">
+
+
+        <div class="header-top bg-dark text-white">
+            <div class="container h-100 d-flex justify-content-between align-items-center">
+                <div class="d-flex h-100 align-items-center">
+                    <span class="me-3"><i class="fa fa-calendar-alt"></i> February 28, 2025</span>
+                    <ul class="list-unstyled d-flex mb-0">
+                        <li class="me-4"><a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a></li>
+                        <li class="me-4"><a href="#" class="text-white"><i class="fab fa-twitter"></i></a></li>
+                        <li class="me-4"><a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a></li>
+                        <li class="me-4"><a href="#" class="text-white"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="#" class="text-white"><i class="fab fa-dribbble"></i></a></li>
+                    </ul>
+                </div>
+                <div class="d-flex">
+                    <div class="language dropdown">
+                        <button class="btn text-white dropdown-toggle" type="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false"><span class="flag"></span>Eng &nbsp;</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                            <li><a href="#">English</a></li>
+                            <li><a href="#">Arabic</a></li>
+                            <li><a href="#">Spanish</a></li>
+                        </ul>
+                    </div>
+    <!--                <a href="#" class="text-white text-decoration-none me-3">ENG <i class="fa fa-angle-down"></i></a>-->
+                    <a href="#" class="text-white d-flex align-items-center text-decoration-none">Track Your Order</a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="header-upper ">
+            <div class="container d-flex justify-content-between align-items-center">
+                <a href="#" class="logo d-flex align-items-center text-dark">
+                    <img src="" alt="Logo" class="me-2">
+                    <strong>ShopEcommerce</strong>
+                </a>
+                <div class="input-group w-50">
+                    <input type="text" class="form-control" placeholder="Search For Product">
+                    <button class="btn btn-dark"><i class="fa fa-search"></i></button>
+                </div>
+    <!--            <div class="search-box w-50">-->
+    <!--                <form class="d-flex">-->
+    <!--                    <input type="text" class="form-control" placeholder="Search For Product">-->
+    <!--                    <button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>-->
+    <!--                </form>-->
+    <!--            </div>-->
+                <div class="header-phone_box">
+                    <div class="header-phone_icon">
+                        <i class="fa-solid fa-phone fa-fw"></i>
+                    </div>
+                    <div class="header-phone_box-inner">
+                        <strong>Support</strong> (+800) 856 800 604 <br>
+                        <strong>E-mail:</strong> info@Radios.com
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="header-lower">
+            <div class="auto-container">
+                <div class="inner-container d-flex justify-content-between align-items-center">
+                    <nav class="navbar navbar-expand-md w-75">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNav">
+    <!--                        <ul class="navbar-nav">-->
+    <!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Home</a><i class="fa-solid fa-angle-down"></i></li>-->
+    <!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Shop</a><i class="fa-solid fa-angle-down"></i></li>-->
+    <!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Blog</a><i class="fa-solid fa-angle-down"></i></li>-->
+    <!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Pages</a><i class="fa-solid fa-angle-down"></i></li>-->
+    <!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Contact</a><i class="fa-solid fa-angle-down"></i></li>-->
+    <!--                        </ul>-->
+                            <ul id="menu-main-menu" class="navbar-nav">
+                                <li class="nav-item d-flex align-items-center menu-item dropdown"><a href="#">Home</a>
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item"><a href="#">Homepage – 01</a></li>
+                                        <li class="menu-item"><a href="#">Homepage – 02</a></li>
+                                        <li class="menu-item"><a href="#">Homepage – 03</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item d-flex align-items-center menu-item dropdown"><a href="#">Shop</a>
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item"><a href="#">Shop</a></li>
+                                        <li class="menu-item"><a href="#">Single Product</a></li>
+                                        <li class="menu-item"><a href="#">Cart</a></li>
+                                        <li class="menu-item"><a href="#">Checkout</a></li>
+                                        <li class="menu-item"><a href="#">My account</a></li>
+                                        <li class="menu-item"><a href="#">Order Tracking</a></li>
+                                        <li class="menu-item"><a href="#">Wishlist</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item d-flex align-items-center menu-item dropdown"><a href="#">Blog</a>
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item"><a href="#">Blog</a></li>
+                                        <li class="menu-item"><a href="#">Single Blog</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item d-flex align-items-center menu-item dropdown"><a href="#">Pages</a>
+                                    <i class="fa-solid fa-angle-down"></i>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item"><a href="#">About</a></li>
+                                        <li class="menu-item"><a href="#">404</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item d-flex align-items-center menu-item"><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <div class="d-flex align-items-center">
+                        <a href="#" class="header-low_icon text-black mx-2"><i class="fa fa-user"></i></a>
+                        <a href="#" class="header-low_icon text-black mx-2 position-relative">
+                            <i class="fa-regular fa-heart"></i>
+                            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">0</span>
+                        </a>
+                        <a href="#" class="header-low_icon text-black mx-2 position-relative">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</header>
+<div id="banner-container"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    </header>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+<script>
+    // Load Banner
+    fetch("banner.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("banner-container").innerHTML = data;
+
+            setTimeout(() => {
+                new Swiper(".swiper-container", {
+                    loop: true,
+                    pagination: { el: ".swiper-pagination", clickable: true },
+                    autoplay: { delay: 3000, disableOnInteraction: false }
+                });
+            }, 100);
+        })
+        .catch(error => console.error("Lỗi tải banner:", error));
+</script>
