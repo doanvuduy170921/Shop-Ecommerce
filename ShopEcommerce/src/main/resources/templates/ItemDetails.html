@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Chi Tiết Sản Phẩm</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" th:href="@{/css/ItemDetails.css}" />
+        <script>
+            function changeMainImage(src) {
+                document.getElementById("mainImage").src = src;
+            }
+            document.addEventListener("DOMContentLoaded", function () {
+                let container = document.querySelector(".image-list");
+
+                container.addEventListener("wheel", (e) => {
+                    e.preventDefault();
+                    container.scrollLeft += e.deltaY; // Chuyển động ngang thay vì dọc
+                });
+            });
+        </script>
+    </head>
+    <body style="background-color: #f5f5f5">
+        <div class="container mt-4 mb-3">
+            <div class="row">
+                <div class="col-md-4">
+                    <img
+                        id="mainImage"
+                        src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp"
+                        onmouseover="changeMainImage(this.src)"
+                        alt="Sản phẩm"
+                        class="img-fluid rounded"
+                    />
+                    <div class="image-list mt-3">
+                        <img
+                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp"
+                            onmouseover="changeMainImage(this.src)"
+                            alt="Ảnh 1"
+                            class="img-thumbnail me-2"
+                        />
+                        <img
+                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdyw-lxtef5wjpznudf@resize_w900_nl.webp"
+                            onmouseover="changeMainImage(this.src)"
+                            alt="Ảnh 2"
+                            class="img-thumbnail me-2"
+                        />
+                        <img
+                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdyu-lyx2w7m1t9wi8d@resize_w900_nl.webp"
+                            onmouseover="changeMainImage(this.src)"
+                            alt="Ảnh 3"
+                            class="img-thumbnail me-2"
+                        />
+                        <img
+                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdw8-lxtfla7stjrgc0@resize_w900_nl.webp"
+                            onmouseover="changeMainImage(this.src)"
+                            alt="Ảnh 4"
+                            class="img-thumbnail me-2"
+                        />
+                        <img
+                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdww-lxtfla5utld2f2@resize_w900_nl.webp"
+                            alt="Ảnh 5"
+                            class="img-thumbnail me-2"
+                        />
+                        <img
+                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdyk-lxtfla46xfpm07.webp"
+                            alt="Ảnh 6"
+                            class="img-thumbnail me-2"
+                        />
+                        <img
+                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdvq-lxtfla8wp4ne3a.webp"
+                            alt="Ảnh 7"
+                            class="img-thumbnail me-2"
+                        />
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <h3>
+                        Chuột Chơi Game Có Dây USB, LED RGB Ergonomic 1200dpi
+                    </h3>
+                    <p class="text-warning">⭐⭐⭐⭐⭐ 8k đánh giá</p>
+                    <h4 class="text-danger">
+                        đ33.000 - đ38.500
+                        <span
+                            class="text-secondary text-decoration-line-through"
+                            >đ52.800</span
+                        >
+                    </h4>
+                    <div class="mt-3">
+                        <label class="fw-bold">Màu sắc:</label>
+                        <select class="form-select w-auto d-inline-block">
+                            <option>Đen có bao bì</option>
+                            <option>Trắng có bao bì</option>
+                        </select>
+                    </div>
+                    <div class="mt-3">
+                        <label class="fw-bold">Số lượng:</label>
+                        <input
+                            type="number"
+                            value="1"
+                            min="1"
+                            class="form-control w-auto d-inline-block"
+                        />
+                    </div>
+                    <div class="mt-4">
+                        <button class="btn btn-warning me-2">
+                            Thêm Vào Giỏ Hàng
+                        </button>
+                        <button class="btn btn-danger">Mua Ngay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container md-4 mb-3">
+            <div class="mt-3 details">
+                <h4>Chi Tiết Sản Phẩm</h4>
+                <ul class="pt-3">
+                    <li>
+                        <label>Danh Mục: </label>
+                        <div>
+                            Shopee > Máy Tính & Laptop > Gaming > Chuột Máy Tính
+                        </div>
+                    </li>
+                    <li>
+                        <label>Kho: </label>
+                        <div>183</div>
+                    </li>
+                    <li>
+                        <label>Kiểu kết nối: </label>
+                        <div>Có dây</div>
+                    </li>
+                    <li>
+                        <label>Game chuyên dụng: </label>
+                        <div>Có</div>
+                    </li>
+                    <li>
+                        <label>Bộ sản phẩm: </label>
+                        <div>Không</div>
+                    </li>
+                    <li>
+                        <label>Gửi từ: </label>
+                        <div>Nước ngoài</div>
+                    </li>
+                </ul>
+                <h4>Mô Tả Sản Phẩm</h4>
+                <div class="pt-3" style="padding-left: 2rem">
+                    <p>
+                        Trải nghiệm khả năng điều khiển mượt mà và chính xác với
+                        hoạt động quang học công nghệ cao, hoàn hảo cho game thủ
+                        và các chuyên gia văn phòng.
+                    </p>
+                    <p>
+                        Tận hưởng khả năng truyền dữ liệu nhanh chóng và đáng
+                        tin cậy với kết nối có dây, lý tưởng cho người dùng máy
+                        tính để bàn và máy tính xách tay.
+                    </p>
+                    <p>
+                        Chi tiết kích thước: Chuột chơi game RGB này có chiều
+                        dài 12,5cm và chiều rộng 6,8cm.
+                    </p>
+                    <p>
+                        Nâng cao trải nghiệm chơi game với đèn nền phát sáng,
+                        cải thiện khả năng hiển thị trong điều kiện ánh sáng
+                        yếu.
+                    </p>
+                    <p>
+                        Đảm bảo một môi trường văn phòng yên tĩnh với hoạt động
+                        không ồn ào, hoàn hảo cho các cuộc họp hoặc thuyết trình
+                        quan trọng.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="container md-4 mb-3">
+            <h4>ĐÁNH GIÁ SẢN PHẨM</h4>
+            <div class="bg-light p-3 rounded d-flex">
+                <div class="rating-overall me-3">
+                    <h4 class="text-danger">4.8 trên 5</h4>
+                    <div class="text-warning fs-4">⭐⭐⭐⭐⭐</div>
+                </div>
+                <div class="mt-3">
+                    <button class="btn btn-outline-danger btn-sm">
+                        Tất Cả
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm">
+                        5 Sao (7,1k)
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm">
+                        4 Sao (541)
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm">
+                        3 Sao (202)
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm">
+                        2 Sao (82)
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm">
+                        1 Sao (150)
+                    </button>
+                    <!-- <button class="btn btn-outline-secondary btn-sm">Có Hình Ảnh / Video (1,3k)</button>
+                        <button class="btn btn-outline-secondary btn-sm">Trong Nước (2,6k)</button>
+                        <button class="btn btn-outline-secondary btn-sm">Có Bình Luận (2,5k)</button> -->
+                </div>
+            </div>
+
+            <!-- Đánh giá 1 -->
+            <div class="card mt-3">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <img
+                            src="https://www.gravatar.com/avatar/?d=identicon"
+                            class="rounded-circle"
+                            width="50"
+                            height="50"
+                            alt="User"
+                        />
+                        <div class="ms-3">
+                            <h6 class="mb-1">2yn_qafxcn</h6>
+                            <p class="text-muted small">
+                                2024-09-22 16:53 | Phân loại hàng: Màu trắng có
+                                bao bì
+                            </p>
+                            <div class="text-warning">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p><strong>Tính năng nổi bật:</strong> quá ok</p>
+                    <p><strong>Chất lượng sản phẩm:</strong> quá tốt</p>
+                    <p>
+                        Úi giời ơi đẹp thần sầu luôn cả nhà ơi. Đổi màu nhẹ
+                        nhàng thanh thoát. Con lăn chuột siêu êm. Chuột xài siêu
+                        đã. Giá cực kỳ tốt. Giao nhanh. Đóng gói cẩn thận. Nên
+                        mua lắm ạ.
+                    </p>
+                    <div class="d-flex">
+                        <img
+                            src="https://via.placeholder.com/100"
+                            class="me-2 rounded"
+                            width="100"
+                            alt="Ảnh đánh giá"
+                        />
+                        <img
+                            src="https://via.placeholder.com/100"
+                            class="me-2 rounded"
+                            width="100"
+                            alt="Ảnh đánh giá"
+                        />
+                    </div>
+                    <div class="mt-2 text-muted small">👍 6</div>
+                </div>
+            </div>
+
+            <!-- Đánh giá 2 -->
+            <div class="card mt-3">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <img
+                            src="https://www.gravatar.com/avatar/?d=identicon"
+                            class="rounded-circle"
+                            width="50"
+                            height="50"
+                            alt="User"
+                        />
+                        <div class="ms-3">
+                            <h6 class="mb-1">h*****5</h6>
+                            <p class="text-muted small">
+                                2024-10-23 00:31 | Phân loại hàng: Đen có bao bì
+                            </p>
+                            <div class="text-warning">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p><strong>Tính năng nổi bật:</strong> tốt</p>
+                    <p><strong>Chất lượng sản phẩm:</strong> tốt</p>
+                    <p>
+                        Sản phẩm rất mượt mà chạy tốt có đèn rất đẹp lần sau sẽ
+                        mua ủng hộ shop tiếp
+                    </p>
+                    <div class="d-flex">
+                        <img
+                            src="https://via.placeholder.com/100"
+                            class="me-2 rounded"
+                            width="100"
+                            alt="Ảnh đánh giá"
+                        />
+                        <img
+                            src="https://via.placeholder.com/100"
+                            class="me-2 rounded"
+                            width="100"
+                            alt="Ảnh đánh giá"
+                        />
+                    </div>
+                    <div class="mt-2 text-muted small">👍 6</div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
