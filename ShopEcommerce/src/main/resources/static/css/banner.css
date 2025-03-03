@@ -1,7 +1,4 @@
-body {
 
-    font-family: Arial, sans-serif;
-}
 
 .banner-container {
     background-color: #111;
@@ -75,13 +72,13 @@ body {
 .swiper-button-next, .swiper-button-prev {
     color: white !important;
     background: rgba(255, 255, 255, 0.2);
-    padding: 20px;
+    padding: 22px;
     border-radius: 50%;
-    margin: 0 30px;
+    margin: 0 40px;
 }
 
 .swiper-button-next::after, .swiper-button-prev::after {
-    font-size: 24px;
+    font-size: 24px !important;
 }
 
 .swiper-pagination-bullet {
@@ -92,4 +89,7 @@ body {
 
 .swiper-pagination-bullet-active {
     background: #ff7b00 !important;
+}
+.swiper {
+    z-index: 0 !important;
 }
