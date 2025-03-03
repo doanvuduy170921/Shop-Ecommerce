@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #000;
+    /*background: #000;*/
 }
 .container, .auto-container {
     max-width: 1200px;
@@ -56,7 +56,7 @@ body {
     background: #ff8717;
     height: 100%;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 30px !important;
 }
 .fa-calendar-alt {
     color: #ff8717;

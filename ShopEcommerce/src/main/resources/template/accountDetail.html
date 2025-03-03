@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết tài khoản</title>
+<!--    <link rel="stylesheet" th:href="@{/css/management.css}">-->
+    <link rel="stylesheet" href="../static/css/management.css">
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <img src="logo.png" alt="Logo" class="logo">
+    </div>
+    <div class="user-profile">
+        <img src="user-icon.png" alt="User" class="user-icon">
+    </div>
+</header>
+
+<div class="container">
+    <aside class="sidebar">
+        <nav>
+            <ul>
+                <li class="nav-header">Admin</li>
+                <li class="active"><a href="accountManagement">Quản lý tài khoản</a></li>
+                <li><a href="#">Quản lý đơn hàng</a></li>
+                <li><a href="productManagement">Quản lý sản phẩm</a></li>
+            </ul>
+        </nav>
+
+        <div class="logout">
+            <a href="#">Logout</a>
+        </div>
+    </aside>
+
+    <main class="content">
+        <div class="content-header">
+            <h2>Chi tiết tài khoản</h2>
+        </div>
+
+        <div class="account-details">
+            <table>
+                <tr>
+                    <th>Mã tài khoản:</th>
+                    <td th:text="${account.id}"></td>
+                </tr>
+                <tr>
+                    <th>Họ tên:</th>
+                    <td th:text="${account.fullName}"></td>
+                </tr>
+                <tr>
+                    <th>Số điện thoại:</th>
+                    <td th:text="${account.phoneNumber}"></td>
+                </tr>
+                <tr>
+                    <th>Địa chỉ:</th>
+                    <td th:text="${account.address}"></td>
+                </tr>
+                <tr>
+                    <th>Ngày sinh:</th>
+                    <td th:text="${account.dateOfBirth}"></td>
+                </tr>
+                <tr>
+                    <th>Ngày tạo:</th>
+                    <td th:text="${account.createdDate}"></td>
+                </tr>
+            </table>
+            <div class="action-buttons">
+                <a href="accountManagement" class="back-btn">Quay lại</a>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

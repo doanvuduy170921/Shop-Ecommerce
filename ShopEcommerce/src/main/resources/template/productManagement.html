@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm</title>
+<!--    <link rel="stylesheet" th:href="@{/css/management.css}">-->
+    <link rel="stylesheet" href="../static/css/management.css">
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <img src="logo.png" alt="Logo" class="logo">
+    </div>
+    <div class="user-profile">
+        <img src="user-icon.png" alt="User" class="user-icon">
+    </div>
+</header>
+
+<!--<th:block th:replace="component/header"></th:block>-->
+
+
+<div class="container">
+    <aside class="sidebar">
+        <nav>
+            <ul>
+                <li class="nav-header">Admin</li>
+                <li><a href="accountManagement">Quản lý tài khoản</a></li>
+                <li ><a href="#">Quản lý đơn hàng</a></li>
+                <li class="active"><a href="productManagement">Quản lý sản phẩm</a></li>
+            </ul>
+        </nav>
+
+        <div class="logout">
+            <a href="#">Logout</a>
+        </div>
+    </aside>
+
+    <main class="content">
+        <div class="content-header">
+            <h2>Quản lý sản phẩm</h2>
+            <form class="search-container">
+                <input type="text" placeholder="Search" class="search-input">
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+        <div class="content_body">
+            <div class="orders-table">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Mã sản phẩm</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Trạng thái</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td></td>
+                        <td>Tên sản phẩm</td>
+                        <td>Số lượng</td>
+                        <td>Còn hàng</td>
+                        <td class="action-container">
+                            <button class="seeDetail-btn">ooo</button>
+                            <button class="delete-btn">×</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
