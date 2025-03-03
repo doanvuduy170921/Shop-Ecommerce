@@ -94,12 +94,17 @@ nav a {
     flex: 1;
     padding: 20px;
 }
+.content_body {
+    width: 80%;
+    margin: 0 auto;
+}
 
 .content-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    width: 80%;
+    margin: 20px auto;
 }
 
 .search-input {

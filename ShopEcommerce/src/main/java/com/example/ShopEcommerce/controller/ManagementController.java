@@ -14,5 +14,15 @@ public class ManagementController {
     public String accountManagement(){
         return "accountManagement";
     }
+
+    @GetMapping("/header")
+    public String header(){
+        return "component/header";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
 }
 
