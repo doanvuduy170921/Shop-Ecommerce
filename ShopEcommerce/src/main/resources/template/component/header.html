@@ -6,7 +6,11 @@
     <title>Header ShopEcommerce</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="/static/header.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="../../static/css/style.css">
 </head>
 <body>
 <header class="main-header">
@@ -140,8 +144,26 @@
         </div>
     </div>
 </header>
+<div id="banner-container"></div>
 
-<!-- Bootstrap JS -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<script>
+    // Load Banner
+    fetch("banner.html")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("banner-container").innerHTML = data;
+
+            setTimeout(() => {
+                new Swiper(".swiper-container", {
+                    loop: true,
+                    pagination: { el: ".swiper-pagination", clickable: true },
+                    autoplay: { delay: 3000, disableOnInteraction: false }
+                });
+            }, 100);
+        })
+        .catch(error => console.error("Lỗi tải banner:", error));
+</script>
