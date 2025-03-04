@@ -11,12 +11,12 @@ public class ItemDetailsController {
 
     @GetMapping("/1")
     public String getMethodName() {
-        return "ItemDetails";
+        return "shop/ItemDetails";
     }
     
     @GetMapping("")
     public String getListItems() {
-        return "listItems";
+        return "shop/listItems";
     }
     
 }
