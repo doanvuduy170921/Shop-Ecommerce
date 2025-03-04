@@ -7,22 +7,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ManagementController {
     @GetMapping("/productManagement")
     public String productManagement(){
-        return "productManagement";
+        return "management/productManagement.html";
     }
 
     @GetMapping("/accountManagement")
     public String accountManagement(){
-        return "accountManagement";
+        return "management/accountManagement.html";
     }
 
-    @GetMapping("/header")
-    public String header(){
-        return "component/header";
+    @GetMapping("/accountDetail")
+    public String accountDetail(){
+        return "management/accountDetail.html";
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "login";
+    @GetMapping("/addProduct")
+    public String addProduct(){
+        return "management/addProduct.html";
     }
+
+    @GetMapping("/infoAccount")
+    public String infoAccount(){
+        return "management/infoAccount.html";
+    }
+
 }
 
