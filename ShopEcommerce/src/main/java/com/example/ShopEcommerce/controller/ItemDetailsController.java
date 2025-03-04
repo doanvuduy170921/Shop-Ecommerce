@@ -6,12 +6,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/item-details")
+@RequestMapping("/items")
 public class ItemDetailsController {
 
-    @GetMapping("")
+    @GetMapping("/1")
     public String getMethodName() {
         return "ItemDetails";
+    }
+    
+    @GetMapping("")
+    public String getListItems() {
+        return "listItems";
     }
     
 }
