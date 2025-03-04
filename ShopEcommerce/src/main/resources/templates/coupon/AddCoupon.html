@@ -1,0 +1,140 @@
+<!-- <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Mã Giảm Giá</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .container h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Tạo Mã Giảm Giá</h2>
+        <div class="form-group">
+            <label for="code">Mã Giảm Giá</label>
+            <input type="text" id="code" placeholder="Nhập mã giảm giá">
+        </div>
+        <div class="form-group">
+            <label for="discount">Phần trăm giảm (%)</label>
+            <input type="number" id="discount" placeholder="Nhập phần trăm giảm">
+        </div>
+        <div class="form-group">
+            <label for="expiry">Ngày hết hạn</label>
+            <input type="date" id="expiry">
+        </div>
+        <div class="form-group">
+            <label for="min-price">Giá tối thiểu để áp dụng</label>
+            <input type="number" id="min-price" placeholder="Nhập giá tối thiểu">
+        </div>
+        <button onclick="generateCoupon()">Tạo Mã</button>
+    </div>
+
+    <script>
+        function generateCoupon() {
+            const code = document.getElementById('code').value;
+            const discount = document.getElementById('discount').value;
+            const expiry = document.getElementById('expiry').value;
+            const minPrice = document.getElementById('min-price').value;
+
+            if (!code || !discount || !expiry || !minPrice) {
+                alert('Vui lòng điền đầy đủ thông tin!');
+                return;
+            }
+
+            alert(`Mã giảm giá: ${code}\nGiảm: ${discount}%\nHết hạn: ${expiry}\nGiá tối thiểu: ${minPrice} VND`);
+        }
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Mã Giảm Giá</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="container bg-white p-4 rounded shadow" style="max-width: 400px;">
+        <h2 class="text-center">Tạo Mã Giảm Giá</h2>
+        <div class="mb-3">
+            <label for="code" class="form-label">Mã Giảm Giá</label>
+            <input type="text" id="code" class="form-control" placeholder="Nhập mã giảm giá">
+        </div>
+        <div class="mb-3">
+            <label for="discount" class="form-label">Phần trăm giảm (%)</label>
+            <input type="number" id="discount" class="form-control" placeholder="Nhập phần trăm giảm">
+        </div>
+        <div class="mb-3">
+            <label for="expiry" class="form-label">Ngày hết hạn</label>
+            <input type="date" id="expiry" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="min-price" class="form-label">Giá tối thiểu để áp dụng</label>
+            <input type="number" id="min-price" class="form-control" placeholder="Nhập giá tối thiểu">
+        </div>
+        <button class="btn btn-success w-100" onclick="generateCoupon()">Tạo Mã</button>
+    </div>
+
+    <script>
+        function generateCoupon() {
+            const code = document.getElementById('code').value;
+            const discount = document.getElementById('discount').value;
+            const expiry = document.getElementById('expiry').value;
+            const minPrice = document.getElementById('min-price').value;
+
+            if (!code || !discount || !expiry || !minPrice) {
+                alert('Vui lòng điền đầy đủ thông tin!');
+                return;
+            }
+
+            alert(`Mã giảm giá: ${code}\nGiảm: ${discount}%\nHết hạn: ${expiry}\nGiá tối thiểu: ${minPrice} VND`);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
