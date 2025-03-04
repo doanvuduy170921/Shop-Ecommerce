@@ -1,0 +1,94 @@
+/* body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+.container {
+    max-width: 1200px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    display: flex;
+}
+.image-container {
+    width: 40%;
+    padding-right: 20px;
+}
+.image-container img {
+    width: 100%;
+    border-radius: 5px;
+}
+.details {
+    width: 60%;
+}
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+.rating {
+    color: #f5a623;
+}
+.price {
+    font-size: 24px;
+    color: red;
+    margin: 10px 0;
+}
+.old-price {
+    text-decoration: line-through;
+    color: gray;
+    margin-left: 10px;
+}
+.options {
+    margin: 15px 0;
+}
+.buy-buttons button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.add-to-cart {
+    background: orange;
+    color: white;
+    margin-right: 10px;
+}
+.buy-now {
+    background: red;
+    color: white;
+} */
+
+.image-list {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.image-list ::-webkit-scrollbar {
+    width: 0;
+}
+
+.image-list img {
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+    -webkit-user-drag: none;
+}
+
+.container, .image-list, .col-md-5, .col-md-7, .mt-5 {
+    background-color: white; /* Đặt màu nền cố định */
+    padding: 15px; /* Thêm padding để dễ nhìn hơn */
+    border-radius: 8px; /* Bo góc nhẹ */
+}
+
+.details ul li {
+    display: flex;
+}
+.details ul li label {
+    width: 10rem;
+}
+
+.details h4 {
+    background: rgba(0,0,0,.02);
+    padding: 1rem;
+}
