@@ -1,0 +1,157 @@
+.account-details table{
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.account-details tr {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.account-details table tr th{
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.account-details table tr th{
+    width: 20%;
+    height: 50px;
+}
+.account-details table tr td{
+    width: 80%;
+    height: 50px;
+}
+
+.profile-header {
+    position: relative;
+    width: 80%;
+    height: 120px; /* Điều chỉnh theo mong muốn */
+    background-color: #f0f8ff; /* Có thể thay đổi */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto;
+}
+
+.profile-avatar {
+    bottom: -40px; /* Để avatar tràn xuống dưới */
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #ddd;
+}
+
+.profile-avatar img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+/* New styles for delete buttons */
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.add-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.add-btn:hover {
+    background-color: #45a049;
+}
+
+.delete-btn-large {
+    padding: 8px 16px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delete-btn-large:hover {
+    background-color: #ff0000;
+}
+
+/* New styles for back buttons */
+
+.back-btn-large {
+    padding: 8px 16px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.back-btn-large:hover {
+    background-color: #5a6268;
+}
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.add-icon, .edit-icon, .delete-icon {
+    margin-right: 5px;
+}
+
+/* Header button style */
+.header-add-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.header-add-btn:hover {
+    background-color: #45a049;
+}

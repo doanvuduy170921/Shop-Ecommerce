@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Chi tiết tài khoản</title>
+	<title>Chi tiết Đơn hàng</title>
 	<link rel="stylesheet" th:href="@{/css/management.css}">
 	<link rel="stylesheet" th:href="@{/css/accountDetail.css}">
 	<link rel="stylesheet" href="../../static/css/management.css">
@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
 	<header_admin>
 		<div class="logo-container_admin">
 			<img src="logo.png" alt="Logo" class="logo_admin">
@@ -22,16 +21,14 @@
 		</div>
 	</header_admin>
 
-	<!--<th:block th:replace="component/header.html"></th:block>-->
-
 	<div class="container_admin">
 		<aside class="sidebar">
 			<nav>
 				<ul>
 					<li class="nav-header-admin">Admin</li>
-					<li class="active"><a href="accountManagement">Quản lý tài khoản</a></li>
-					<li><a href="#">Quản lý đơn hàng</a></li>
-					<li><a href="productManagement">Quản lý sản phẩm</a></li>
+					<li><a th:href="@{/accountManagement}">Quản lý tài khoản</a></li>
+					<li class="active"><a th:href="@{/api/order-management}">Quản lý đơn hàng</a></li>
+					<li><a th:href="@{/productManagement}">Quản lý sản phẩm</a></li>
 				</ul>
 			</nav>
 
@@ -41,8 +38,8 @@
 		</aside>
 
 		<main_admin class="content_admin">
-			<div class="content-header-admin">
-				<h2>Chi tiết tài khoản</h2>
+			<div class="sidebar">
+				<h2>Chi tiết đơn hàng</h2>
 			</div>
 
 			<div class="profile-header">
@@ -55,29 +52,30 @@
 				<div class="account-details">
 					<table>
 						<tr>
-							<th>Mã tài khoản:</th>
+							<th>Mã đơn hàng:</th>
 							<!--                        <td th:text="${account.id}"></td>-->
-							<td>01023232</td>
+							<td>DH01</td>
 						</tr>
 						<tr>
-							<th>Họ tên:</th>
-							<td>43etrytry</td>
+							<th>Tên đơn hàng:</th>
+							<td>Điện thoại</td>
 						</tr>
 						<tr>
-							<th>Số điện thoại:</th>
-							<td></td>
+							<th>Đơn giá:</th>
+							<td>12000</td>
+						</tr>
+
+						<tr>
+							<th>Số lượng:</th>
+							<td>2</td>
 						</tr>
 						<tr>
-							<th>Địa chỉ:</th>
-							<td></td>
+							<th>Tổng tiền:</th>
+							<td>24000</td>
 						</tr>
 						<tr>
-							<th>Ngày sinh:</th>
-							<td></td>
-						</tr>
-						<tr>
-							<th>Ngày tạo:</th>
-							<td></td>
+							<th>Tên sản phẩm:</th>
+							<td>Điện thoại ip14promax</td>
 						</tr>
 					</table>
 				</div>
@@ -93,20 +91,21 @@
 				</div>
 			</div>
 		</main_admin>
-	</div>
 
-	<!-- Delete Confirmation Modal -->
-	<div id="deleteModal" class="modal">
-		<div class="modal-content">
-			<p>Bạn có chắc chắn muốn xóa tài khoản này không?</p>
-			<div class="modal-buttons">
-				<button class="back-btn" onclick="closeModal()">Hủy</button>
-				<!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
-				<!--                <button class="delete-btn-large">Xóa</button>-->
-				<!--            </a>-->
-				<a>
-					<button class="delete-btn-large">Xóa</button>
-				</a>
+
+		<!-- Delete Confirmation Modal -->
+		<div id="deleteModal" class="modal">
+			<div class="modal-content">
+				<p>Bạn có chắc chắn muốn xóa đơn hàng này không?</p>
+				<div class="modal-buttons">
+					<button class="back-btn" onclick="closeModal()">Hủy</button>
+					<!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
+					<!--                <button class="delete-btn-large">Xóa</button>-->
+					<!--            </a>-->
+					<a>
+						<button class="delete-btn-large">Xóa</button>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
