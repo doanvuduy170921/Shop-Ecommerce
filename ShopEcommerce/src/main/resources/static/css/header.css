@@ -1,0 +1,306 @@
+
+.container, .auto-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.main-header {
+    position: relative;
+}
+/* Header Top */
+.header-top {
+    background: #111;
+    color: #fff;
+    /*padding: 10px 0;*/
+    font-size: 14px;
+    position: relative;
+    height: 50px;
+}
+
+.header-top .left-box,
+.header-top .right-box {
+    display: flex;
+    align-items: center;
+}
+
+.header-top_socials {
+    list-style: none;
+    display: flex;
+    margin-left: 15px;
+}
+
+.header-top_socials li {
+    margin-right: 10px;
+}
+
+.header-top_socials a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.header-order_track {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 15px;
+}
+
+.list-unstyled {
+    background: #ff8717;
+    height: 100%;
+    align-items: center;
+    padding: 0 30px !important;
+}
+.fa-calendar-alt {
+    color: #ff8717;
+}
+
+.language {
+    border-right: 1px solid rgba(255, 255, 255, 0.15);;
+    border-left: 1px solid rgba(255, 255, 255, 0.15);;
+    margin-right: 15px;
+}
+
+/* Header Upper */
+.header-upper {
+    background: #fff;
+    padding: 30px 0;
+    /*display: flex;*/
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.search-box {
+    flex-grow: 1;
+    margin: 0 20px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.search-box button {
+    background: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+.form-control {
+    padding: 14px;
+    border-radius: 25px !important;
+}
+.btn-dark {
+    position: absolute !important;
+    right: 0;
+    height: 100%;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px;
+    width: 14%;
+}
+
+.header-phone_box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-phone_icon {
+    font-size: 20px;
+    background: #f7f7f7;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff7a00;
+}
+
+.header-phone_box-inner {
+    font-size: 14px;
+    color: #333;
+}
+
+.header-phone_box-inner strong {
+    font-weight: bold;
+    color: #000;
+}
+
+
+
+/* Header Lower */
+.header-lower {
+    position: absolute;
+    z-index: 1;
+    left: 0px;
+    right: 0px;
+    top: 100%;
+    /*position: relative;*/
+
+}
+
+.header-lower::before {
+    position: absolute;
+    content: '';
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    height: 34px;
+    background-color: #ffffff;
+    z-index: -1;
+}
+
+.auto-container {
+    position: relative;
+    padding: 0px 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.inner-container {
+    position: relative;
+    padding: 0 40px;
+    border-radius: 50px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.07);
+}
+.inner-container::before {
+    position: absolute;
+    content: '';
+    left: 5px;
+    top: -5px;
+    right: 5px;
+    bottom: -5px;
+    z-index: -1;
+    border-radius: 50px;
+    background-color: #ff7c00;
+}
+.nav-link {
+    font-weight: bold;
+}
+
+.nav-item {
+    padding-right: 15px;
+}
+.fa-solid {
+    font-size: 14px;
+    color: #969292;
+}
+
+.header-low_icon {
+    font-size: 20px;
+    background: #f7f7f7;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff7a00;
+    text-decoration: none;
+}
+.header-low_icon:hover {
+    color: #ffffff !important;
+    background-color: #ff7a00;
+}
+
+/* Tạo kiểu cho thanh menu */
+.navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Căn chỉnh item trong navbar */
+.nav-item {
+    position: relative;
+    padding: 10px 15px;
+}
+
+/* Kiểu cho các link trong menu */
+.nav-item a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+/* Hiệu ứng hover đổi màu */
+.nav-item:hover > a {
+    color: #ff6600;
+}
+
+/* Tạo kiểu cho submenu */
+.sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    min-width: 200px;
+    display: none;
+    border-radius: 5px;
+}
+
+
+.menu-item:hover .sub-menu {
+    display: block;
+}
+
+
+.sub-menu .menu-item {
+    padding: 10px 20px;
+}
+
+
+.sub-menu .menu-item a {
+    color: #333;
+    font-weight: normal;
+    display: block;
+    padding: 8px 10px;
+    transition: background 0.3s, color 0.3s;
+}
+
+
+.sub-menu .menu-item a:hover {
+    background: #ff6600;
+    color: #fff;
+}
+
+
+
+.main-menu .navbar-nav .nav-link {
+    color: #000;
+    font-weight: bold;
+    padding: 10px 15px;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+.header-icons .icon {
+    position: relative;
+    margin-left: 15px;
+    color: black;
+}
+
+.header-icons .icon .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff7c00;
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 3px 7px;
+}
