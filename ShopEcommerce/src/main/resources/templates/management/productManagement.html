@@ -4,28 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý sản phẩm</title>
-<!--    <link rel="stylesheet" th:href="@{/css/management.css}">-->
-    <link rel="stylesheet" href="../static/css/management.css">
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/management.css}">
+    <link rel="stylesheet" href="../../static/css/management.css">
 </head>
 <body>
 
-<header>
-    <div class="logo-container">
-        <img src="logo.png" alt="Logo" class="logo">
+<header_admin>
+    <div class="logo-container_admin">
+        <img src="logo.png" alt="Logo" class="logo_admin">
     </div>
     <div class="user-profile">
-        <img src="user-icon.png" alt="User" class="user-icon">
+        <img src="user-icon.png" alt="User" class="user-icon_admin">
     </div>
-</header>
+</header_admin>
 
-<!--<th:block th:replace="component/header"></th:block>-->
+<!--<th:block th:replace="component/header.html"></th:block>-->
 
 
-<div class="container">
+<div class="container_admin">
     <aside class="sidebar">
         <nav>
             <ul>
-                <li class="nav-header">Admin</li>
+                <li class="nav-header-admin">Admin</li>
                 <li><a href="accountManagement">Quản lý tài khoản</a></li>
                 <li ><a href="#">Quản lý đơn hàng</a></li>
                 <li class="active"><a href="productManagement">Quản lý sản phẩm</a></li>
@@ -37,16 +39,20 @@
         </div>
     </aside>
 
-    <main class="content">
-        <div class="content-header">
+    <main_admin class="content_admin">
+        <div class="content-header-admin">
             <h2>Quản lý sản phẩm</h2>
             <form class="search-container">
                 <input type="text" placeholder="Search" class="search-input">
                 <button type="submit" class="search-btn">Search</button>
             </form>
+            <a href="addProduct" style="text-decoration: none;">
+                <button class="addProduct-btn">Thêm sản phẩm</button>
+            </a>
+
         </div>
-        <div class="content_body">
-            <div class="orders-table">
+        <div class="content_admin_body">
+            <div class="admin-table">
                 <table>
                     <thead>
                     <tr>
@@ -63,8 +69,10 @@
                         <td>Tên sản phẩm</td>
                         <td>Số lượng</td>
                         <td>Còn hàng</td>
-                        <td class="action-container">
-                            <button class="seeDetail-btn">ooo</button>
+                        <td class="action-container-admin">
+                            <a href="#" class="info-btn">
+                                <i class="bi bi-info"></i>
+                            </a>
                             <button class="delete-btn">×</button>
                         </td>
                     </tr>
@@ -72,7 +80,7 @@
                 </table>
             </div>
         </div>
-    </main>
+    </main_admin>
 </div>
 
 </body>
