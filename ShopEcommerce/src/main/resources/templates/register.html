@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
 <body class="red_body">
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="login-container">
-        <div class="login-header">Đăng nhập</div>
+        <div class="login-header">Đăng ký </div>
         <form>
             <div class="mb-3">
                 <label class="form-label">Họ và Tên</label>
@@ -19,7 +19,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="password" class="form-control" placeholder="Nhập email">
+                <input type="email" class="form-control" placeholder="Nhập email">
             </div>
             <div class="mb-3">
                 <label class="form-label">Mật khẩu</label>
@@ -59,6 +59,6 @@
 </html>
 <script>
     document.getElementById("btnLogin").addEventListener("click", function() {
-        window.location.href = "login.html";
+        window.location.href = "login";
     });
 </script>
