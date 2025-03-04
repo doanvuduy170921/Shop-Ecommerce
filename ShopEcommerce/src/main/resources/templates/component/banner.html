@@ -1,0 +1,40 @@
+
+<div class="banner-container">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide d-flex">
+                <div class="swiper-wrapper">
+                    <img src="https://themexriver.com/wp/radios/wp-content/uploads/2023/05/product-1.png" alt="Headphone" style="width: 40%;">
+                </div>
+                <div class="content">
+                    <span class="badge bg-warning text-dark">Weekend Discount</span>
+                    <h2>Hi-Res Audio <br> Wireless Supported</h2>
+                    <p>$339.99</p>
+                    <button class="shop-btn">Shop Now</button>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="swiper-wrapper">
+                    <img src="https://themexriver.com/wp/radios/wp-content/uploads/2023/05/product-1.png" alt="Headphone" style="width: 40%;">
+                </div>
+                <div class="content">
+                    <span class="badge bg-warning text-dark">Limited Offer</span>
+                    <h2>Powerful Gaming Laptop</h2>
+                    <p>$1,299.99</p>
+                    <button class="shop-btn">Shop Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        loop: true,
+        autoplay: { delay: 3000, disableOnInteraction: false },
+        pagination: { el: ".swiper-pagination", clickable: true },
+        navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+    });
+</script>
