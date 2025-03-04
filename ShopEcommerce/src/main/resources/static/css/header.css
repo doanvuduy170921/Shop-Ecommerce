@@ -304,3 +304,6 @@
     border-radius: 50%;
     padding: 3px 7px;
 }
+.collapse {
+    visibility: visible !important;
+}
