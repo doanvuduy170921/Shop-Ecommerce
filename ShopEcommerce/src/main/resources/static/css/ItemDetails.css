@@ -75,11 +75,11 @@
     -webkit-user-drag: none;
 }
 
-.container-item-detail, .image-list, .col-md-5, .col-md-7, .mt-5 {
+.container, .image-list, .col-md-5, .col-md-7, .mt-5 {
     background-color: white; /* Đặt màu nền cố định */
     padding: 15px; /* Thêm padding để dễ nhìn hơn */
     border-radius: 8px; /* Bo góc nhẹ */
-}   
+}
 
 .details ul li {
     display: flex;
