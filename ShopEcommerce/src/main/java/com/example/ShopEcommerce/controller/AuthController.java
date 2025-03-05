@@ -25,6 +25,12 @@ public class AuthController {
         return "Auth/register";
     }
 
+
+    @PostMapping("/register/1")
+    public String registerUser(@ModelAttribute User user) {
+        authService.registerUser(user);
+        return "redirect:/login";
+
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
         try {
@@ -41,6 +47,7 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("errorMessage", "Đăng ký thất bại! Vui lòng thử lại.");
             return "redirect:/register";
         }
+
     }
 
     @GetMapping("/login")
