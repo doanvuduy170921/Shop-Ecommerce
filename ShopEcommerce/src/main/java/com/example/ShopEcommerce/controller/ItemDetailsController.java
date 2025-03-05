@@ -16,7 +16,7 @@ public class ItemDetailsController {
     
     @GetMapping("")
     public String getListItems() {
-        return "shop/listItems";
+        return "shop/ListItems";
     }
     
 }
