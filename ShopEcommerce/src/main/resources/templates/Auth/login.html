@@ -13,14 +13,14 @@
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="login-container">
         <div class="login-header">Đăng nhập</div>
-        <form method="post" action="/login">
+        <form th:action="@{/login}" th:object="${user}" method="post">
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="text" class="form-control" placeholder="Nhập email">
+                <input type="text" class="form-control" th:field="*{email}" required placeholder="Nhập email">
             </div>
             <div class="mb-3">
                 <label class="form-label">Mật khẩu</label>
-                <input type="password" class="form-control" placeholder="**********">
+                <input type="password" class="form-control" th:field="*{password}" placeholder="**********">
             </div>
             <button type="submit" class=" btn btn-login w-100">ĐĂNG NHẬP</button>
         </form>
