@@ -12,25 +12,34 @@
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="login-container">
         <div class="login-header">Đăng ký </div>
-        <form method="post" action="/register">
+        <form th:action="@{/register}" th:object="${user}" method="post">
             <div class="mb-3">
                 <label class="form-label">Họ và Tên</label>
-                <input type="text" class="form-control" placeholder="Nhập họ và tên">
+                <input type="text" class="form-control" placeholder="Nhập họ và tên" th:field="*{name}" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Nhập email">
+                <input type="email" class="form-control" placeholder="Nhập email" th:field="*{email}" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Mật khẩu</label>
-                <input type="password" class="form-control" placeholder="**********">
+                <input type="password" class="form-control" placeholder="**********" th:field="*{password}" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Nhập lại mật khẩu</label>
-                <input type="password" class="form-control" placeholder="**********">
+                <input type="password" class="form-control" placeholder="**********" required>
             </div>
-            <button type="submit" class=" btn btn-login w-100">ĐĂNG Ký</button>
+            <button type="submit" class="btn btn-login w-100">ĐĂNG KÝ</button>
         </form>
+
+        <!-- Hiển thị thông báo -->
+        <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}"></p>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
 
         <div class="or-divider">
             <span>HOẶC</span>
