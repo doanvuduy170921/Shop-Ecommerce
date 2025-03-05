@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chi tiết Đơn hàng</title>
+	<link rel="stylesheet" th:href="@{/css/management.css}">
+	<link rel="stylesheet" th:href="@{/css/accountDetail.css}">
+	<link rel="stylesheet" href="../../static/css/management.css">
+	<link rel="stylesheet" href="../../static/css/accountDetail.css">
+</head>
+
+<body>
+	<header_admin>
+		<div class="logo-container_admin">
+			<img src="logo.png" alt="Logo" class="logo_admin">
+		</div>
+		<div class="user-profile">
+			<img src="user-icon.png" alt="User" class="user-icon_admin">
+		</div>
+	</header_admin>
+
+	<div class="container_admin">
+		<aside class="sidebar">
+			<nav>
+				<ul>
+					<li class="nav-header-admin">Admin</li>
+					<li><a th:href="@{/accountManagement}">Quản lý tài khoản</a></li>
+					<li class="active"><a th:href="@{/api/order-management}">Quản lý đơn hàng</a></li>
+					<li><a th:href="@{/productManagement}">Quản lý sản phẩm</a></li>
+				</ul>
+			</nav>
+
+			<div class="logout">
+				<a href="#">Logout</a>
+			</div>
+		</aside>
+
+		<main_admin class="content_admin">
+			<div class="sidebar">
+				<h2>Chi tiết đơn hàng</h2>
+			</div>
+
+			<div class="profile-header">
+				<div class="profile-avatar">
+					<img src="user-icon.png" alt="Avatar">
+				</div>
+			</div>
+
+			<div class="content_admin_body">
+				<div class="account-details">
+					<table>
+						<tr>
+							<th>Mã đơn hàng:</th>
+							<!--                        <td th:text="${account.id}"></td>-->
+							<td>DH01</td>
+						</tr>
+						<tr>
+							<th>Tên đơn hàng:</th>
+							<td>Điện thoại</td>
+						</tr>
+						<tr>
+							<th>Đơn giá:</th>
+							<td>12000</td>
+						</tr>
+
+						<tr>
+							<th>Số lượng:</th>
+							<td>2</td>
+						</tr>
+						<tr>
+							<th>Tổng tiền:</th>
+							<td>24000</td>
+						</tr>
+						<tr>
+							<th>Tên sản phẩm:</th>
+							<td>Điện thoại ip14promax</td>
+						</tr>
+					</table>
+				</div>
+				<div class="buttons">
+					<a href="accountManagement">
+						<button class="back-btn-large">
+							<span class="back-icon"></span> Quay lại
+						</button>
+					</a>
+					<button class="delete-btn-large" onclick="openModal()">
+						<span class="delete-icon"></span> Xóa
+					</button>
+				</div>
+			</div>
+		</main_admin>
+
+
+		<!-- Delete Confirmation Modal -->
+		<div id="deleteModal" class="modal">
+			<div class="modal-content">
+				<p>Bạn có chắc chắn muốn xóa đơn hàng này không?</p>
+				<div class="modal-buttons">
+					<button class="back-btn" onclick="closeModal()">Hủy</button>
+					<!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
+					<!--                <button class="delete-btn-large">Xóa</button>-->
+					<!--            </a>-->
+					<a>
+						<button class="delete-btn-large">Xóa</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Modal functions
+		function openModal() {
+			document.getElementById('deleteModal').style.display = 'block';
+		}
+
+		function closeModal() {
+			document.getElementById('deleteModal').style.display = 'none';
+		}
+
+		// Close modal if user clicks outside of it
+		window.onclick = function (event) {
+			if (event.target == document.getElementById('deleteModal')) {
+				closeModal();
+			}
+		}
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết tài khoản</title>
+    <link rel="stylesheet" th:href="@{/css/management.css}">
+    <link rel="stylesheet" th:href="@{/css/infoAccount.css}">
+    <link rel="stylesheet" href="../../static/css/management.css">
+    <link rel="stylesheet" href="../../static/css/accountDetail.css">
+</head>
+<body>
+
+
+<th:block th:replace="component/header.html"></th:block>
+
+<div class="container_infoUser">
+    <main class="content_infoUser">
+        <div class="content-header-infoUser">
+            <h2>Chi tiết tài khoản</h2>
+        </div>
+
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <img src="user-icon.png" alt="Avatar">
+            </div>
+        </div>
+
+        <div class="content_infoUser_body">
+            <div class="account-details_infoUser">
+                <table>
+                    <tr>
+                        <th>Mã tài khoản:</th>
+                        <!--<td th:text="${account.id}"></td>-->
+                        <td>01023232</td>
+                    </tr>
+                    <tr>
+                        <th>Họ tên:</th>
+                        <td>43etrytry</td>
+                    </tr>
+                    <tr>
+                        <th>Số điện thoại:</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Địa chỉ:</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Ngày sinh:</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>Ngày tạo:</th>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="buttons">
+                <a href="#">
+                    <button class="back-btn-large">
+                        <span class="back-icon"></span> Quay lại
+                    </button>
+                </a>
+                <a href="#">
+                    <button class="update-btn-large">
+                        <span class="update-icon"></span> Cập nhật
+                    </button>
+                </a>
+                <button class="delete-btn-large" onclick="openModal()">
+                    <span class="delete-icon"></span> Xóa
+                </button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <p>Bạn có chắc chắn muốn xóa tài khoản này không?</p>
+        <div class="modal-buttons">
+            <button class="back-btn" onclick="closeModal()">Hủy</button>
+            <!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
+            <!--                <button class="delete-btn-large">Xóa</button>-->
+            <!--            </a>-->
+            <a>
+                <button class="delete-btn-large">Xóa</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Modal functions
+    function openModal() {
+        document.getElementById('deleteModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    // Close modal if user clicks outside of it
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('deleteModal')) {
+            closeModal();
+        }
+    }
+</script>
+
+</body>
+</html>

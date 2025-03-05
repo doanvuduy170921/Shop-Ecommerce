@@ -19,7 +19,6 @@
         <img src="user-icon.png" alt="User" class="user-icon_admin">
     </div>
 </header_admin>
-
 <!--<th:block th:replace="component/header.html"></th:block>-->
 
 
@@ -28,9 +27,9 @@
         <nav>
             <ul>
                 <li class="nav-header-admin">Admin</li>
-                <li><a href="accountManagement">Quản lý tài khoản</a></li>
-                <li ><a href="#">Quản lý đơn hàng</a></li>
-                <li class="active"><a href="productManagement">Quản lý sản phẩm</a></li>
+				<li><a th:href="@{/accountManagement}">Quản lý tài khoản</a></li>
+				<li><a th:href="@{/api/order-management}">Quản lý đơn hàng</a></li>
+				<li  class="active"><a th:href="@{/productManagement}">Quản lý sản phẩm</a></li>
             </ul>
         </nav>
 
