@@ -113,7 +113,14 @@
                     </div>
                 </nav>
                 <div class="d-flex align-items-center">
-                    <a href="#" class="header-low_icon text-black mx-2"><i class="fa fa-user"></i></a>
+                    <div class="dropdown">
+                        <a href="#" class="header-low_icon text-black mx-2 dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item text-center btn btn-primary" th:href="@{/Auth/login}" >Đăng Nhập</a></li>
+                        </ul>
+                    </div>
                     <a href="#" class="header-low_icon text-black mx-2 position-relative">
                         <i class="fa-regular fa-heart"></i>
                         <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">0</span>
