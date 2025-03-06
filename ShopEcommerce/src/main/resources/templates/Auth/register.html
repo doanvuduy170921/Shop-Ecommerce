@@ -12,22 +12,32 @@
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="login-container">
         <div class="login-header">Đăng ký </div>
-        <form th:action="@{/register}" th:object="${user}" method="post">
+        <p th:if="${successMsg}" class="alert alert-success text-center">
+            [[${successMsg}]]
+        </p>
+        <p th:if="${errorMsg}" class="alert alert-success text-center">
+            [[${errorMsg}]]
+        </p>
+        <form th:action="@{/register}" th:object="${registerForm}" method="post">
             <div class="mb-3">
                 <label class="form-label">Họ và Tên</label>
-                <input type="text" class="form-control" placeholder="Nhập họ và tên" th:field="*{name}" required>
+                <input type="text" class="form-control" placeholder="Nhập họ và tên" th:field="*{fullName}" required>
+                <span class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
             </div>
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" class="form-control" placeholder="Nhập email" th:field="*{email}" required>
+                <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
             </div>
             <div class="mb-3">
                 <label class="form-label">Mật khẩu</label>
                 <input type="password" class="form-control" placeholder="**********" th:field="*{password}" required>
+                <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
             </div>
             <div class="mb-3">
                 <label class="form-label">Nhập lại mật khẩu</label>
-                <input type="password" class="form-control" placeholder="**********" required>
+                <input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="**********" required>
+                <span class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
             </div>
             <button type="submit" class="btn btn-login w-100">ĐĂNG KÝ</button>
         </form>
@@ -59,15 +69,15 @@
 
 
         <div class="footer-text">
-            Bạn đã có tài khoản ở ShopEcommerce? <a id="btnLogin" class="text_hover text-decoration-none">Đăng Nhập</a>
+            Bạn đã có tài khoản ở ShopEcommerce? <a th:href="@{/login}" class="text-primary">Đăng nhập</a>
         </div>
     </div>
 </div>
 
 </body>
 </html>
-<script>
-    document.getElementById("btnLogin").addEventListener("click", function() {
-        window.location.href = "login";
-    });
-</script>
+<!--<script>-->
+<!--    document.getElementById("btnLogin").addEventListener("click", function() {-->
+<!--        window.location.href = "login";-->
+<!--    });-->
+<!--</script>-->

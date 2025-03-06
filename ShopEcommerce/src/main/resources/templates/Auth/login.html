@@ -13,15 +13,26 @@
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="login-container">
         <div class="login-header">Đăng nhập</div>
-        <form th:action="@{/login}" th:object="${user}" method="post">
+        <p th:if="${successMsg}" class="text-success text-center">
+            [[${successMsg}]]
+        </p>
+<!--        <p th:if="${errorMsg}" class="text-success text-center">-->
+<!--            [[${errorMsg}]]-->
+<!--        </p>-->
+        <form th:action="@{/login}" th:object="${loginForm}" method="post">
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="text" class="form-control" th:field="*{email}" required placeholder="Nhập email">
+                <input type="text" name="email" class="form-control" th:field="*{email}" required placeholder="Nhập email">
             </div>
             <div class="mb-3">
                 <label class="form-label">Mật khẩu</label>
-                <input type="password" class="form-control" th:field="*{password}" placeholder="**********">
+                <input type="password" name="password" class="form-control" th:field="*{password}" placeholder="**********">
             </div>
+            <span
+                    class="fs-7 text-danger"
+                    th:if="${#fields.hasErrors('password')}"
+                    th:errors="*{password}"
+            ></span>
             <button type="submit" class=" btn btn-login w-100">ĐĂNG NHẬP</button>
         </form>
 
@@ -47,15 +58,10 @@
 
 
         <div class="footer-text">
-            Bạn mới biết đến ShopEcommerce? <a id="btnRegister"  class="text_hover text-decoration-none">Đăng ký</a>
+            Bạn đã có tài khoản ở ShopEcommerce? <a th:href="@{/register}" class="text-primary">Đăng ký</a>
         </div>
     </div>
 </div>
 
 </body>
 </html>
-<script>
-    document.getElementById("btnRegister").addEventListener("click", function() {
-        window.location.href = "register";
-    });
-</script>
