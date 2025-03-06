@@ -20,12 +20,6 @@ import java.util.Collections;
 @Setter
 
 public class User implements UserDetails {
-
-
-@Data
-public class User {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
