@@ -1,43 +1,48 @@
 package com.example.ShopEcommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
-@Data
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 255, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", length = 255, unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password", length = 255, nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "phone_number", length = 10, unique = true)
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @Column(name = "address", length = 200)
+    @Column(name = "address")
     private String address;
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
     @Column(name = "is_active", nullable = false)
-    private Boolean isActive = false;
+    private Boolean isActive = true;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -57,5 +62,36 @@ public class User {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    // Cấu hình quyền của user
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(role.getName()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isActive;
     }
 }

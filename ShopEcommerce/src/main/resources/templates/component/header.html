@@ -112,15 +112,22 @@
                         </ul>
                     </div>
                 </nav>
+                <div class="dropdown">
+                    <a href="#" class="header-low_icon text-black mx-2 dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user"></i>
+                        <span th:if="${session.user}" th:text="${session.user.name}"></span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                        <li th:if="${session.user}">
+                            <a class="dropdown-item text-center btn btn-danger" th:href="@{/logout}">Đăng xuất</a>
+                        </li>
+                        <li th:unless="${session.user}">
+                            <a class="dropdown-item text-center btn btn-primary" th:href="@{/login}">Đăng nhập</a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="d-flex align-items-center">
-                    <div class="dropdown">
-                        <a href="#" class="header-low_icon text-black mx-2 dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-user"></i>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-                            <li><a class="dropdown-item text-center btn btn-primary" th:href="@{/Auth/login}" >Đăng Nhập</a></li>
-                        </ul>
-                    </div>
+
                     <a href="#" class="header-low_icon text-black mx-2 position-relative">
                         <i class="fa-regular fa-heart"></i>
                         <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">0</span>
