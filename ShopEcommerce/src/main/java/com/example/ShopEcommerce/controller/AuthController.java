@@ -63,6 +63,12 @@ public class AuthController {
         return "Auth/register";
     }
 
+
+    @PostMapping("/register/1")
+    public String registerUser(@ModelAttribute User user) {
+        authService.registerUser(user);
+        return "redirect:/login";
+
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("registerForm") RegisterForm registerForm,
                                BindingResult result, RedirectAttributes redirectAttributes, HttpSession session) {
@@ -82,6 +88,7 @@ public class AuthController {
             return "redirect:/register";
         }
 
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = new User();
         user.setEmail(registerForm.getEmail());
@@ -93,6 +100,7 @@ public class AuthController {
         session.setAttribute("user", user);
         redirectAttributes.addFlashAttribute("successMsg", "Đăng ký thành công! Bạn có thể đăng nhập ngay.");
         return "redirect:/login";
+
     }
 
 
