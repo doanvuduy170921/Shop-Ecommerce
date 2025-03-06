@@ -68,6 +68,7 @@ public class AuthController {
     public String registerUser(@ModelAttribute User user) {
         authService.registerUser(user);
         return "redirect:/login";
+    }
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("registerForm") RegisterForm registerForm,
