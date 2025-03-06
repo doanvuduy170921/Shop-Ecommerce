@@ -40,3 +40,5 @@ INSERT INTO shop_ecommerce.users (id, created_at, updated_at, address, date_of_b
                                   role_id, email, name)
 VALUES (10, '2025-03-06 10:43:26.000000', null, null, null, true,
         '$2a$10$o4sMQQ/3aAacnee//dQ.zubL4ygHAc5nu3xYnWfT.jZximPdkBbZq', null, null, 'nam@gmail.com', 'nam');
+
+
