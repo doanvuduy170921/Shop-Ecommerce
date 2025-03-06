@@ -315,3 +315,45 @@
 .dropdown-toggle::after {
     display: none !important;
 }
+
+/* Căn chỉnh icon và tên user */
+.header-low_icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Điều chỉnh dropdown */
+.dropdown-menu {
+    min-width: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Nút trong dropdown */
+.dropdown-item {
+    padding: 8px 15px;
+    transition: background 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: #f8f9fa;
+}
+
+/* Căn giữa nút đăng nhập/đăng xuất */
+.dropdown-item.btn {
+    display: block;
+    width: 90%;
+    margin: 5px auto;
+}
+
+/* Hiển thị dropdown khi hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 5px;
+}
+
