@@ -1,108 +1,31 @@
-.container_infoUser {
-    display: flex;
-    margin-top: 60px;
-    background-color: #f5f5f5;
-}
-
-.content_infoUser {
-    flex: 1;
-    padding: 20px;
-}
-.content_infoUser_body {
-    width: 80%;
-    margin: 0 auto;
-}
-
-.content-header-infoUser {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 80%;
-    margin: 20px auto;
-}
-
-.content_infoUser_body {
-    width: 80%;
-    margin: 0 auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-}
-
-th {
-    background-color: #f8f8f8;
-}
-
-td:last-child {
-    display: flex;
-    justify-content: space-evenly;
-    gap: 1px;
-    border: none;
-}
-.account-details_infoUser table{
+.product-details table{
     background-color: #fff;
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.account-details_infoUser tr {
+.product-details tr {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
 
-.account-details_infoUser table tr th{
+.product-details table tr th{
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
 
-.account-details_infoUser table tr th{
+.product-details table tr th{
     width: 20%;
     height: 50px;
 }
-.account-details_infoUser table tr td{
+.product-details table tr td{
     width: 80%;
     height: 50px;
 }
 
-.profile-header {
-    position: relative;
-    width: 80%;
-    height: 120px; /* Điều chỉnh theo mong muốn */
-    background-color: #f0f8ff; /* Có thể thay đổi */
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px auto;
-}
-
-.profile-avatar {
-    bottom: -40px; /* Để avatar tràn xuống dưới */
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid #ddd;
-}
-
-.profile-avatar img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-}
 
 /* New styles for delete buttons */
 .buttons {
@@ -204,25 +127,15 @@ td:last-child {
     background-color: #45a049;
 }
 
-.update-btn-large {
-    background-color: #4285F4;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: bold;
-    align-items: center;
-    transition: background-color 0.3s;
+.product-images {
+    text-align: center;
+    margin-bottom: 20px;
 }
-
-.update-btn-large:hover {
-    background-color: #3367D6;
-}
-
-.update-icon::before {
-   /*  content: "✎"; */
-    margin-right: 8px;
-    font-size: 16px;
+.product-image{
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 5px;
 }
