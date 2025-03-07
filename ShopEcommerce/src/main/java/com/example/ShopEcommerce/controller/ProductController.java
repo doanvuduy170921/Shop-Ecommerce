@@ -8,15 +8,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.ShopEcommerce.dto.req.AddToCardReq;
 import com.example.ShopEcommerce.dto.resp.CategoryResp;
 import com.example.ShopEcommerce.dto.resp.ProductResp;
 import com.example.ShopEcommerce.entity.Product;
+import com.example.ShopEcommerce.entity.User;
+import com.example.ShopEcommerce.service.CartService;
 import com.example.ShopEcommerce.service.CategoryService;
 import com.example.ShopEcommerce.service.ProductService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -25,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final CartService cartService;
 
     @GetMapping
     public String getProducts(
@@ -53,6 +63,18 @@ public class ProductController {
         model.addAttribute("product", product);
         model.addAttribute("attributes", attributes);
         return "shop/ItemDetails";
+    }
+    @PostMapping("/details/add-to-cart")
+    public String addToCart(@ModelAttribute AddToCardReq entity, RedirectAttributes redirectAttributes, HttpSession session) {
+        //TODO: process POST request
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        entity.setUserId(user.getId());
+        cartService.addToCart(entity);
+        redirectAttributes.addFlashAttribute("successMessage", "Add to cart successfully");
+        return "redirect:/products/details?id=" + entity.getProductId();
     }
     
 }
