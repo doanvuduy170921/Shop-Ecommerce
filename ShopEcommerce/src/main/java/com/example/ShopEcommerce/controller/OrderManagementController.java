@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller 
-@RequestMapping("/api")
+@RequestMapping("/admin")
 public class OrderManagementController {
 	@GetMapping("/order-management")
 	public String orderManagement() {

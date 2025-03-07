@@ -54,12 +54,12 @@ header_admin {
 }
 
 
-nav ul {
+.sidebar nav ul {
     list-style: none;
     padding: 20px 0;
 }
 
-nav li {
+.sidebar nav li {
     padding: 10px 20px;
 }
 
@@ -244,3 +244,6 @@ td:last-child {
 .addProduct-btn:hover {
     background-color: #45a049;
 }
+
+
+
