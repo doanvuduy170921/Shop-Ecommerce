@@ -10,6 +10,8 @@
     align-items: center;
     justify-content: center;
     background-color: #111;
+    top: 150px;
+    margin-bottom: 200px;
 }
 
 .swiper {
@@ -94,5 +96,3 @@
     z-index: 0 !important;
 }
 
-
-/**/

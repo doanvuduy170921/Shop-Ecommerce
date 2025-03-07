@@ -13,3 +13,7 @@ body {
     font-family: Arial, sans-serif;
     /*background: #000;*/
 }
+
+.container {
+    max-width: 1200px !important;
+}
