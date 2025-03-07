@@ -1,8 +1,10 @@
 package com.example.ShopEcommerce.controller;
 
+import com.example.ShopEcommerce.entity.Role;
 import com.example.ShopEcommerce.entity.User;
 import com.example.ShopEcommerce.form.LoginForm;
 import com.example.ShopEcommerce.form.RegisterForm;
+import com.example.ShopEcommerce.repository.RoleRepository;
 import com.example.ShopEcommerce.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +23,8 @@ import jakarta.validation.Valid;
 public class AuthController {
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepository roleRepository; // Repository để lấy role từ database
 
     @Autowired
     public AuthController(AuthService authService, PasswordEncoder passwordEncoder) {
@@ -51,10 +55,38 @@ public class AuthController {
             return "Auth/login";
         }
 
+        // Gán role cho user
+        if ("admin@gmail.com".equalsIgnoreCase(user.getEmail())) {
+            Role adminRole = roleRepository.findByName("ADMIN");
+            if (adminRole == null) {
+                adminRole = new Role();
+                adminRole.setName("ADMIN");
+                roleRepository.save(adminRole);
+            }
+            user.setRole(adminRole);
+        } else {
+            Role userRole = roleRepository.findByName("USER");
+            if (userRole == null) {
+                userRole = new Role();
+                userRole.setName("USER");
+                roleRepository.save(userRole);
+            }
+            user.setRole(userRole);
+        }
+
         session.setAttribute("user", user);
         redirectAttributes.addFlashAttribute("successMsg", "Đăng nhập thành công!");
-        return "redirect:/";
+
+        // Chuyển hướng theo role
+        if ("ADMIN".equals(user.getRole().getName())) {
+            return "redirect:cart/carts"; // Kiểm tra đúng đường dẫn của bạn
+        } else {
+            return "redirect:/";
+        }
     }
+
+
+
 
 
     @GetMapping("/register")
