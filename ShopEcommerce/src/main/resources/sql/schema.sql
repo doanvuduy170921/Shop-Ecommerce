@@ -1,7 +1,3 @@
-drop database if exists shop_ecommerce;
-create database shop_ecommerce;
-use shop_ecommerce;
-
 create table attribute_group
 (
     id   int auto_increment
@@ -148,19 +144,5 @@ create table order_details
         foreign key (product_id) references products (id),
     constraint FKjyu2qbqt8gnvno9oe9j2s2ldk
         foreign key (order_id) references orders (id)
-);
-
-create table tokens
-(
-    id              bigint auto_increment
-        primary key,
-    expiration_date datetime(6)  null,
-    expired         bit          null,
-    revoked         bit          null,
-    token           varchar(255) not null,
-    token_type      varchar(50)  not null,
-    user_id         bigint       null,
-    constraint FK2dylsfo39lgjyqml2tbe0b0ss
-        foreign key (user_id) references users (id)
 );
 
