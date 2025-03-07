@@ -29,9 +29,9 @@
         <nav>
             <ul>
                 <li class="nav-header-admin">Admin</li>
-                <li class="active"><a th:href="@{/api/accountManagement}">Quản lý tài khoản</a></li>
-                <li ><a th:href="@{/api/order-management}">Quản lý đơn hàng</a></li>
-                <li><a th:href="@{/api/productManagement}">Quản lý sản phẩm</a></li>
+                <li class="active"><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>
+                <li ><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>
+                <li><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>
             </ul>
         </nav>
 
@@ -43,9 +43,9 @@
     <main_admin class="content_admin">
         <div class="content-header-admin">
             <h2>Quản lý tài khoản</h2>
-            <form class="search-container" action="/api/accountManagement" method="get">
-                <input type="text" name="keyword" placeholder="Search" class="search-input" th:value="${keyword}">
-                <button type="submit" class="search-btn">Search</button>
+            <form class="search-container" action="/admin/accountManagement" method="get">
+                <input type="text" name="keyword" placeholder="Nhập tên tài khoản" class="search-input" th:value="${keyword}">
+                <button type="submit" class="search-btn">Tìm kiếm</button>
             </form>
         </div>
 
@@ -72,7 +72,7 @@
                         <td th:text="${user.email}"></td>
                         <td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
                         <td class="action-container-admin">
-                            <a th:href="@{/api/accountDetail/{id}(id=${user.id})}" class="info-btn">
+                            <a th:href="@{/admin/accountDetail/{id}(id=${user.id})}" class="info-btn">
                                 <i class="bi bi-info"></i>
                             </a>
                             <button class="delete-btn">×</button>
@@ -87,16 +87,16 @@
 <!--            <nav>-->
 <!--                <ul class="pagination">-->
 <!--                    <li th:classappend="${currentPage == 1} ? 'disabled'">-->
-<!--                        <a class="page-link" th:href="@{/api/accountManagement(page=1)}">&laquo;</a>-->
+<!--                        <a class="page-link" th:href="@{/admin/accountManagement(page=1)}">&laquo;</a>-->
 <!--                    </li>-->
 
 <!--                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"-->
 <!--                        th:classappend="${currentPage == i} ? 'active'">-->
-<!--                        <a class="page-link" th:href="@{/api/accountManagement(page=${i})}" th:text="${i}"></a>-->
+<!--                        <a class="page-link" th:href="@{/admin/accountManagement(page=${i})}" th:text="${i}"></a>-->
 <!--                    </li>-->
 
 <!--                    <li th:classappend="${currentPage == totalPages} ? 'disabled'">-->
-<!--                        <a class="page-link" th:href="@{/api/accountManagement(page=${totalPages})}">&raquo;</a>-->
+<!--                        <a class="page-link" th:href="@{/admin/accountManagement(page=${totalPages})}">&raquo;</a>-->
 <!--                    </li>-->
 <!--                </ul>-->
 <!--            </nav>-->

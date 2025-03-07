@@ -7,8 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
-<!--    <script src="https://cdn.tailwindcss.com"></script>-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/management.css}">
     <link rel="stylesheet" th:href="@{/css/infoAccount.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
@@ -27,51 +27,51 @@
 <div class="container_infoUser">
     <main class="content_infoUser">
         <div class="content-header-infoUser">
-            <h2>Chi tiết tài khoản</h2>
+            <span>Chi tiết tài khoản</span>
         </div>
 
-        <div class="profile-header">
-            <div class="profile-avatar">
-                <img src="user-icon.png" alt="Avatar">
-            </div>
-        </div>
+<!--        <div class="profile-header">-->
+<!--            <div class="profile-avatar">-->
+<!--                <img src="user-icon.png" alt="Avatar">-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="content_infoUser_body">
             <div class="account-details_infoUser">
                 <table>
                     <tr>
                         <th>Họ tên:</th>
-                        <td>43etrytry</td>
+                        <td th:text="${user.name}"></td>
                     </tr>
                     <tr>
                         <th>Số điện thoại:</th>
-                        <td>045434546</td>
+                        <td th:text="${user.phoneNumber}"></td>
                     </tr>
                     <tr>
                         <th>Địa chỉ:</th>
-                        <td>hue</td>
+                        <td th:text="${user.address}"></td>
                     </tr>
                     <tr>
                         <th>Ngày sinh:</th>
-                        <td>24/5/2003</td>
+                        <td th:text="${#temporals.format(user.dateOfBirth, 'dd/MM/yyyy')}"></td>
                     </tr>
                     <tr>
                         <th>Email:</th>
-                        <td>tht@gmail.com</td>
+                        <td th:text="${user.email}"></td>
                     </tr>
                     <tr>
                         <th>Ngày tạo:</th>
-                        <td>23/5/2024</td>
+                        <td th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
                     </tr>
                 </table>
             </div>
             <div class="buttons">
                 <a href="#">
-                    <button class="back-btn-large">
+                    <button class="back-btn-large" onclick="goBack()">
                         <span class="back-icon"></span> Quay lại
                     </button>
                 </a>
-                <a th:href="@{/api/updateAccount}" style="">
+                <a th:href="@{/updateAccount/{id}(id=${user.id})}" style="">
                     <button class="update-btn-large">
                         <span class="update-icon"></span> Cập nhật
                     </button>
@@ -99,7 +99,7 @@
         </div>
     </div>
 </div>
-
+<th:block th:insert="~{component/footer}" />
 <script>
     // Modal functions
     function openModal() {
@@ -115,6 +115,10 @@
         if (event.target == document.getElementById('deleteModal')) {
             closeModal();
         }
+    }
+
+    function goBack() {
+        window.history.back();
     }
 </script>
 

@@ -28,9 +28,9 @@
 			<nav>
 				<ul>
 					<li class="nav-header-admin">Admin</li>
-					<li><a th:href="@{/api/accountManagement}">Quản lý tài khoản</a></li>
-					<li class="active"><a th:href="@{/api/order-management}">Quản lý đơn hàng</a></li>
-					<li><a th:href="@{/api/productManagement}">Quản lý sản phẩm</a></li>
+					<li><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>
+					<li class="active"><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>
+					<li><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>
 				</ul>
 			</nav>
 
@@ -43,8 +43,8 @@
 			<div class="content-header-admin">
 				<h2>Quản lý Đơn hàng</h2>
 				<form class="search-container">
-					<input type="text" placeholder="Search" class="search-input">
-					<button type="submit" class="search-btn">Search</button>
+					<input type="text" placeholder="Tìm kiếm" class="search-input">
+					<button type="submit" class="search-btn">Tìm kiếm</button>
 				</form>
 			</div>
 			<div class="content_admin_body">
@@ -81,7 +81,7 @@
 								<td>vietpost</td>
 								<td>54000000</td>-->
 								<td class="action-container-admin">
-									<a href="/api/order-detail-management" class="info-btn">
+									<a href="/admin/order-detail-management" class="info-btn">
 									    <i class="bi bi-info"></i>
 									</a>
 									<button class="delete-btn">×</button>

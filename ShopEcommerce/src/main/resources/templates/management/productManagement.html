@@ -27,9 +27,9 @@
         <nav>
             <ul>
                 <li class="nav-header-admin">Admin</li>
-				<li><a th:href="@{/api/accountManagement}">Quản lý tài khoản</a></li>
-				<li><a th:href="@{/api/order-management}">Quản lý đơn hàng</a></li>
-				<li  class="active"><a th:href="@{/api/productManagement}">Quản lý sản phẩm</a></li>
+				<li><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>
+				<li><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>
+				<li  class="active"><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>
             </ul>
         </nav>
 
@@ -41,9 +41,9 @@
     <main_admin class="content_admin">
         <div class="content-header-admin">
             <h2>Quản lý sản phẩm</h2>
-            <form class="search-container" action="/api/productManagement" method="get">
-                <input type="text" name="keyword" placeholder="Search" class="search-input" th:value="${keyword}">
-                <button type="submit" class="search-btn">Search</button>
+            <form class="search-container" action="/admin/productManagement" method="get">
+                <input type="text" name="keyword" placeholder="Nhập tên sản phẩm" class="search-input" th:value="${keyword}">
+                <button type="submit" class="search-btn">Tìm kiếm</button>
             </form>
             <a href="addProduct" style="text-decoration: none;">
                 <button class="addProduct-btn">Thêm sản phẩm</button>
@@ -72,7 +72,7 @@
                         <td th:text="${product.price}"></td>
                         <td th:text="${product.category.name}"></td>
                         <td class="action-container-admin">
-                            <a th:href="@{/api/productDetail/{id}(id=${product.id})}" class="info-btn">
+                            <a th:href="@{/admin/productDetail/{id}(id=${product.id})}" class="info-btn">
                                 <i class="bi bi-info"></i>
                             </a>
                             <button class="delete-btn">×</button>
