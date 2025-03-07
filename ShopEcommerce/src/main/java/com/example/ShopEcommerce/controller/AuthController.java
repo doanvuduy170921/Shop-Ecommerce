@@ -79,14 +79,11 @@ public class AuthController {
 
         // Chuyển hướng theo role
         if ("ADMIN".equals(user.getRole().getName())) {
-            return "redirect:cart/carts"; // Kiểm tra đúng đường dẫn của bạn
+            return "redirect:admin/accountManagement";
         } else {
             return "redirect:/";
         }
     }
-
-
-
 
 
     @GetMapping("/register")

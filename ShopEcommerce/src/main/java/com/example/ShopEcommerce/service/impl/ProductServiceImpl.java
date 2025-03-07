@@ -2,8 +2,10 @@ package com.example.ShopEcommerce.service.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.ShopEcommerce.entity.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,5 +49,16 @@ public class ProductServiceImpl implements ProductService {
             ProductAttribute::getValue
         ));
     }
-
+    @Override
+    public List<Product> searchProducts(String keyword) {
+        if (keyword != null && !keyword.isEmpty()) {
+            return productRepository.findByNameContainingIgnoreCase(keyword);
+        }
+        return productRepository.findAll();
+    }
+    @Override
+    public Product findById(int id) {
+        Optional<Product> product = productRepository.findById(id);
+        return product.orElse(null);
+    }
 }

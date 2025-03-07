@@ -1,0 +1,54 @@
+.addAccountForm{
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+}
+.updateAccount_container{
+    width: 80%;
+    margin: 0 auto; /* Center horizontally */
+    top: 50%; /* Move to vertical center */
+    left: 50%; /* Move to horizontal center */
+    border-radius: 5px;
+    border: 2px solid #ddd;
+    padding: 20px;
+}
+.form-group {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.form-group label {
+    width: 20%;
+    font-weight: bold;
+    color: #333;
+
+}
+
+.form-control {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+
+
+.button-group {
+    /* display: flex; */
+    /* justify-content: space-between; */
+    align-items: center;
+    gap: 10px;
+}
+
+.button-group .btn {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.button-group .btn:last-child {
+    margin-right: 0;
+}
