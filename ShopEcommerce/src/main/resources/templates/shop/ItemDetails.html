@@ -34,6 +34,19 @@
                 });
             });
         </script>
+        <script th:inline="javascript">
+            /* Kiểm tra nếu có thông báo thành công từ server */
+
+            /*<![CDATA[*/
+
+            var successMessage = /*[[${successMessage}]]*/ null;
+
+            if (successMessage && successMessage !== "null") {
+                alert(successMessage);
+            }
+
+            /*]]>*/
+        </script>
     </head>
     <body style="background-color: #f5f5f5">
         <th:block th:insert="~{component/header.html}"></th:block>
@@ -90,42 +103,52 @@
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <h3 th:text="${product.name}">
-                        <!-- Chuột Chơi Game Có Dây USB, LED RGB Ergonomic 1200dpi -->
-                    </h3>
-                    <p class="text-warning">⭐⭐⭐⭐⭐ 8k đánh giá</p>
-                    <h4 class="text-danger" th:text="'đ' + ${product.price}">
-                        <!-- đ33.000 - đ38.500 -->
-                        <span
-                            th:text="'đ' + ${product.price}"
-                            class="text-secondary text-decoration-line-through"
-                            >
-                            <!-- đ52.800 -->
-                            </span
-                        >
-                    </h4>
-                    <div class="mt-3">
-                        <label class="fw-bold">Màu sắc:</label>
-                        <select class="form-select w-auto d-inline-block">
-                            <option>Đen có bao bì</option>
-                            <option>Trắng có bao bì</option>
-                        </select>
-                    </div>
-                    <div class="mt-3">
-                        <label class="fw-bold">Số lượng:</label>
+                    <form action="/products/details/add-to-cart" method="post">
                         <input
-                            type="number"
-                            value="1"
-                            min="1"
-                            class="form-control w-auto d-inline-block"
+                            type="hidden"
+                            name="productId"
+                            th:value="${product.id}"
                         />
-                    </div>
-                    <div class="mt-4">
-                        <button class="btn btn-warning me-2">
-                            Thêm Vào Giỏ Hàng
-                        </button>
-                        <button class="btn btn-danger">Mua Ngay</button>
-                    </div>
+                        <h3 th:text="${product.name}">
+                            <!-- Chuột Chơi Game Có Dây USB, LED RGB Ergonomic 1200dpi -->
+                        </h3>
+                        <p class="text-warning">⭐⭐⭐⭐⭐ 8k đánh giá</p>
+                        <h4
+                            class="text-danger"
+                            th:text="'đ' + ${product.price}"
+                        >
+                            <!-- đ33.000 - đ38.500 -->
+                            <span
+                                th:text="'đ' + ${product.price}"
+                                class="text-secondary text-decoration-line-through"
+                            >
+                                <!-- đ52.800 -->
+                            </span>
+                        </h4>
+                        <div class="mt-3">
+                            <label class="fw-bold">Màu sắc:</label>
+                            <select class="form-select w-auto d-inline-block">
+                                <option>Đen có bao bì</option>
+                                <option>Trắng có bao bì</option>
+                            </select>
+                        </div>
+                        <div class="mt-3">
+                            <label class="fw-bold">Số lượng:</label>
+                            <input
+                                type="number"
+                                name="quantity"
+                                value="1"
+                                min="1"
+                                class="form-control w-auto d-inline-block"
+                            />
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-warning me-2">
+                                Thêm Vào Giỏ Hàng
+                            </button>
+                            <button class="btn btn-danger">Mua Ngay</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -133,34 +156,8 @@
             <div class="mt-3 details">
                 <h4>Chi Tiết Sản Phẩm</h4>
                 <ul class="pt-3">
-                    <!-- <li>
-                        <label>Danh Mục: </label>
-                        <div>
-                            Shopee > Máy Tính & Laptop > Gaming > Chuột Máy Tính
-                        </div>
-                    </li>
-                    <li>
-                        <label>Kho: </label>
-                        <div>183</div>
-                    </li>
-                    <li>
-                        <label>Kiểu kết nối: </label>
-                        <div>Có dây</div>
-                    </li>
-                    <li>
-                        <label>Game chuyên dụng: </label>
-                        <div>Có</div>
-                    </li>
-                    <li>
-                        <label>Bộ sản phẩm: </label>
-                        <div>Không</div>
-                    </li>
-                    <li>
-                        <label>Gửi từ: </label>
-                        <div>Nước ngoài</div>
-                    </li> -->
                     <li th:each="entry : ${attributes}">
-                        <label th:text="${entry.key} + ': '"></label> 
+                        <label th:text="${entry.key} + ': '"></label>
                         <div th:text="${entry.value}"></div>
                     </li>
                 </ul>
