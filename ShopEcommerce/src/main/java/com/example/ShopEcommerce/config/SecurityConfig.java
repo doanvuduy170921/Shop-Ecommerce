@@ -23,19 +23,16 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        http
-//                .csrf().disable()
+//                .csrf().disable() // ⚠️ Tắt CSRF để test API trên Postman
 //                .authorizeHttpRequests(auth -> auth
 //
-//                        .requestMatchers("/", "/home", "/register", "/css/**", "/js/**").permitAll()
-//                        .anyRequest().authenticated()
+//                        .requestMatchers("/", "/home", "/register", "/css/**", "/js/**").permitAll() // ✅ Cho phép truy cập công khai
+//                        .requestMatchers("/api/**").permitAll()
+//                        .requestMatchers("/items/**").permitAll()
+//                        .anyRequest().authenticated() // Các trang khác yêu cầu đăng nhập
 //                )
 //                .formLogin(form -> form
 //                        .loginPage("/login")
@@ -48,6 +45,7 @@ public class SecurityConfig {
 //                );
 //
 //        return http.build();
+
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()).build();

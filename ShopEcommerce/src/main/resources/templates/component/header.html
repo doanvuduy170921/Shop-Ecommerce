@@ -1,3 +1,4 @@
+
 <header class="main-header">
     <div class="header-top bg-dark text-white">
         <div class="container h-100 d-flex justify-content-between align-items-center">
@@ -20,7 +21,6 @@
                         <li><a href="#">Spanish</a></li>
                     </ul>
                 </div>
-<!--                <a href="#" class="text-white text-decoration-none me-3">ENG <i class="fa fa-angle-down"></i></a>-->
                 <a href="#" class="text-white d-flex align-items-center text-decoration-none">Track Your Order</a>
             </div>
         </div>
@@ -38,12 +38,6 @@
                 <input type="text" class="form-control" placeholder="Search For Product">
                 <button class="btn btn-dark"><i class="fa fa-search"></i></button>
             </div>
-<!--            <div class="search-box w-50">-->
-<!--                <form class="d-flex">-->
-<!--                    <input type="text" class="form-control" placeholder="Search For Product">-->
-<!--                    <button class="btn btn-dark" type="submit"><i class="fa fa-search"></i></button>-->
-<!--                </form>-->
-<!--            </div>-->
             <div class="header-phone_box">
                 <div class="header-phone_icon">
                     <i class="fa-solid fa-phone fa-fw"></i>
@@ -66,13 +60,7 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
-<!--                        <ul class="navbar-nav">-->
-<!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Home</a><i class="fa-solid fa-angle-down"></i></li>-->
-<!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Shop</a><i class="fa-solid fa-angle-down"></i></li>-->
-<!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Blog</a><i class="fa-solid fa-angle-down"></i></li>-->
-<!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Pages</a><i class="fa-solid fa-angle-down"></i></li>-->
-<!--                            <li class="nav-item d-flex align-items-center"><a href="#" class="nav-link">Contact</a><i class="fa-solid fa-angle-down"></i></li>-->
-<!--                        </ul>-->
+
                         <ul id="menu-main-menu" class="navbar-nav">
                             <li class="nav-item d-flex align-items-center menu-item dropdown"><a href="#">Home</a>
                                 <i class="fa-solid fa-angle-down"></i>
@@ -112,6 +100,7 @@
                         </ul>
                     </div>
                 </nav>
+
                 <div class="dropdown">
                     <a href="#" class="header-low_icon text-black mx-2 dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-user"></i>
@@ -119,6 +108,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                         <li th:if="${session.user}">
+                            <a class="dropdown-item text-center btn btn-danger" th:href="@{/infoAccount/{id}(id=${session.user.id})}">Thông tin tài khoản</a>
                             <a class="dropdown-item text-center btn btn-danger" th:href="@{/logout}">Đăng xuất</a>
                         </li>
                         <li th:unless="${session.user}">
@@ -126,18 +116,64 @@
                         </li>
                     </ul>
                 </div>
+
+
+
                 <div class="d-flex align-items-center">
 
                     <a href="#" class="header-low_icon text-black mx-2 position-relative">
                         <i class="fa-regular fa-heart"></i>
                         <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">0</span>
                     </a>
-                    <a href="#" class="header-low_icon text-black mx-2 position-relative">
+                    <a th:href="@{cart/carts}" class="header-low_icon text-black mx-2 position-relative">
                         <i class="fa fa-shopping-cart"></i>
                         <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">0</span>
                     </a>
+                    <div class="dropdown" th:classappend="${session.user} ? 'pl-35' : ''">
+                        <a href="#" class="header-low_icon text-black mx-2 dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                            <span th:if="${session.user}" th:text="${session.user.name}"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                            <li th:if="${session.user}">
+                                <a class="dropdown-item btn btn-danger" th:href="@{/logout}">Đăng xuất</a>
+                            </li>
+                            <li th:unless="${session.user}">
+                                <a class="dropdown-item btn btn-primary" th:href="@{/login}">Đăng nhập</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </header>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let headerTop = document.querySelector(".header-top");
+        let headerUpper = document.querySelector(".header-upper");
+        let headerLower = document.querySelector(".header-lower");
+
+        let lastScrollTop = 0;
+
+        window.addEventListener("scroll", function () {
+            let scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+            if (scrollTop > 50) {
+                // Khi cuộn xuống
+                headerTop.style.transform = "translateY(-100%)";
+                headerUpper.style.top = "0";
+                headerLower.style.top = "110px";
+            } else {
+                // Khi cuộn lên
+                headerTop.style.transform = "translateY(0)";
+                headerUpper.style.top = "50px";
+                headerLower.style.top = "160px";
+            }
+
+            lastScrollTop = scrollTop;
+        });
+    });
+
+</script>
