@@ -20,7 +20,7 @@
         <!-- Swiper JS -->
         <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
         <link rel="stylesheet" th:href="@{/css/style.css}" />
-        <link rel="stylesheet" th:href="@{/css/ItemDetails.css}" />
+        <link rel="stylesheet" th:href="@{/css/listItems.css}" />
         <script>
             function changeMainImage(src) {
                 document.getElementById("mainImage").src = src;
@@ -42,7 +42,7 @@
                 <div class="category-list bg-light p-3">
                     <h6 class="fw-bold">TẤT CẢ DANH MỤC</h6>
                     <ul class="list-unstyled bg-light">
-                        <li>
+                        <!-- <li>
                             <a href="#" class="fw-bold text-danger"
                                 >&#9656; Máy Tính & Laptop</a
                             >
@@ -58,7 +58,14 @@
                         <li><a href="#">Phụ Kiện Máy Tính</a></li>
                         <li><a href="#">Laptop</a></li>
                         <li><a href="#">Khác</a></li>
-                        <li><a href="#">Gaming</a></li>
+                        <li><a href="#">Gaming</a></li> -->
+                        <li th:each="category : ${categories}">
+                            <a
+                                th:href="@{/products(categoryId=${category.id})}"
+                                th:text="${category.name}"
+                                th:class="${category.id == selectedCategoryId} ? 'fw-bold text-danger'"
+                            ></a>
+                        </li>
                     </ul>
                 </div>
                 <div class="search-filter bg-light p-3">
@@ -118,7 +125,7 @@
                     </div>
                 </div>
                 <div class="item-list row">
-                    <div class="col-md-3 mb-4">
+                    <!-- <div class="col-md-3 mb-4">
                         <div class="card h-100 shadow-sm border-0">
                             <img
                                 src="https://via.placeholder.com/150"
@@ -228,25 +235,75 @@
                                 >
                             </div>
                         </div>
+                    </div> -->
+                    <div class="col-md-3 mb-4" th:each="product : ${products}">
+                        <div class="card h-100 shadow-sm border-0">
+                            <img
+                                th:src="${product.thumbnail}"
+                                class="card-img-top"
+                                alt="Product Image"
+                            />
+                            <div
+                                class="card-body p-3"
+                                th:onclick="|window.location.href='/products/details?id=' + ${product.id}|"
+                            >
+                                <h6
+                                    class="card-title text-truncate"
+                                    th:text="${product.name}"
+                                ></h6>
+                                <p
+                                    class="text-danger fw-bold mb-1"
+                                    th:text="${product.price} + ' VND'"
+                                ></p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center"
+                                >
+                                    <!-- <small class="text-muted" th:text="${product.rating} + ' ⭐ | Đã bán ' + ${product.sold}"></small> -->
+                                    <small class="text-muted"
+                                        >4.6 ⭐ | Đã bán 14.3k</small
+                                    >
+                                </div>
+                                <!-- <span class="badge bg-danger text-white" th:if="${product.discount > 0}" th:text="'Giảm giá ' + ${product.discount} + '%'"></span> -->
+                                <span class="badge bg-danger text-white"
+                                    >Giảm giá 28%</span
+                                >
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
                     <nav>
                         <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#">&laquo;</a>
+                            <li
+                                class="page-item"
+                                th:classappend="${currentPage == 1} ? 'disabled'"
+                            >
+                                <a
+                                    class="page-link"
+                                    th:href="@{/products(page=${currentPage - 1}, categoryId=${selectedCategoryId})}"
+                                    >&laquo;</a
+                                >
                             </li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#">1</a>
+                            <li
+                                class="page-item"
+                                th:each="i : ${#numbers.sequence(1, totalPages)}"
+                                th:classappend="${i == currentPage} ? 'active'"
+                            >
+                                <a
+                                    class="page-link"
+                                    th:href="@{/products(page=${i}, categoryId=${selectedCategoryId})}"
+                                    th:text="${i}"
+                                ></a>
                             </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">&raquo;</a>
+                            <li
+                                class="page-item"
+                                th:classappend="${currentPage == totalPages} ? 'disabled'"
+                            >
+                                <a
+                                    class="page-link"
+                                    th:href="@{/products(page=${currentPage + 1}, categoryId=${selectedCategoryId})}"
+                                    >&raquo;</a
+                                >
                             </li>
                         </ul>
                     </nav>

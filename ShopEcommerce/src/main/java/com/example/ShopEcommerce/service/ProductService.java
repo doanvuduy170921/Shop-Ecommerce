@@ -1,30 +1,19 @@
 package com.example.ShopEcommerce.service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import com.example.ShopEcommerce.entity.Product;
-import com.example.ShopEcommerce.entity.User;
-import com.example.ShopEcommerce.repository.ProductRepository;
+
+import org.springframework.data.domain.Page;
+
+import com.example.ShopEcommerce.dto.resp.ProductResp;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
-@Service
-public class ProductService {
-    private final ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
-    public List<Product> searchProducts(String keyword) {
-        if (keyword != null && !keyword.isEmpty()) {
-            return productRepository.findByNameContainingIgnoreCase(keyword);
-        }
-        return productRepository.findAll();
-    }
-
-    public Product findById(int id) {
-        Optional<Product> product = productRepository.findById(id);
-        return product.orElse(null);
-    }
+public interface ProductService {
+    Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size);
+    ProductResp getProductById(int id);
+    Map<String, Object> getAttributesByProductId(int productId);
+    List<Product> searchProducts(String keyword);
+    Product findById(int id);
 }
