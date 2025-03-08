@@ -10,14 +10,13 @@ import lombok.Setter;
 @Table(name = "product_images")
 public class ProductImage {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "image_url", length = 300)
-    private String imageUrl;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @ManyToOne
     private Product product;
+
+    @Column(name = "image_url",length = 300)
+    private String imageUrl;
 
 }
