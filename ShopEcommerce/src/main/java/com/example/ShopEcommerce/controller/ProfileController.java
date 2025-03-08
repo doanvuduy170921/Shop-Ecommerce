@@ -45,7 +45,6 @@ public class ProfileController {
     public String updateAccount(
             @PathVariable Long id,
             @ModelAttribute("user") User updatedUser,
-            @RequestParam(value = "avatar", required = false) MultipartFile avatarFile,
             @RequestParam(value = "oldPassword", required = false) String oldPassword,
             @RequestParam(value = "newPassword", required = false) String newPassword,
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,

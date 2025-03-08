@@ -8,6 +8,7 @@ import com.example.ShopEcommerce.entity.Product;
 import org.springframework.data.domain.Page;
 
 import com.example.ShopEcommerce.dto.resp.ProductResp;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 public interface ProductService {
@@ -16,4 +17,7 @@ public interface ProductService {
     Map<String, Object> getAttributesByProductId(int productId);
     List<Product> searchProducts(String keyword);
     Product findById(int id);
+    Page<Product> searchProductPaginated(String keyword, Pageable pageable);
+    Product saveProduct(Product product);
+    void deleteProduct(int id);
 }

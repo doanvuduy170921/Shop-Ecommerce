@@ -61,4 +61,22 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> product = productRepository.findById(id);
         return product.orElse(null);
     }
+
+    @Override
+    public Page<Product> searchProductPaginated(String keyword, Pageable pageable) {
+        if (keyword != null && !keyword.isEmpty()) {
+            return productRepository.findByNameContainingIgnoreCase(keyword, pageable);
+        }
+        return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    public void deleteProduct(int id) {
+        productRepository.deleteById(id);
+    }
 }

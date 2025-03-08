@@ -34,11 +34,18 @@
         </nav>
 
         <div class="logout">
-            <a href="#">Logout</a>
+            <a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>
         </div>
     </aside>
 
     <main_admin class="content_admin">
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success" role="alert">
+            <span th:text="${success}"></span>
+        </div>
         <div class="content-header-admin">
             <h2>Quản lý sản phẩm</h2>
             <form class="search-container" action="/admin/productManagement" method="get">
@@ -75,7 +82,12 @@
                             <a th:href="@{/admin/productDetail/{id}(id=${product.id})}" class="info-btn">
                                 <i class="bi bi-info"></i>
                             </a>
-                            <button class="delete-btn">×</button>
+                            <a th:href="@{/admin/updateProduct/{id}(id=${product.id})}" class="edit-btn">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <form th:action="@{/admin/productManagement/delete/{id}(id=${product.id})}" method="post" style="display:inline;" class="delete-form">
+                                <button type="button" class="delete-btn" onclick="confirmDelete(this)">×</button>
+                            </form>
                         </td>
                     </tr>
                     </tbody>
@@ -86,20 +98,17 @@
         <div class="d-flex justify-content-center mt-4">
             <nav>
                 <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">&laquo;</a>
+                    <li th:classappend="${currentPage == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/admin/productManagement(page=1)}">&laquo;</a>
                     </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
+
+                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                        th:classappend="${currentPage == i} ? 'active'">
+                        <a class="page-link" th:href="@{/admin/productManagement(page=${i})}" th:text="${i}"></a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">&raquo;</a>
+
+                    <li th:classappend="${currentPage == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/admin/productManagement(page=${totalPages})}">&raquo;</a>
                     </li>
                 </ul>
             </nav>
@@ -107,4 +116,13 @@
     </main_admin>
 </div>
 </body>
+
+<script>
+    function confirmDelete(button) {
+        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+            button.closest('.delete-form').submit();
+        }
+    }
+</script>
+
 </html>

@@ -9,6 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/management.css}">
     <link rel="stylesheet" href="../../static/css/management.css">
     <link rel="stylesheet" th:href="@{/css/productDetail.css}">
+    <link rel="stylesheet" th:href="@{/css/updateProduct.css}">
 </head>
 <body>
 
@@ -36,7 +37,7 @@
         </nav>
 
         <div class="logout">
-            <a href="#">Logout</a>
+            <a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>
         </div>
     </aside>
 
@@ -48,8 +49,10 @@
         <div class="content_admin_body">
             <div class="product-details">
                 <div class="product-images">
-<!--                    <img th:src=@{/images/git.png} class="product-image">-->
-                    <img src="logo.png" class="product-image">
+                    <img th:src="@{${'https://clickbuy.com.vn/uploads/images/tin%20tuc/Diep/%C4%91i%E1%BB%87n-tho%E1%BA%A1i-di-%C4%91%E1%BB%99ng-8.jpg'}}" class="product-image" alt="">
+                    <th:block th:each="image : ${product.productImages}">
+                        <img th:src="@{${image.imageUrl}}" class="product-image" alt="Product Image">
+                    </th:block>
                 </div>
                 <table>
                     <tr>
@@ -80,9 +83,17 @@
                         <span class="back-icon"></span> Quay lại
                     </button>
                 </a>
-                <button class="delete-btn-large" onclick="openModal()">
-                    <span class="delete-icon"></span> Xóa
-                </button>
+
+                <a th:href="@{/admin/updateProduct/{id}(id=${product.id})}">
+                    <button class="edit-btn-large">
+                        <span class="edit-icon"></span> Chỉnh sửa
+                    </button>
+                </a>
+                <form th:action="@{/admin/productManagement/delete/{id}(id=${product.id})}" method="post" style="display:inline;" class="delete-form">
+                    <button class="delete-btn-large" onclick="confirmDelete(this)">
+                        <span class="delete-icon"></span> Xóa
+                    </button>
+                </form>
             </div>
         </div>
     </main_admin>
@@ -116,6 +127,12 @@
     window.onclick = function(event) {
         if (event.target == document.getElementById('deleteModal')) {
             closeModal();
+        }
+    }
+
+    function confirmDelete(button) {
+        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+            button.closest('.delete-form').submit();
         }
     }
 </script>
