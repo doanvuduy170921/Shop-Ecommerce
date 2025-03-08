@@ -16,7 +16,7 @@ public class ProductImageService {
         productImageRepository.save(productImage);
     }
 
-    public void deleteByProductId(int productId) {
+    public void deleteByProductId(Long productId) {
         productImageRepository.deleteByProductId(productId);
     }
 }

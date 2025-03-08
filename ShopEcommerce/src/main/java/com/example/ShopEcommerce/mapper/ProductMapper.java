@@ -10,6 +10,7 @@ public class ProductMapper {
         productResp.setName(product.getName());
         productResp.setPrice(product.getPrice());
         productResp.setDescription(product.getDescription());
+        productResp.setThumbnail(product.getThumbnail());
         productResp.setCategory(CategoryMapper.toCategoryResp(product.getCategory()));
         return productResp;
     }

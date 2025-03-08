@@ -69,7 +69,7 @@ public class ManagementController {
     }
     @PostMapping("/productManagement/delete/{id}")
     @Transactional
-    public String deleteProduct(@PathVariable int id, RedirectAttributes redirectAttributes){
+    public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes){
         try {
             Product product = productService.findById(id);
 
@@ -122,7 +122,7 @@ public class ManagementController {
     }
 
     @GetMapping("/productDetail/{id}")
-    public String productDetail(@PathVariable int id, Model model){
+    public String productDetail(@PathVariable Long id, Model model){
         Product product = productService.findById(id);
         if (product == null) {
             return "redirect:/admin/productManagement";
@@ -196,7 +196,7 @@ public class ManagementController {
 
 
     @GetMapping("/updateProduct/{id}")
-    public String updateProduct(@PathVariable int id, Model model){
+    public String updateProduct(@PathVariable Long id, Model model){
         Product product = productService.findById(id);
         if (product == null) {
             return "redirect:/admin/updateProduct";

@@ -13,11 +13,12 @@ import org.springframework.stereotype.Service;
 
 public interface ProductService {
     Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size);
-    ProductResp getProductById(int id);
-    Map<String, Object> getAttributesByProductId(int productId);
+    ProductResp getProductById(Long id);
+    Map<String, Object> getAttributesByProductId(Long productId);
     List<Product> searchProducts(String keyword);
-    Product findById(int id);
+    Product findById(Long id);
     Page<Product> searchProductPaginated(String keyword, Pageable pageable);
     Product saveProduct(Product product);
-    void deleteProduct(int id);
+    void deleteProduct(Long id);
+    List<String> getImagesByProductId(Long productId);
 }
