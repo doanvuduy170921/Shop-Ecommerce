@@ -11,9 +11,9 @@ import com.example.ShopEcommerce.dto.resp.ProductResp;
 import org.springframework.stereotype.Service;
 
 public interface ProductService {
-    Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size);
-    ProductResp getProductById(int id);
-    Map<String, Object> getAttributesByProductId(int productId);
+    Page<ProductResp> getAllProductsByCategoryId(Long categoryId, int page, int size);
+    ProductResp getProductById(Long id);
+    Map<String, Object> getAttributesByProductId(Long productId);
     List<Product> searchProducts(String keyword);
-    Product findById(int id);
+    Product findById(Long id);
 }
