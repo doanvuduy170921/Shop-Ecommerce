@@ -50,18 +50,28 @@
     </head>
     <body style="background-color: #f5f5f5">
         <th:block th:insert="~{component/header.html}"></th:block>
-        <div class="container container-item-detail mt-5 mb-3 pt-5">
+        <div
+            class="container container-item-detail mb-3 pt-5"
+            style="margin-top: 400px"
+        >
             <div class="row">
                 <div class="col-md-4">
                     <img
                         id="mainImage"
-                        src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp"
+                        th:src="${images[0]}"
                         onmouseover="changeMainImage(this.src)"
                         alt="Sản phẩm"
                         class="img-fluid rounded"
                     />
                     <div class="image-list mt-3">
                         <img
+                            th:each="image, index : ${images}"
+                            th:src="${image}"
+                            onmouseover="changeMainImage(this.src)"
+                            th:alt="'Ảnh ' + ${index}"
+                            class="img-thumbnail me-2"
+                        />
+                        <!-- <img
                             src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp"
                             onmouseover="changeMainImage(this.src)"
                             alt="Ảnh 1"
@@ -99,11 +109,11 @@
                             src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdvq-lxtfla8wp4ne3a.webp"
                             alt="Ảnh 7"
                             class="img-thumbnail me-2"
-                        />
+                        /> -->
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <form action="/products/details/add-to-cart" method="post">
+                    <form action="/product/details/add-to-cart" method="post">
                         <input
                             type="hidden"
                             name="productId"

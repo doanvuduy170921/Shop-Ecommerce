@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class AddToCardReq {
     private Long userId;
-    private Integer productId;
+    private Long productId;
     private Integer quantity;
 }

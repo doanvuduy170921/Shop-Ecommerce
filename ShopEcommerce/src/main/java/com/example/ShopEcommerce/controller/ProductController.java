@@ -210,9 +210,16 @@ public class ProductController {
         return "shop/listItems"; // Trả về tên view để hiển thị danh sách sản phẩm
     }
     @GetMapping("/details")
-    public String getProductDetail(@RequestParam int id, Model model) {
+    public String getProductDetail(@RequestParam Long id, Model model) {
         ProductResp product = productService.getProductById(id);
         Map<String, Object> attributes = productService.getAttributesByProductId(id);
+        List<String> images = productService.getImagesByProductId(id);
+        if (images.size() == 1) {
+            for (int i = 0; i < 5; i++) {
+                images.add("https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp");
+            }
+        }
+        model.addAttribute("images", images);
         model.addAttribute("product", product);
         model.addAttribute("attributes", attributes);
         return "shop/ItemDetails";
@@ -227,7 +234,7 @@ public class ProductController {
         entity.setUserId(user.getId());
         cartService.addToCart(entity);
         redirectAttributes.addFlashAttribute("successMessage", "Add to cart successfully");
-        return "redirect:/products/details?id=" + entity.getProductId();
+        return "redirect:/product/details?id=" + entity.getProductId();
     }
 
 

@@ -15,6 +15,7 @@ import com.example.ShopEcommerce.dto.resp.ProductResp;
 import com.example.ShopEcommerce.entity.ProductAttribute;
 import com.example.ShopEcommerce.mapper.ProductMapper;
 import com.example.ShopEcommerce.repository.ProductAttributeRepository;
+import com.example.ShopEcommerce.repository.ProductImageRepository;
 import com.example.ShopEcommerce.repository.ProductRepository;
 import com.example.ShopEcommerce.service.ProductService;
 
@@ -26,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductAttributeRepository productAttributeRepository;
+    private final ProductImageRepository productImageRepository;
 
     @Override
     public Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size) {
@@ -35,13 +37,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResp getProductById(int id) {
+    public ProductResp getProductById(Long id) {
         // TODO Auto-generated method stub
         return ProductMapper.toProductResp(productRepository.findById(id).orElse(null));
     }
 
     @Override
-    public Map<String, Object> getAttributesByProductId(int productId) {
+    public Map<String, Object> getAttributesByProductId(Long productId) {
         // TODO Auto-generated method stub
         List<ProductAttribute> productAttributes = productAttributeRepository.findAllByProductId(productId);
         return productAttributes.stream().collect(Collectors.toMap(
@@ -57,8 +59,21 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
     @Override
-    public Product findById(int id) {
+    public Product findById(Long id) {
         Optional<Product> product = productRepository.findById(id);
         return product.orElse(null);
+    }
+
+    @Override
+    public List<String> getImagesByProductId(Long productId) {
+        // TODO Auto-generated method stub
+        List<String> images = productImageRepository.findByProductId(productId).stream()
+            .map(productImage -> productImage.getImageUrl())
+            .collect(Collectors.toList());
+        images.add(0, productRepository
+            .findById(productId)
+            .map(product -> product.getThumbnail())
+            .orElse(null));
+        return images;
     }
 }
