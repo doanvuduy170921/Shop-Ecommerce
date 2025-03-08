@@ -8,15 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,14 +34,39 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import com.example.ShopEcommerce.dto.req.AddToCardReq;
+import com.example.ShopEcommerce.dto.resp.CategoryResp;
+import com.example.ShopEcommerce.dto.resp.ProductResp;
+import com.example.ShopEcommerce.entity.Product;
+import com.example.ShopEcommerce.entity.User;
+import com.example.ShopEcommerce.service.CartService;
+import com.example.ShopEcommerce.service.CategoryService;
+import com.example.ShopEcommerce.service.ProductService;
+
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+
+
 @Controller
 @RequestMapping("/product")
+@RequiredArgsConstructor
 public class ProductController {
-    @Autowired
-    private ProductRepository productRepository;
 
-    @Autowired
-    private ProductImageRepository productImageRepository;
+    private final ProductService productService;
+    private final CategoryService categoryService;
+    private final CartService cartService;
+
+    private final ProductRepository productRepository;
+
+
+    private final ProductImageRepository productImageRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -154,4 +188,47 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping
+    public String getProducts(
+            Model model,
+            @RequestParam(required = false, defaultValue = "1") int categoryId,
+            @RequestParam(required = false, defaultValue = "1") int page
+    ) {
+        // Gọi service để lấy danh sách sản phẩm
+        Page<ProductResp> products = productService.getAllProductsByCategoryId(categoryId, page - 1, 5);
+        List<CategoryResp> categories = categoryService.getAllCategories();
+        int totalPages = products.getTotalPages();
+
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("selectedCategoryId", categoryId);
+
+        // Xử lý dữ liệu hoặc trả về view tương ứng
+        return "shop/listItems"; // Trả về tên view để hiển thị danh sách sản phẩm
+    }
+    @GetMapping("/details")
+    public String getProductDetail(@RequestParam int id, Model model) {
+        ProductResp product = productService.getProductById(id);
+        Map<String, Object> attributes = productService.getAttributesByProductId(id);
+        model.addAttribute("product", product);
+        model.addAttribute("attributes", attributes);
+        return "shop/ItemDetails";
+    }
+    @PostMapping("/details/add-to-cart")
+    public String addToCart(@ModelAttribute AddToCardReq entity, RedirectAttributes redirectAttributes, HttpSession session) {
+        //TODO: process POST request
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        entity.setUserId(user.getId());
+        cartService.addToCart(entity);
+        redirectAttributes.addFlashAttribute("successMessage", "Add to cart successfully");
+        return "redirect:/products/details?id=" + entity.getProductId();
+    }
+
+
 }
