@@ -59,7 +59,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class ProductController {
 
-
+    private final ProductService productService;
     private final CategoryService categoryService;
     private final CartService cartService;
 
@@ -189,7 +189,41 @@ public class ProductController {
         }
     }
 
+    @GetMapping
+    public String getProducts(
+            Model model,
+            @RequestParam(required = false, defaultValue = "1") int categoryId,
+            @RequestParam(required = false, defaultValue = "1") int page
+    ) {
+        // Gọi service để lấy danh sách sản phẩm
+        Page<ProductResp> products = productService.getAllProductsByCategoryId(categoryId, page - 1, 5);
+        List<CategoryResp> categories = categoryService.getAllCategories();
+        int totalPages = products.getTotalPages();
 
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("selectedCategoryId", categoryId);
+
+        // Xử lý dữ liệu hoặc trả về view tương ứng
+        return "shop/listItems"; // Trả về tên view để hiển thị danh sách sản phẩm
+    }
+    @GetMapping("/details")
+    public String getProductDetail(@RequestParam Long id, Model model) {
+        ProductResp product = productService.getProductById(id);
+        Map<String, Object> attributes = productService.getAttributesByProductId(id);
+        List<String> images = productService.getImagesByProductId(id);
+        if (images.size() == 1) {
+            for (int i = 0; i < 5; i++) {
+                images.add("https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp");
+            }
+        }
+        model.addAttribute("images", images);
+        model.addAttribute("product", product);
+        model.addAttribute("attributes", attributes);
+        return "shop/ItemDetails";
+    }
     @PostMapping("/details/add-to-cart")
     public String addToCart(@ModelAttribute AddToCardReq entity, RedirectAttributes redirectAttributes, HttpSession session) {
         //TODO: process POST request
@@ -200,7 +234,7 @@ public class ProductController {
         entity.setUserId(user.getId());
         cartService.addToCart(entity);
         redirectAttributes.addFlashAttribute("successMessage", "Add to cart successfully");
-        return "redirect:/products/details?id=" + entity.getProductId();
+        return "redirect:/product/details?id=" + entity.getProductId();
     }
 
 
