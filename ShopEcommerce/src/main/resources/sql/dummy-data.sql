@@ -42,3 +42,6 @@ VALUES (10, '2025-03-06 10:43:26.000000', null, null, null, true,
         '$2a$10$o4sMQQ/3aAacnee//dQ.zubL4ygHAc5nu3xYnWfT.jZximPdkBbZq', null, null, 'nam@gmail.com', 'nam');
 
 
+INSERT INTO shop_ecommerce.product_images (id, image_url, product_id) VALUES (11, '89c7d850-4136-43bc-9125-d7d8be589ffa_476484779_2835276336660713_8412588961330545975_n.jpg', 1);
+INSERT INTO shop_ecommerce.product_images (id, image_url, product_id) VALUES (12, 'd4409f7e-6817-4f78-983a-b226d28da596_476484779_2835276336660713_8412588961330545975_n.jpg', 1);
+INSERT INTO shop_ecommerce.product_images (id, image_url, product_id) VALUES (13, 'b37aeeed-4061-471b-9644-dde4d97a107a_z6203340675220_3ad29f71d75106100098bdc94fbdf75f.jpg', 1);

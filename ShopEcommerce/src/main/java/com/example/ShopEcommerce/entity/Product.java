@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String name;
 
@@ -34,4 +34,6 @@ public class Product {
     @ManyToOne
     @JoinColumn(name="category_id",nullable = false)
     private Category category;
+
+
 }
