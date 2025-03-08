@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Images</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .image-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            width: 200px;
+        }
+        .image-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 3px;
+        }
+        .no-images {
+            color: #666;
+            font-style: italic;
+            margin: 20px 0;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        a {
+            text-decoration: none;
+            padding: 8px 16px;
+            margin-right: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #333;
+            display: inline-block;
+        }
+        a:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+<h2>Hình ảnh sản phẩm</h2>
+<h3 th:if="${productName}" th:text="'Tên sản phẩm: ' + ${productName}"></h3>
+<h3 th:if="${productId}" th:text="'Mã sản phẩm: ' + ${productId}"></h3>
+
+<div th:if="${images.isEmpty()}" class="no-images">
+    Sản phẩm này chưa có hình ảnh nào.
+</div>
+
+<div th:unless="${images.isEmpty()}" class="image-container">
+    <div th:each="img : ${images}" class="image-item">
+        <img th:src="@{${baseImageUrl} + ${img}}" th:alt="${img}">
+        <p th:text="${img}"></p>
+    </div>
+</div>
+
+<div class="buttons">
+    <a th:href="@{/product/{id}/upload(id=${productId})}">Thêm ảnh mới</a>
+    <a th:href="@{/product}">Quay lại danh sách sản phẩm</a>
+</div>
+</body>
+</html>

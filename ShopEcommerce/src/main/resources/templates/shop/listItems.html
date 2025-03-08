@@ -61,7 +61,7 @@
                         <li><a href="#">Gaming</a></li> -->
                         <li th:each="category : ${categories}">
                             <a
-                                th:href="@{/products(categoryId=${category.id})}"
+                                th:href="@{/product(categoryId=${category.id})}"
                                 th:text="${category.name}"
                                 th:class="${category.id == selectedCategoryId} ? 'fw-bold text-danger'"
                             ></a>
@@ -245,7 +245,7 @@
                             />
                             <div
                                 class="card-body p-3"
-                                th:onclick="|window.location.href='/products/details?id=' + ${product.id}|"
+                                th:onclick="|window.location.href='/product/details?id=' + ${product.id}|"
                             >
                                 <h6
                                     class="card-title text-truncate"
@@ -280,7 +280,7 @@
                             >
                                 <a
                                     class="page-link"
-                                    th:href="@{/products(page=${currentPage - 1}, categoryId=${selectedCategoryId})}"
+                                    th:href="@{/product(page=${currentPage - 1}, categoryId=${selectedCategoryId})}"
                                     >&laquo;</a
                                 >
                             </li>
@@ -291,7 +291,7 @@
                             >
                                 <a
                                     class="page-link"
-                                    th:href="@{/products(page=${i}, categoryId=${selectedCategoryId})}"
+                                    th:href="@{/product(page=${i}, categoryId=${selectedCategoryId})}"
                                     th:text="${i}"
                                 ></a>
                             </li>
@@ -301,7 +301,7 @@
                             >
                                 <a
                                     class="page-link"
-                                    th:href="@{/products(page=${currentPage + 1}, categoryId=${selectedCategoryId})}"
+                                    th:href="@{/product(page=${currentPage + 1}, categoryId=${selectedCategoryId})}"
                                     >&raquo;</a
                                 >
                             </li>

@@ -57,7 +57,7 @@ public class ManagementController {
     }
 
     @GetMapping("/productDetail/{id}")
-    public String productDetail(@PathVariable int id, Model model){
+    public String productDetail(@PathVariable Long id, Model model){
         Product product = productService.findById(id);
         if (product == null) {
             return "redirect:/admin/productManagement";

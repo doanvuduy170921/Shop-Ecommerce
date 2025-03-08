@@ -37,13 +37,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResp getProductById(int id) {
+    public ProductResp getProductById(Long id) {
         // TODO Auto-generated method stub
         return ProductMapper.toProductResp(productRepository.findById(id).orElse(null));
     }
 
     @Override
-    public Map<String, Object> getAttributesByProductId(int productId) {
+    public Map<String, Object> getAttributesByProductId(Long productId) {
         // TODO Auto-generated method stub
         List<ProductAttribute> productAttributes = productAttributeRepository.findAllByProductId(productId);
         return productAttributes.stream().collect(Collectors.toMap(
@@ -59,13 +59,13 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
     @Override
-    public Product findById(int id) {
+    public Product findById(Long id) {
         Optional<Product> product = productRepository.findById(id);
         return product.orElse(null);
     }
 
     @Override
-    public List<String> getImagesByProductId(int productId) {
+    public List<String> getImagesByProductId(Long productId) {
         // TODO Auto-generated method stub
         List<String> images = productImageRepository.findByProductId(productId).stream()
             .map(productImage -> productImage.getImageUrl())
