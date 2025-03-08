@@ -15,6 +15,7 @@ import com.example.ShopEcommerce.dto.resp.ProductResp;
 import com.example.ShopEcommerce.entity.ProductAttribute;
 import com.example.ShopEcommerce.mapper.ProductMapper;
 import com.example.ShopEcommerce.repository.ProductAttributeRepository;
+import com.example.ShopEcommerce.repository.ProductImageRepository;
 import com.example.ShopEcommerce.repository.ProductRepository;
 import com.example.ShopEcommerce.service.ProductService;
 
@@ -26,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductAttributeRepository productAttributeRepository;
+    private final ProductImageRepository productImageRepository;
 
     @Override
     public Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size) {
@@ -60,5 +62,18 @@ public class ProductServiceImpl implements ProductService {
     public Product findById(int id) {
         Optional<Product> product = productRepository.findById(id);
         return product.orElse(null);
+    }
+
+    @Override
+    public List<String> getImagesByProductId(int productId) {
+        // TODO Auto-generated method stub
+        List<String> images = productImageRepository.findByProductId(productId).stream()
+            .map(productImage -> productImage.getImageUrl())
+            .collect(Collectors.toList());
+        images.add(0, productRepository
+            .findById(productId)
+            .map(product -> product.getThumbnail())
+            .orElse(null));
+        return images;
     }
 }

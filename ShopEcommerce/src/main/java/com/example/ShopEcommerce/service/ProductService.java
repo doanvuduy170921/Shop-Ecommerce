@@ -16,4 +16,5 @@ public interface ProductService {
     Map<String, Object> getAttributesByProductId(int productId);
     List<Product> searchProducts(String keyword);
     Product findById(int id);
+    List<String> getImagesByProductId(int productId);
 }

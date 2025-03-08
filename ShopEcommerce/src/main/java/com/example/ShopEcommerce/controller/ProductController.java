@@ -60,6 +60,13 @@ public class ProductController {
     public String getProductDetail(@RequestParam int id, Model model) {
         ProductResp product = productService.getProductById(id);
         Map<String, Object> attributes = productService.getAttributesByProductId(id);
+        List<String> images = productService.getImagesByProductId(id);
+        if (images.size() == 1) {
+            for (int i = 0; i < 5; i++) {
+                images.add("https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp");
+            }
+        }
+        model.addAttribute("images", images);
         model.addAttribute("product", product);
         model.addAttribute("attributes", attributes);
         return "shop/ItemDetails";
