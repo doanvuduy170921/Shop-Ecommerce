@@ -101,21 +101,6 @@
                     </div>
                 </nav>
 
-                <div class="dropdown">
-<!--                    <a href="#" class="header-low_icon text-black mx-2 dropdown-toggle" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                        <i class="fa fa-user"></i>-->
-<!--                        <span th:if="${session.user}" th:text="${session.user.name}"></span>-->
-<!--                    </a>-->
-                    <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-                        <li th:if="${session.user}">
-<!--                            <a class="dropdown-item text-center btn btn-danger" th:href="@{/infoAccount/{id}(id=${session.user.id})}">Thông tin tài khoản</a>-->
-                            <a class="dropdown-item text-center btn btn-danger" th:href="@{/logout}">Đăng xuất</a>
-                        </li>
-                        <li th:unless="${session.user}">
-                            <a class="dropdown-item text-center btn btn-primary" th:href="@{/login}">Đăng nhập</a>
-                        </li>
-                    </ul>
-                </div>
 
 
 
@@ -136,6 +121,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                             <li th:if="${session.user}">
+                                <a class="dropdown-item text-center btn btn-danger" th:href="@{/infoAccount/{id}(id=${session.user.id})}">Thông tin tài khoản</a>
                                 <a class="dropdown-item btn btn-danger" th:href="@{/logout}">Đăng xuất</a>
                             </li>
                             <li th:unless="${session.user}">

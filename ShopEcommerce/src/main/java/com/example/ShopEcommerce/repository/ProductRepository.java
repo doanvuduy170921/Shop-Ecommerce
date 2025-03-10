@@ -18,4 +18,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByNameContainingIgnoreCase(String name);
     @Query("SELECT p FROM Product p WHERE p.category.id = ?1")
     Page<Product> findAllByCategoryId(int categoryId, Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
 }

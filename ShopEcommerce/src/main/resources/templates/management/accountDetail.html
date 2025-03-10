@@ -34,7 +34,7 @@
 		</nav>
 
 		<div class="logout">
-			<a href="#">Logout</a>
+			<a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>
 		</div>
 	</aside>
 
@@ -88,9 +88,9 @@
 						<span class="back-icon"></span> Quay lại
 					</button>
 				</a>
-				<button class="delete-btn-large" onclick="openModal()">
-					<span class="delete-icon"></span> Khóa
-				</button>
+<!--				<button class="delete-btn-large" onclick="openModal()">-->
+<!--					<span class="delete-icon"></span> Khóa-->
+<!--				</button>-->
 			</div>
 		</div>
 	</main_admin>
@@ -105,9 +105,9 @@
 			<!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
 			<!--                <button class="delete-btn-large">Xóa</button>-->
 			<!--            </a>-->
-			<a>
-				<button class="delete-btn-large">Xóa</button>
-			</a>
+<!--			<a>-->
+<!--				<button class="delete-btn-large">Khóa</button>-->
+<!--			</a>-->
 		</div>
 	</div>
 </div>

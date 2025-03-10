@@ -1,12 +1,12 @@
 .container_infoUser {
     display: flex;
-    margin-top: 60px;
     background-color: #f5f5f5;
 }
 
 .content_infoUser {
     flex: 1;
     padding: 20px;
+    margin-top: 250px;
 }
 .content_infoUser_body {
     width: 80%;
