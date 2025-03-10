@@ -51,7 +51,7 @@ public class ManagementController {
     @GetMapping("/productManagement")
     public String productManagement(@RequestParam(name = "keyword", required = false) String keyword,
                                     @RequestParam(name = "page", defaultValue = "1") int page,
-                                    @RequestParam(name = "size", defaultValue = "5") int size,
+                                    @RequestParam(name = "size", defaultValue = "10") int size,
                                     Model model){
 
         Pageable pageable = PageRequest.of(page - 1, size);
@@ -136,7 +136,7 @@ public class ManagementController {
     @GetMapping("/accountManagement")
     public String accountManagement(@RequestParam(name = "keyword", required = false) String keyword,
                                     @RequestParam(name = "page", defaultValue = "1") int page,
-                                    @RequestParam(name = "size", defaultValue = "5") int size,
+                                    @RequestParam(name = "size", defaultValue = "10") int size,
                                     Model model) {
 //        List<User> users = userService.searchUsers(keyword);
         Pageable pageable = PageRequest.of(page - 1, size);

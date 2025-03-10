@@ -1,7 +1,10 @@
 package com.example.ShopEcommerce.controller;
 
+import com.example.ShopEcommerce.entity.Product;
+import com.example.ShopEcommerce.entity.ProductImage;
 import com.example.ShopEcommerce.entity.User;
 import com.example.ShopEcommerce.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 public class ProfileController {
@@ -78,6 +83,18 @@ public class ProfileController {
 
         redirectAttributes.addFlashAttribute("success", "Cập nhật tài khoản thành công!");
         return "redirect:/updateAccount/" + id;
+    }
+
+    @PostMapping("/infoAccount/deactivate/{id}")
+    public String deactivateUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            userService.deactivateUser(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Tài khoản đã xóa thành công");
+            return "redirect:/login";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Lỗi khi xóa tài khoản: " + e.getMessage());
+            return "redirect:/infoAccount/" + id;
+        }
     }
 }
 

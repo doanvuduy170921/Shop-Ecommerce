@@ -101,6 +101,7 @@ nav a {
 .content_admin_body {
     width: 80%;
     margin: 0 auto;
+    height: 60%;
 }
 
 .content-header-admin {
@@ -266,6 +267,17 @@ td:last-child {
 
 .addProduct-btn:hover {
     background-color: #45a049;
+}
+.pagination-container {
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    height: 30%;
 }
 
 

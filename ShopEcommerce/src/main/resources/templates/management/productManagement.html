@@ -11,16 +11,15 @@
 </head>
 <body>
 
-<header_admin>
-    <div class="logo-container_admin">
-        <img src="logo.png" alt="Logo" class="logo_admin">
-    </div>
-    <div class="user-profile">
-        <img src="user-icon.png" alt="User" class="user-icon_admin">
-    </div>
-</header_admin>
-<!--<th:block th:replace="component/header.html"></th:block>-->
-
+<!--<header_admin>-->
+<!--    <div class="logo-container_admin">-->
+<!--        <img src="logo.png" alt="Logo" class="logo_admin">-->
+<!--    </div>-->
+<!--    <div class="user-profile">-->
+<!--        <img src="user-icon.png" alt="User" class="user-icon_admin">-->
+<!--    </div>-->
+<!--</header_admin>-->
+<th:block th:insert="~{component/header-admin}" />
 
 <div class="container_admin">
     <aside class="sidebar">
@@ -95,7 +94,7 @@
             </div>
 
         </div>
-        <div class="d-flex justify-content-center mt-4">
+        <div class="pagination-container">
             <nav>
                 <ul class="pagination">
                     <li th:classappend="${currentPage == 1} ? 'disabled'">
