@@ -62,13 +62,6 @@ public class ProfileController {
         existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
         existingUser.setEmail(updatedUser.getEmail());
 
-//        // ✅ Xử lý cập nhật ảnh đại diện (nếu có)
-//        if (avatarFile != null && !avatarFile.isEmpty()) {
-//            String avatarPath = fileStorageService.saveFile(avatarFile); // Lưu ảnh và lấy đường dẫn
-//            existingUser.setAvatar(avatarPath);
-//        }
-
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (newPassword != null && !newPassword.isEmpty()) {
             if (!passwordEncoder.matches(oldPassword, existingUser.getPassword())) {
                 redirectAttributes.addFlashAttribute("error", "Mật khẩu cũ không đúng!");

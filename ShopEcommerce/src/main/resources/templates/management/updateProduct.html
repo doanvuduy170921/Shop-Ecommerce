@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/css/addProduct.css}">
     <link rel="stylesheet" href="../../static/css/management.css">
     <link rel="stylesheet" href="../../static/css/addProduct.css">
+    <link rel="stylesheet" th:href="@{/css/updateProduct.css}">
 </head>
 <body>
 
@@ -21,8 +22,6 @@
         <img src="user-icon.png" alt="User" class="user-icon_admin">
     </div>
 </header_admin>
-
-<!--<th:block th:replace="component/header.html"></th:block>-->
 
 <div class="container_admin">
     <aside class="sidebar">
@@ -47,37 +46,47 @@
         <div class="content_admin_body">
             <div class="form-container">
 
-                <form id="addProductForm" action="addProduct" method="post" enctype="multipart/form-data">
+                <form id="addProductForm" th:action="@{/admin/updateProduct/{id}(id=${product.id})}" th:object="${product}" method="post" enctype="multipart/form-data" >
                     <div class="form-group">
                         <label for="name">Tên sản phẩm:</label>
-                        <input type="text" id="name" name="name" class="form-control" required>
+                        <input type="text" id="name" th:field="*{name}" name="name" class="form-control" required>
                     </div>
 
                     <div class="form-group">
                         <label for="type">Loại:</label>
-                        <select id="type" name="type" class="form-select">
-                            <option value="">Chọn loại</option>
+                        <select id="type" name="category_id" class="form-select" >
+                            <option value="" >Chọn loại</option>
+                            <option th:each="category : ${categories}"
+                                    th:value="${category.id}"
+                                    th:text="${category.name}"
+                                    th:selected="${category.id == product.category.id}">
+                            </option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="description">Mô tả:</label>
-                        <textarea id="description" name="description" class="form-textarea"></textarea>
+                        <textarea id="description" name="description" th:field="*{description}" class="form-textarea"></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="price">Giá:</label>
-                        <input type="number" id="price" name="price" class="form-control" min="0" step="1000" required>
+                        <input type="text" inputmode="decimal" pattern="[0-9,\.]*" id="price" name="price" class="form-control" min="0" step="1000" th:field="*{price}" required>
                     </div>
 
+                    <!-- Phần hiển thị ảnh sản phẩm -->
                     <div class="form-group">
                         <label>Ảnh:</label>
                         <div style="flex-grow: 1;">
                             <div class="image-container">
-                                <div class="image-box">
-                                    <img src="placeholder-image.jpg" alt="Product Image">
-                                    <button type="button" class="remove-image">×</button>
+                                <!-- Hiển thị các ảnh đã có từ DB -->
+                                <div th:each="image : ${product.productImages}" class="image-box" th:data-image-id="${image.id}" data-file-type="image">
+                                    <img th:src="@{${image.imageUrl}}" alt="Product Image">
+                                    <button type="button" class="remove-image" onclick="removeExistingImage(this)">×</button>
+                                    <input type="hidden" name="existingImages" th:value="${image.id}">
                                 </div>
+
+                                <!-- Nút thêm ảnh mới -->
                                 <div class="image-box add-image">
                                     <span>+</span>
                                     <input type="file" id="imageUpload" name="images" multiple style="display: none;">
@@ -85,25 +94,31 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Phần hiển thị ảnh thumbnail -->
                     <div class="form-group">
-                        <label>Ảnh thumnal:</label>
+                        <label>Ảnh thumbnail:</label>
                         <div style="flex-grow: 1;">
-                            <div class="image-container">
-                                <div class="image-box">
-                                    <img src="placeholder-image.jpg" alt="Product Image">
-                                    <button type="button" class="remove-image">×</button>
+                            <div class="thumbnail-container">
+                                <!-- Hiển thị thumbnail đã có -->
+                                <div th:if="${product.thumbnail != null && !product.thumbnail.isEmpty()}" class="image-box" data-file-type="thumbnail">
+                                    <img th:src="@{${product.thumbnail}}" alt="Thumbnail">
+                                    <button type="button" class="remove-image" onclick="removeExistingThumbnail(this)">×</button>
+                                    <input type="hidden" name="existingThumbnail" th:value="${product.thumbnail}">
                                 </div>
+
+                                <!-- Nút thêm thumbnail mới -->
                                 <div class="image-box add-image">
                                     <span>+</span>
-                                    <input type="file" id="thumnal-imageUpload" name="images" multiple style="display: none;">
+                                    <input type="file" id="thumbnailUpload" name="thumbnail" style="display: none;">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--                    <div class="form-group">-->
-                    <!--                        <label for="quantity">Số lượng:</label>-->
-                    <!--                        <input type="number" id="quantity" name="quantity" class="form-control" min="0" required>-->
-                    <!--                    </div>-->
+
+                    <!-- Thêm input ẩn để lưu danh sách ảnh đã xóa -->
+                    <input type="hidden" name="removedImageIds" id="removedImageIds" value="">
+                    <input type="hidden" name="removeThumbnail" id="removeThumbnail" value="false">
 
                     <div class="button-group">
                         <button type="submit" class="btn btn-primary mt-3 mr-2">Lưu</button>
@@ -117,24 +132,225 @@
 </div>
 
 <script>
-    // JavaScript to handle image upload and preview
-    document.querySelector('.add-image').addEventListener('click', function() {
+    // Mảng toàn cục để lưu trữ các file ảnh đã chọn
+    let selectedImages = [];
+    let selectedThumbnails = [];
+    let removedImageIds = [];
+    let thumbnailRemoved = false;
+
+    // Theo dõi file đã tải lên
+    document.getElementById('imageUpload').addEventListener('change', function(event) {
+        // Thêm các file mới vào mảng
+        Array.from(event.target.files).forEach(file => {
+            selectedImages.push(file);
+        });
+
+        // Hiển thị preview
+        handleImageUpload(event, '.image-container', selectedImages, 'image');
+
+        // Cập nhật input ẩn
+        updateHiddenInputs();
+    });
+
+    document.getElementById('thumbnailUpload').addEventListener('change', function(event) {
+        // Xóa thumbnail cũ nếu có
+        const thumbnailBoxes = document.querySelectorAll('.thumbnail-container .image-box:not(.add-image)');
+        thumbnailBoxes.forEach(box => {
+            if (!box.classList.contains('add-image')) {
+                box.remove();
+            }
+        });
+
+        // Reset mảng và thêm file mới
+        selectedThumbnails = [];
+        if (event.target.files.length > 0) {
+            selectedThumbnails.push(event.target.files[0]);
+        }
+
+        // Hiển thị preview
+        handleImageUpload(event, '.thumbnail-container', selectedThumbnails, 'thumbnail');
+
+        // Cập nhật input ẩn
+        updateHiddenInputs();
+    });
+
+    function handleImageUpload(event, containerSelector, fileArray, fileType) {
+        let files = event.target.files;
+        let container = document.querySelector(containerSelector);
+
+
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i];
+            let reader = new FileReader();
+
+            // Lưu chỉ mục của file trong mảng để có thể xóa sau này
+            let fileIndex = fileArray.indexOf(file);
+
+            reader.onload = function(e) {
+                let imageBox = document.createElement('div');
+                imageBox.classList.add('image-box');
+                imageBox.dataset.fileIndex = fileIndex;
+                imageBox.dataset.fileType = fileType;
+
+                let img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = 'Uploaded Image';
+
+                let removeBtn = document.createElement('button');
+                removeBtn.innerHTML = '×';
+                removeBtn.type = 'button'; // Đảm bảo nút không submit form
+                removeBtn.classList.add('remove-image');
+                removeBtn.onclick = function() {
+                    // Xóa file khỏi mảng
+                    if (fileType === 'image') {
+                        selectedImages.splice(parseInt(imageBox.dataset.fileIndex), 1);
+                    } else {
+                        selectedThumbnails.splice(parseInt(imageBox.dataset.fileIndex), 1);
+                    }
+
+                    // Xóa phần tử hiển thị
+                    imageBox.remove();
+
+                    // Cập nhật lại chỉ mục cho tất cả các phần tử còn lại
+                    updateFileIndices(container, fileType);
+
+                    // Cập nhật input ẩn
+                    updateHiddenInputs();
+                };
+
+                imageBox.appendChild(img);
+                imageBox.appendChild(removeBtn);
+                container.insertBefore(imageBox, container.querySelector('.add-image'));
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Hàm cập nhật lại chỉ mục cho các phần tử còn lại sau khi xóa
+    function updateFileIndices(container, fileType) {
+        let imageBoxes = container.querySelectorAll(`.image-box[data-file-type="${fileType}"]`);
+        imageBoxes.forEach((box, index) => {
+            if (box.dataset.fileIndex) {
+                box.dataset.fileIndex = index;
+            }
+        });
+    }
+
+    // Xóa ảnh đã tồn tại trong DB
+    function removeExistingImage(button) {
+        const imageBox = button.parentNode;
+        const imageId = imageBox.getAttribute('data-image-id');
+
+        // Thêm ID của ảnh vào danh sách ảnh cần xóa
+        if (imageId) {
+            removedImageIds.push(imageId);
+            document.getElementById('removedImageIds').value = removedImageIds.join(',');
+        }
+
+        // Xóa box hiển thị
+        imageBox.remove();
+    }
+
+    // Xóa thumbnail đã tồn tại
+    function removeExistingThumbnail(button) {
+        const imageBox = button.parentNode;
+
+        // Đánh dấu thumbnail cần xóa
+        thumbnailRemoved = true;
+        document.getElementById('removeThumbnail').value = 'true';
+
+        // Xóa box hiển thị
+        imageBox.remove();
+    }
+
+    // Thêm các input ẩn vào form để lưu trữ file
+    function updateHiddenInputs() {
+        // Cập nhật input file cho images
+        const oldImagesInput = document.getElementById('imageUpload');
+        const newImagesInput = document.createElement('input');
+        newImagesInput.type = 'file';
+        newImagesInput.id = 'imageUpload';
+        newImagesInput.name = 'images';
+        newImagesInput.multiple = true;
+        newImagesInput.style.display = 'none';
+
+        // Thêm các file đã chọn vào input mới
+        if (selectedImages.length > 0) {
+            const dataTransfer = new DataTransfer();
+            selectedImages.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+            newImagesInput.files = dataTransfer.files;
+        }
+
+        // Thay thế input cũ bằng input mới
+        oldImagesInput.parentNode.replaceChild(newImagesInput, oldImagesInput);
+
+        // Cập nhật event listener cho input mới
+        newImagesInput.addEventListener('change', function(event) {
+            Array.from(event.target.files).forEach(file => {
+                selectedImages.push(file);
+            });
+            handleImageUpload(event, '.image-container', selectedImages, 'image');
+            updateHiddenInputs();
+        });
+
+        // Làm tương tự cho thumbnail
+        const oldThumbnailInput = document.getElementById('thumbnailUpload');
+        const newThumbnailInput = document.createElement('input');
+        newThumbnailInput.type = 'file';
+        newThumbnailInput.id = 'thumbnailUpload';
+        newThumbnailInput.name = 'thumbnails';
+        newThumbnailInput.style.display = 'none';
+
+        if (selectedThumbnails.length > 0) {
+            const dataTransfer = new DataTransfer();
+            selectedThumbnails.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+            newThumbnailInput.files = dataTransfer.files;
+        }
+
+        oldThumbnailInput.parentNode.replaceChild(newThumbnailInput, oldThumbnailInput);
+
+        newThumbnailInput.addEventListener('change', function(event) {
+            // Chỉ cho phép một thumbnail duy nhất
+            selectedThumbnails = [];
+            if (event.target.files.length > 0) {
+                selectedThumbnails.push(event.target.files[0]);
+            }
+
+            // Xóa thumbnail cũ
+            const thumbnailBoxes = document.querySelectorAll('.thumbnail-container .image-box:not(.add-image)');
+            thumbnailBoxes.forEach(box => {
+                if (!box.classList.contains('add-image')) {
+                    box.remove();
+                }
+            });
+
+            handleImageUpload(event, '.thumbnail-container', selectedThumbnails, 'thumbnail');
+            updateHiddenInputs();
+        });
+    }
+
+    // Xử lý khi click vào ô "Thêm ảnh"
+    document.querySelector('.image-container .add-image').addEventListener('click', function() {
         document.getElementById('imageUpload').click();
     });
 
-    document.getElementById('imageUpload').addEventListener('change', function(event) {
-        // Code to handle image preview would go here
-        console.log('Files selected:', event.target.files);
-        // In a real implementation, you would create new image boxes with previews
+    document.querySelector('.thumbnail-container .add-image').addEventListener('click', function() {
+        document.getElementById('thumbnailUpload').click();
     });
 
-    // Remove image functionality
-    document.querySelectorAll('.remove-image').forEach(button => {
-        button.addEventListener('click', function() {
-            this.closest('.image-box').remove();
-        });
+    // Khi form submit, đảm bảo cập nhật input ẩn lần cuối
+    document.getElementById('addProductForm').addEventListener('submit', function() {
+        // Cập nhật input ẩn trước khi submit
+        updateHiddenInputs();
+        // Cho phép form submit bình thường
+        return true;
     });
 </script>
-
 </body>
 </html>
+

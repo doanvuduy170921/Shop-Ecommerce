@@ -9,7 +9,6 @@
     <link rel="stylesheet" th:href="@{/css/management.css}">
     <link rel="stylesheet" href="../../static/css/management.css">
     <link rel="stylesheet" th:href="@{/css/productDetail.css}">
-    <link rel="stylesheet" th:href="@{/css/updateProduct.css}">
 </head>
 <body>
 
@@ -49,7 +48,7 @@
         <div class="content_admin_body">
             <div class="product-details">
                 <div class="product-images">
-                    <img th:src="@{${'https://clickbuy.com.vn/uploads/images/tin%20tuc/Diep/%C4%91i%E1%BB%87n-tho%E1%BA%A1i-di-%C4%91%E1%BB%99ng-8.jpg'}}" class="product-image" alt="">
+                    <img th:src="@{${product.thumbnail}}" class="product-image-thumbnail" alt="">
                     <th:block th:each="image : ${product.productImages}">
                         <img th:src="@{${image.imageUrl}}" class="product-image" alt="Product Image">
                     </th:block>
@@ -73,7 +72,7 @@
                     </tr>
                     <tr>
                         <th>Loại:</th>
-                        <td th:text="${product.category.id}"></td>
+                        <td th:text="${product.category.name}"></td>
                     </tr>
                 </table>
             </div>
@@ -89,8 +88,8 @@
                         <span class="edit-icon"></span> Chỉnh sửa
                     </button>
                 </a>
-                <form th:action="@{/admin/productManagement/delete/{id}(id=${product.id})}" method="post" style="display:inline;" class="delete-form">
-                    <button class="delete-btn-large" onclick="confirmDelete(this)">
+                <form th:action="@{/admin/productManagement/delete/{id}(id=${product.id})}" method="post" style="display:inline;" class="delete-form" id="deleteForm">
+                    <button type="button" class="delete-btn-large" onclick="confirmDelete(this)">
                         <span class="delete-icon"></span> Xóa
                     </button>
                 </form>
@@ -103,24 +102,26 @@
         <p>Bạn có chắc chắn muốn xóa sản phẩm này không?</p>
         <div class="modal-buttons">
             <button class="back-btn" onclick="closeModal()">Hủy</button>
-            <!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
-            <!--                <button class="delete-btn-large">Xóa</button>-->
-            <!--            </a>-->
-            <a>
-                <button class="delete-btn-large">Xóa</button>
-            </a>
+            <button class="delete-btn-large" onclick="submitDeleteForm()">Xóa</button>
+<!--            <a>-->
+<!--                <button class="delete-btn-large">Xóa</button>-->
+<!--            </a>-->
         </div>
     </div>
 </div>
 
 <script>
-    // Modal functions
     function openModal() {
         document.getElementById('deleteModal').style.display = 'block';
     }
 
     function closeModal() {
         document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    function submitDeleteForm() {
+        document.getElementById('deleteForm').submit();
+        closeModal();
     }
 
     // Close modal if user clicks outside of it
@@ -133,6 +134,9 @@
     function confirmDelete(button) {
         if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
             button.closest('.delete-form').submit();
+        } else {
+            // Không làm gì cả khi người dùng chọn "Hủy"
+            console.log('Đã hủy việc xóa sản phẩm');
         }
     }
 </script>

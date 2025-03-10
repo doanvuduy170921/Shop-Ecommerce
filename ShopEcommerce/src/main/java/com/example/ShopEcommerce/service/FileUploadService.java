@@ -14,19 +14,8 @@ import java.util.UUID;
 
 @Service
 public class FileUploadService {
-//    private static final String UPLOAD_DIR = "uploads/";
-//    public String uploadFile(MultipartFile file) throws IOException {
-//        File uploadDir = new File(UPLOAD_DIR);
-//        if (!uploadDir.exists()) {
-//            uploadDir.mkdirs(); // Tạo thư mục
-//        }
-//        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-//        Path filePath = Paths.get("uploads/" + fileName);
-//        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-//        return "/uploads/" + fileName;
-//    }
 
-    private final String uploadDir = "src/main/resources/static/uploads/";
+    private final String uploadDir = "D:/upload/";
 
     public String saveFile(MultipartFile file) throws IOException {
         if (file == null || file.isEmpty()) {
@@ -53,7 +42,6 @@ public class FileUploadService {
     public void deleteFile(String filePath) {
         if (filePath != null && !filePath.isEmpty()) {
             try {
-                // Loại bỏ phần đầu '/uploads/' để lấy tên file
                 String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
                 Path file = Paths.get(uploadDir + fileName);
                 Files.deleteIfExists(file);

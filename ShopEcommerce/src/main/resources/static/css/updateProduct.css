@@ -1,14 +1,46 @@
-
-.edit-btn-large {
-    padding: 8px 16px;
-    background-color: #ffc107;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
+.image-box {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    margin: 5px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.edit-btn-large:hover {
-    background-color: #e0a800;
+.image-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.remove-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.image-container, .thumbnail-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.add-image {
+    cursor: pointer;
+    background-color: #f8f9fa;
+    font-size: 24px;
 }

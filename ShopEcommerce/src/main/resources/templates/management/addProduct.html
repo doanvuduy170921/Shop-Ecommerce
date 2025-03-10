@@ -78,7 +78,7 @@
 
                     <div class="form-group">
                         <label for="price">Giá:</label>
-                        <input type="number" id="price" name="price" class="form-control" required>
+                        <input type="text" inputmode="decimal" pattern="[0-9,\.]*" id="price" name="price" class="form-control" required>
                     </div>
 
                     <div class="form-group">
@@ -89,7 +89,7 @@
 <!--                                    <img src="placeholder-image.jpg" alt="Product Image">-->
 <!--                                    <button type="button" class="remove-image">×</button>-->
 <!--                                </div>-->
-                                <div class="image-box add-image" onclick="document.getElementById('imageUpload').click();">
+                                <div class="image-box add-image">
                                     <span>+</span>
                                     <input type="file" id="imageUpload" name="images" multiple style="display: none;">
                                 </div>
@@ -97,10 +97,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Ảnh thumnal:</label>
+                        <label>Ảnh thumbnal:</label>
                         <div style="flex-grow: 1;">
                             <div class="thumbnail-container">
-                                <div class="image-box add-image" onclick="document.getElementById('thumbnailUpload').click();">
+                                <div class="image-box add-image">
                                     <span>+</span>
                                     <input type="file" id="thumbnailUpload" name="thumbnail" multiple style="display: none;">                                </div>
                             </div>
@@ -119,27 +119,53 @@
 </div>
 
 <script>
+    // Mảng toàn cục để lưu trữ các file ảnh đã chọn
+    let selectedImages = [];
+    let selectedThumbnails = [];
 
+    // Theo dõi file đã tải lên
     document.getElementById('imageUpload').addEventListener('change', function(event) {
-        handleImageUpload(event, '.image-container');
+        // Thêm các file mới vào mảng
+        Array.from(event.target.files).forEach(file => {
+            selectedImages.push(file);
+        });
+
+        // Hiển thị preview
+        handleImageUpload(event, '.image-container', selectedImages, 'image');
+
+        // Cập nhật input ẩn
+        updateHiddenInputs();
     });
 
     document.getElementById('thumbnailUpload').addEventListener('change', function(event) {
-        handleImageUpload(event, '.thumbnail-container');
+        // Thêm các file mới vào mảng
+        Array.from(event.target.files).forEach(file => {
+            selectedThumbnails.push(file);
+        });
+
+        // Hiển thị preview
+        handleImageUpload(event, '.thumbnail-container', selectedThumbnails, 'thumbnail');
+
+        // Cập nhật input ẩn
+        updateHiddenInputs();
     });
 
-    function handleImageUpload(event, containerSelector) {
+    function handleImageUpload(event, containerSelector, fileArray, fileType) {
         let files = event.target.files;
         let container = document.querySelector(containerSelector);
-
 
         for (let i = 0; i < files.length; i++) {
             let file = files[i];
             let reader = new FileReader();
 
+            // Lưu chỉ mục của file trong mảng để có thể xóa sau này
+            let fileIndex = fileArray.indexOf(file);
+
             reader.onload = function(e) {
                 let imageBox = document.createElement('div');
                 imageBox.classList.add('image-box');
+                imageBox.dataset.fileIndex = fileIndex;
+                imageBox.dataset.fileType = fileType;
 
                 let img = document.createElement('img');
                 img.src = e.target.result;
@@ -147,9 +173,24 @@
 
                 let removeBtn = document.createElement('button');
                 removeBtn.innerHTML = '×';
+                removeBtn.type = 'button'; // Đảm bảo nút không submit form
                 removeBtn.classList.add('remove-image');
                 removeBtn.onclick = function() {
+                    // Xóa file khỏi mảng
+                    if (fileType === 'image') {
+                        selectedImages.splice(parseInt(imageBox.dataset.fileIndex), 1);
+                    } else {
+                        selectedThumbnails.splice(parseInt(imageBox.dataset.fileIndex), 1);
+                    }
+
+                    // Xóa phần tử hiển thị
                     imageBox.remove();
+
+                    // Cập nhật lại chỉ mục cho tất cả các phần tử còn lại
+                    updateFileIndices(container, fileType);
+
+                    // Cập nhật input ẩn
+                    updateHiddenInputs();
                 };
 
                 imageBox.appendChild(img);
@@ -161,16 +202,94 @@
         }
     }
 
+    // Hàm cập nhật lại chỉ mục cho các phần tử còn lại sau khi xóa
+    function updateFileIndices(container, fileType) {
+        let imageBoxes = container.querySelectorAll(`.image-box[data-file-type="${fileType}"]`);
+        imageBoxes.forEach((box, index) => {
+            box.dataset.fileIndex = index;
+        });
+    }
+
+    // Thêm các input ẩn vào form để lưu trữ file
+    function updateHiddenInputs() {
+        // Xóa tất cả input ẩn cũ
+        document.querySelectorAll('input[name="real_images"], input[name="real_thumbnail"]').forEach(el => el.remove());
+
+        // Tạo input file ẩn mới cho images
+        const form = document.getElementById('addProductForm');
+
+        // Xóa input file gốc và tạo mới để reset
+        const oldImagesInput = document.getElementById('imageUpload');
+        const newImagesInput = document.createElement('input');
+        newImagesInput.type = 'file';
+        newImagesInput.id = 'imageUpload';
+        newImagesInput.name = 'images';
+        newImagesInput.multiple = true;
+        newImagesInput.style.display = 'none';
+
+        // Thêm các file đã chọn vào input mới
+        if (selectedImages.length > 0) {
+            const dataTransfer = new DataTransfer();
+            selectedImages.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+            newImagesInput.files = dataTransfer.files;
+        }
+
+        // Thay thế input cũ bằng input mới
+        oldImagesInput.parentNode.replaceChild(newImagesInput, oldImagesInput);
+
+        // Cập nhật event listener cho input mới
+        newImagesInput.addEventListener('change', function(event) {
+            Array.from(event.target.files).forEach(file => {
+                selectedImages.push(file);
+            });
+            handleImageUpload(event, '.image-container', selectedImages, 'image');
+            updateHiddenInputs();
+        });
+
+        // Làm tương tự cho thumbnail
+        const oldThumbnailInput = document.getElementById('thumbnailUpload');
+        const newThumbnailInput = document.createElement('input');
+        newThumbnailInput.type = 'file';
+        newThumbnailInput.id = 'thumbnailUpload';
+        newThumbnailInput.name = 'thumbnail';
+        newThumbnailInput.style.display = 'none';
+
+        if (selectedThumbnails.length > 0) {
+            const dataTransfer = new DataTransfer();
+            selectedThumbnails.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+            newThumbnailInput.files = dataTransfer.files;
+        }
+
+        oldThumbnailInput.parentNode.replaceChild(newThumbnailInput, oldThumbnailInput);
+
+        newThumbnailInput.addEventListener('change', function(event) {
+            Array.from(event.target.files).forEach(file => {
+                selectedThumbnails.push(file);
+            });
+            handleImageUpload(event, '.thumbnail-container', selectedThumbnails, 'thumbnail');
+            updateHiddenInputs();
+        });
+    }
+
     // Xử lý khi click vào ô "Thêm ảnh"
-    document.querySelector('.add-image').addEventListener('click', function() {
-        this.querySelector('input[type="file"]').click();
+    document.querySelector('.image-container .add-image').addEventListener('click', function() {
+        document.getElementById('imageUpload').click();
     });
 
-    // Remove image functionality
-    document.querySelectorAll('.remove-image').forEach(button => {
-        button.addEventListener('click', function() {
-            this.closest('.image-box').remove();
-        });
+    document.querySelector('.thumbnail-container .add-image').addEventListener('click', function() {
+        document.getElementById('thumbnailUpload').click();
+    });
+
+    // Khi form submit, đảm bảo cập nhật input ẩn lần cuối
+    document.getElementById('addProductForm').addEventListener('submit', function() {
+        // Cập nhật input ẩn trước khi submit
+        updateHiddenInputs();
+        // Cho phép form submit bình thường
+        return true;
     });
 </script>
 

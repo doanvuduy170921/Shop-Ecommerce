@@ -38,4 +38,15 @@ public class UserService {
         }
         return userRepository.findAll(pageable);
     }
+
+    public boolean toggleUserStatus(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setIsActive(!user.getIsActive());
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
 }

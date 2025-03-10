@@ -17,10 +17,10 @@
 
 <header_admin>
     <div class="logo-container_admin">
-        <img src="logo.png" alt="Logo" class="logo_admin">
+        <img th:src="@{/logo/logo.png}" alt="" class="logo_admin">
     </div>
     <div class="user-profile">
-        <img src="user-icon.png" alt="User" class="user-icon_admin">
+        <i class="fa-solid fa-user user-icon_admin"></i>
     </div>
 </header_admin>
 
@@ -75,7 +75,11 @@
                             <a th:href="@{/admin/accountDetail/{id}(id=${user.id})}" class="info-btn">
                                 <i class="bi bi-info"></i>
                             </a>
-                            <button class="delete-btn">×</button>
+<!--                            <a href="#" class="delete-btn" th:attr="data-id=${user.id}" onclick="toggleUserStatus(this)">-->
+<!--                                <i class="bi bi-lock-fill" th:classappend="${user.isActive} ? '' : 'text-danger'"></i>-->
+<!--                            </a>-->
+
+<!--                            <button class="delete-btn">×</button>-->
                         </td>
                     </tr>
                     </tbody>
@@ -104,5 +108,21 @@
     </main_admin>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function toggleUserStatus(element) {
+        let userId = element.getAttribute("data-id");
+        fetch(`/admin/toggleUserStatus/${userId}`, { method: "POST" })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "success") {
+                    location.reload(); // Cập nhật lại trang
+                } else {
+                    alert("Có lỗi xảy ra!");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    }
+</script>
+
 </body_admin>
 </html>

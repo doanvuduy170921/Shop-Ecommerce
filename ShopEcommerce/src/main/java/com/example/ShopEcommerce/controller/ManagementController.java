@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,9 +22,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -67,6 +70,12 @@ public class ManagementController {
 //        model.addAttribute("keyword", keyword);
 //        return "management/productManagement";
     }
+
+    @PostMapping("/toggleUserStatus/{id}")
+    public String toggleUserStatus(@PathVariable Long id) {
+        return userService.toggleUserStatus(id) ? "success" : "error";
+    }
+
     @PostMapping("/productManagement/delete/{id}")
     @Transactional
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes){
@@ -76,6 +85,18 @@ public class ManagementController {
             if (product == null) {
                 redirectAttributes.addFlashAttribute("error", "Không tìm thấy sản phẩm với ID: " + id);
                 return "redirect:/admin/productManagement";
+            }
+
+            if (product.getThumbnail() != null && !product.getThumbnail().isEmpty()) {
+                fileUploadService.deleteFile(product.getThumbnail());
+            }
+
+            // Lấy danh sách ảnh của sản phẩm trước khi xóa
+            List<ProductImage> productImages = productImageService.getImagesByProductId(id);
+
+            // Xóa file ảnh từ ổ D:/upload
+            for (ProductImage image : productImages) {
+                fileUploadService.deleteFile(image.getImageUrl());
             }
 
             productImageService.deleteByProductId(id);
@@ -88,6 +109,28 @@ public class ManagementController {
         }
 
         return "redirect:/admin/productManagement";
+    }
+
+    @PostMapping("/deleteProductImage/{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteProductImage(@PathVariable Long id) {
+        try {
+            // Lấy thông tin ảnh
+            ProductImage image = productImageService.findById(id);
+            if (image == null) {
+                return ResponseEntity.status(404).body("Không tìm thấy ảnh");
+            }
+
+            // Xóa file ảnh từ thư mục storage
+            fileUploadService.deleteFile(image.getImageUrl());
+
+            // Xóa record trong database
+            productImageService.deleteByProductId(id);
+
+            return ResponseEntity.ok("Xóa ảnh thành công");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Lỗi xóa ảnh: " + e.getMessage());
+        }
     }
 
     @GetMapping("/accountManagement")
@@ -144,7 +187,7 @@ public class ManagementController {
                               @RequestParam("description") String description,
                               @RequestParam("price") int price,
                               @RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
-                              @RequestParam(value = "images", required = false) List<MultipartFile> images,
+                              @RequestParam(value = "images", required = false) MultipartFile[] images,
                               RedirectAttributes redirectAttributes,
                               Model model) {
         try {
@@ -169,7 +212,7 @@ public class ManagementController {
 
             Product savedProduct = productService.saveProduct(product);
 
-            if (images != null && !images.isEmpty()) {
+            if (images != null && images.length != 0) {
                 for (MultipartFile image : images) {
                     if (!image.isEmpty()) {
                         String imageFileName = fileUploadService.saveFile(image);
@@ -196,13 +239,115 @@ public class ManagementController {
 
 
     @GetMapping("/updateProduct/{id}")
-    public String updateProduct(@PathVariable Long id, Model model){
+    public String updateProduct(@PathVariable("id") Long id, Model model){
         Product product = productService.findById(id);
+        List<CategoryResp> categories = categoryService.getAllCategories();
+
         if (product == null) {
             return "redirect:/admin/updateProduct";
         }
         model.addAttribute("product", product);
+        model.addAttribute("categories", categories);
         return "management/updateProduct";
+    }
+
+    @PostMapping("/updateProduct/{id}")
+    public String updateProduct(
+            @PathVariable Long id,
+            @RequestParam("category_id") int categoryId,
+            @ModelAttribute("product") Product updatedProduct,
+            @RequestParam(value = "images", required = false) MultipartFile[] images,
+            @RequestParam(value = "thumbnails", required = false) MultipartFile thumbnail,
+            @RequestParam(value = "removedImageIds", required = false) String removedImageIds,
+            @RequestParam(value = "removeThumbnail", required = false) String removeThumbnail,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
+        Product existingProduct = productService.findById(id);
+        if (existingProduct == null) {
+            redirectAttributes.addFlashAttribute("error", "Sản phẩm không tồn tại!");
+            return "redirect:/admin/productManagement";
+        }
+
+        // Cập nhật thông tin cơ bản
+        existingProduct.setName(updatedProduct.getName());
+        existingProduct.setPrice(updatedProduct.getPrice());
+        existingProduct.setDescription(updatedProduct.getDescription());
+        existingProduct.setUpdatedAt(LocalDateTime.now());
+
+        // Cập nhật danh mục
+        Category category = categoryService.findCategoryById(categoryId);
+        if (category == null) {
+            throw new RuntimeException("Category không tồn tại");
+        }
+        existingProduct.setCategory(category);
+
+        // Xóa ảnh cũ nếu có yêu cầu
+        if (removedImageIds != null && !removedImageIds.isEmpty()) {
+            String[] imageIds = removedImageIds.split(",");
+            for (String imageIdStr : imageIds) {
+                try {
+                    Long imageId = Long.parseLong(imageIdStr);
+                    ProductImage productImage = productImageService.findById(imageId);
+                    if (productImage != null) {
+                        fileUploadService.deleteFile(productImage.getImageUrl());
+                        // Xóa bản ghi trong database
+                        productImageService.deleteById(imageId);
+                    }
+                } catch (NumberFormatException e) {
+                }
+            }
+        }
+
+        // Xóa thumbnail nếu được yêu cầu
+        if ("true".equals(removeThumbnail)) {
+            if (existingProduct.getThumbnail() != null && !existingProduct.getThumbnail().isEmpty()) {
+                fileUploadService.deleteFile(existingProduct.getThumbnail());
+                existingProduct.setThumbnail(null);
+            }
+        }
+
+        // Xử lý ảnh thumbnail mới
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            try {
+                // Xóa thumbnail cũ nếu có
+                if (existingProduct.getThumbnail() != null && !existingProduct.getThumbnail().isEmpty()) {
+                    fileUploadService.deleteFile(existingProduct.getThumbnail());
+                }
+
+                String thumbnailFileName = fileUploadService.saveFile(thumbnail);
+                existingProduct.setThumbnail(thumbnailFileName);
+            } catch (IOException e) {
+                redirectAttributes.addFlashAttribute("error", "Lỗi khi lưu ảnh thumbnail.");
+                return "redirect:/admin/updateProduct/" + id;
+            }
+        }
+
+        // Lưu sản phẩm với thông tin đã cập nhật
+        Product savedProduct = productService.saveProduct(existingProduct);
+
+        // Xử lý các ảnh mới
+        if (images != null && images.length > 0) {
+            for (MultipartFile image : images) {
+                if (!image.isEmpty()) {
+                    try {
+                        String imageFileName = fileUploadService.saveFile(image);
+                        ProductImage productImage = new ProductImage();
+                        productImage.setImageUrl(imageFileName);
+                        productImage.setProduct(savedProduct);
+                        productImageService.saveproductImage(productImage);
+                    } catch (IOException e) {
+                        redirectAttributes.addFlashAttribute("error", "Lỗi khi lưu ảnh sản phẩm.");
+                        return "redirect:/admin/updateProduct/" + id;
+                    }
+                }
+            }
+        }
+
+        List<CategoryResp> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+        redirectAttributes.addFlashAttribute("success", "Cập nhật sản phẩm thành công!");
+        return "redirect:/admin/productManagement";
     }
 
     @GetMapping("/logoutAdmin")
