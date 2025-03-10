@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import com.example.ShopEcommerce.entity.Product;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import com.example.ShopEcommerce.repository.ProductAttributeRepository;
 import com.example.ShopEcommerce.repository.ProductImageRepository;
 import com.example.ShopEcommerce.repository.ProductRepository;
 import com.example.ShopEcommerce.service.ProductService;
+import com.example.ShopEcommerce.specs.ProductSpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,10 +33,19 @@ public class ProductServiceImpl implements ProductService {
     private final ProductImageRepository productImageRepository;
 
     @Override
-    public Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size) {
+    public Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size, String sortDirection,
+            Integer minPrice, Integer maxPrice) {
         // TODO Auto-generated method stub
-        Pageable pageable = PageRequest.of(page, size);
-        return productRepository.findAllByCategoryId(categoryId, pageable).map(ProductMapper::toProductResp);
+        Sort sort = sortDirection.equalsIgnoreCase("desc") ? Sort.by("price").descending()
+                : Sort.by("price").ascending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        Specification<Product> spec = ProductSpecification.hasPriceBetween(minPrice, maxPrice);
+        if (categoryId > 0) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category").get("id"),
+                    categoryId));
+        }
+
+        return productRepository.findAll(spec, pageable).map(ProductMapper::toProductResp);
     }
 
     @Override
@@ -47,10 +59,10 @@ public class ProductServiceImpl implements ProductService {
         // TODO Auto-generated method stub
         List<ProductAttribute> productAttributes = productAttributeRepository.findAllByProductId(productId);
         return productAttributes.stream().collect(Collectors.toMap(
-            productAttribute -> productAttribute.getAttribute().getName(),
-            ProductAttribute::getValue
-        ));
+                productAttribute -> productAttribute.getAttribute().getName(),
+                ProductAttribute::getValue));
     }
+
     @Override
     public List<Product> searchProducts(String keyword) {
         if (keyword != null && !keyword.isEmpty()) {
@@ -87,12 +99,12 @@ public class ProductServiceImpl implements ProductService {
     public List<String> getImagesByProductId(Long productId) {
         // TODO Auto-generated method stub
         List<String> images = productImageRepository.findByProductId(productId).stream()
-            .map(productImage -> productImage.getImageUrl())
-            .collect(Collectors.toList());
+                .map(productImage -> productImage.getImageUrl())
+                .collect(Collectors.toList());
         images.add(0, productRepository
-            .findById(productId)
-            .map(product -> product.getThumbnail())
-            .orElse(null));
+                .findById(productId)
+                .map(product -> product.getThumbnail())
+                .orElse(null));
         return images;
     }
 }

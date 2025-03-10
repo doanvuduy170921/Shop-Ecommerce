@@ -2,3 +2,8 @@
     text-decoration: none;
     color: #000;
 }
+.item-list .col-md-3 {
+    flex: 1 1 calc(25% - 10px); /* Giữ cho mỗi sản phẩm chiếm 25% width */
+    min-width: 250px; /* Đảm bảo không nhỏ hơn 250px */
+    max-width: 300px; /* Giới hạn kích thước tối đa */
+}
