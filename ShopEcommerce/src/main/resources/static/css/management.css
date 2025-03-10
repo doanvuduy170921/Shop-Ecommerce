@@ -202,6 +202,29 @@ td:last-child {
     font-size: 25px;
 }
 
+.edit-btn {
+    background-color: #ffc107;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.edit-btn:hover {
+    background-color: #e0a800;
+    color: white;
+}
+
+.edit-btn i {
+    font-size: 16px;
+}
+
 .search-btn {
     padding: 8px 16px;
     background-color: #4285F4;

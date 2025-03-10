@@ -25,4 +25,15 @@ public class CategoryServiceImpl implements CategoryService {
         return categories.stream().map(CategoryMapper::toCategoryResp).collect(Collectors.toList());
     }
 
+    @Override
+    public CategoryResp findById(int id) {
+        Category category = categoryRepository.findById(id).orElse(null);
+        return CategoryMapper.toCategoryResp(category);
+    }
+
+    @Override
+    public Category findCategoryById(int id) {
+        return categoryRepository.findById(id).orElse(null);
+    }
+
 }
