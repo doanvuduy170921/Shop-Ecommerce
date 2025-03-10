@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import com.example.ShopEcommerce.dto.resp.ProductResp;
 
 public interface ProductService {
-    Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size);
+    Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size, String sortDirection, Integer minPrice, Integer maxPrice);
     ProductResp getProductById(Long id);
     Map<String, Object> getAttributesByProductId(Long productId);
     List<Product> searchProducts(String keyword);
