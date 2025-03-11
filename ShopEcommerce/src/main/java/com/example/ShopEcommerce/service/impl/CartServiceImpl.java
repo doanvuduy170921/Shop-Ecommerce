@@ -1,6 +1,5 @@
 package com.example.ShopEcommerce.service.impl;
 
-import java.nio.channels.UnsupportedAddressTypeException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -19,19 +18,15 @@ import com.example.ShopEcommerce.service.CartService;
 
 import lombok.RequiredArgsConstructor;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
-
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
     @Override
     public void addToCart(AddToCardReq addToCardReq) {
-        // TODO Auto-generated method stub
 //        User user = userRepository.findById(addToCardReq.getUserId())
 //                .orElseThrow(() -> new RuntimeException("User not found"));
         if(cartRepository.existsCartByProductId(addToCardReq.getProductId())) {
@@ -53,16 +48,9 @@ public class CartServiceImpl implements CartService {
 
     private final Map<Long, Cart> cartItems = new HashMap<>();
 
-    public void addProductToCart(Long productId, int quantity) {
-        cartItems.computeIfPresent(productId, (id, item) -> {
-            item.increaseQuantity(quantity);
-            return item;
-        });
-
-
-        User user = null;
-        Product product = null;
-        cartItems.putIfAbsent(productId, new Cart(product, quantity, user));
+    private User getCurrentUser() {
+        return userRepository.findById(1L) // Giả định userId = 1, thay bằng logic thực tế
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
@@ -70,18 +58,6 @@ public class CartServiceImpl implements CartService {
         cartRepository.deleteById(cart_id);
     }
 
-    @Override
-    public void updateCart(Long cart_id, Integer quantity) {
-        Cart cart = cartRepository.findById(cart_id).orElseThrow(null);
-        cart.setQuantity(cart.getQuantity() + quantity);
-        cartRepository.save(cart);
-    }
-
-    private User getCurrentUser() {
-        return userRepository.findById(1L) // Giả định userId = 1, thay bằng logic thực tế
-                .orElseThrow(() -> new RuntimeException("User not found"));
-    }
-    
     public Collection<Cart> getCartItems() {
         return cartItems.values();
     }
@@ -91,4 +67,21 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findAll();
     }
 
+//    @Override
+//    public void updateCart(Long cart_id, Integer quantity) {
+//        Cart cart = cartRepository.findById(cart_id).orElseThrow(null);
+//        cart.setQuantity(cart.getQuantity() + quantity);
+//        cartRepository.save(cart);
+//    }
+
+
+//    public void addProductToCart(Long productId, int quantity) {
+//        cartItems.computeIfPresent(productId, (id, item) -> {
+//            item.increaseQuantity(quantity);
+//            return item;
+//        });
+//        User user = null;
+//        Product product = null;
+//        cartItems.putIfAbsent(productId, new Cart(product, quantity, user));
+//    }
 }

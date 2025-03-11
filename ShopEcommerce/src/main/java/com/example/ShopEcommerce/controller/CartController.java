@@ -18,6 +18,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/cart")
 public class CartController {
+
+    @Autowired
+    private CartService cartService;
+
     @GetMapping("/carts")
     public String cartPage(Model model) {
         List<Cart> cartList = cartService.findAllCarts();
@@ -25,14 +29,11 @@ public class CartController {
         return "cart/cart"; // Trả về file cart.html
     }
 
-    @Autowired
-    private CartService cartService;
-
-    @PostMapping("/add")
-    public String addToCart(@RequestParam Long productId, @RequestParam int quantity, RedirectAttributes redirectAttributes) {
-        cartService.addProductToCart(productId, quantity);
-        return "redirect:/cart/view"; // Chuyển hướng đến trang giỏ hàng
-    }
+//    @PostMapping("/add")
+//    public String addToCart(@RequestParam Long productId, @RequestParam int quantity, RedirectAttributes redirectAttributes) {
+//        cartService.addProductToCart(productId, quantity);
+//        return "redirect:/cart/view"; // Chuyển hướng đến trang giỏ hàng
+//    }
 
     @GetMapping("/view")
     public String viewCart(Model model) {
@@ -45,7 +46,7 @@ public class CartController {
     public String removeFromCart(@RequestParam("cart_id") Long cart_id, HttpSession session) {
         System.out.println("remove cart");
         cartService.deleteCartById(cart_id);
-    return "redirect:/cart/carts";
+        return "redirect:/cart/carts";
     }
 
 //    @PostMapping("/update")

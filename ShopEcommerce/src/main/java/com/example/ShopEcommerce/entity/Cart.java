@@ -30,12 +30,9 @@ public class Cart {
         this.quantity = quantity;
         this.user = user;
     }
-
-
     public Cart() {
 
     }
-
     public void increaseQuantity(int amount) {
         this.quantity += amount;
     }

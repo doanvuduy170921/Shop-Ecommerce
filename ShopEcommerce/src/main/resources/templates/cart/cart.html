@@ -81,12 +81,14 @@
 <script>
     updateSelectedCount();
 
+    // xu ly +
     function increaseQuantity(button) {
         let input = button.previousElementSibling;
         input.value = parseInt(input.value) + 1;
         updateTotal(input);
     }
 
+    // xu ly -
     function decreaseQuantity(button) {
         let input = button.nextElementSibling;
         if (parseInt(input.value) > 1) {

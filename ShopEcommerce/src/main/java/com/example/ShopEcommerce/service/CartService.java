@@ -10,16 +10,10 @@ import java.util.Map;
 
 public interface CartService {
     void addToCart(AddToCardReq addToCardReq);
-
-    final Map<Long, Cart> cartItems = new HashMap<>();
-
     Collection<Cart> getCartItems();
-
     List<Cart> findAllCarts();
-
-    void addProductToCart(Long productId, int quantity);
-
     void deleteCartById(Long cart_id);
-
-    void updateCart(Long cart_id, Integer quantity);
+//    void addProductToCart(Long productId, int quantity);
+//    final Map<Long, Cart> cartItems = new HashMap<>();
+//    void updateCart(Long cart_id, Integer quantity);
 }
