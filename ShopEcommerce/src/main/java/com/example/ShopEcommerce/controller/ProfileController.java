@@ -88,7 +88,7 @@ public class ProfileController {
     @PostMapping("/infoAccount/deactivate/{id}")
     public String deactivateUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
-            userService.deactivateUser(id);
+            userService.activateUser(id);
             redirectAttributes.addFlashAttribute("successMessage", "Tài khoản đã xóa thành công");
             return "redirect:/login";
         } catch (Exception e) {

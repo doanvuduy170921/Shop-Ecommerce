@@ -1,11 +1,13 @@
 package com.example.ShopEcommerce.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.example.ShopEcommerce.entity.Product;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -106,5 +108,42 @@ public class ProductServiceImpl implements ProductService {
                 .map(product -> product.getThumbnail())
                 .orElse(null));
         return images;
+    }
+
+    @Override
+    public Page<Product> filterProducts(String keyword, String priceRange, Integer categoryId, Pageable pageable) {
+        Specification<Product> spec = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            // Lọc theo từ khóa
+            if (keyword != null && !keyword.isEmpty()) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),
+                        "%" + keyword.toLowerCase() + "%"));
+            }
+
+            // Lọc theo khoảng giá
+            if (priceRange != null && !priceRange.isEmpty()) {
+                switch (priceRange) {
+                    case "under5m":
+                        predicates.add(criteriaBuilder.lessThan(root.get("price"), 5000000));
+                        break;
+                    case "5mto20m":
+                        predicates.add(criteriaBuilder.between(root.get("price"), 5000000, 20000000));
+                        break;
+                    case "above20m":
+                        predicates.add(criteriaBuilder.greaterThan(root.get("price"), 20000000));
+                        break;
+                }
+            }
+
+            // Lọc theo danh mục
+            if (categoryId != null && categoryId > 0) {
+                predicates.add(criteriaBuilder.equal(root.get("category").get("id"), categoryId));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return productRepository.findAll(spec, pageable);
     }
 }

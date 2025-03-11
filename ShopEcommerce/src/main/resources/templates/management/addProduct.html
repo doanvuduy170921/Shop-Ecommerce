@@ -24,20 +24,21 @@
 
 <th:block th:insert="~{component/header-admin}" />
 <div class="container_admin">
-    <aside class="sidebar">
-        <nav>
-            <ul>
-                <li class="nav-header-admin">Admin</li>
-                <li><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>
-                <li><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>
-                <li class="active"><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>
-            </ul>
-        </nav>
+    <th:block th:insert="~{component/aside-admin}" />
+<!--    <aside class="sidebar">-->
+<!--        <nav>-->
+<!--            <ul>-->
+<!--                <li class="nav-header-admin">Admin</li>-->
+<!--                <li><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>-->
+<!--                <li><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>-->
+<!--                <li class="active"><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>-->
+<!--            </ul>-->
+<!--        </nav>-->
 
-        <div class="logout">
-            <a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>
-        </div>
-    </aside>
+<!--        <div class="logout">-->
+<!--            <a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>-->
+<!--        </div>-->
+<!--    </aside>-->
 
     <main_admin class="content_admin">
         <div class="content-header-admin">

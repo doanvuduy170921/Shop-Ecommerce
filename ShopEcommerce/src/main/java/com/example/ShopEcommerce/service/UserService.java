@@ -29,14 +29,20 @@ public class UserService {
     }
 
     @Transactional
-    public void deactivateUser(Long id) {
+    public void activateUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy tài khoản với ID: " + id));
-
-        user.setIsActive(false);
-        user.setUpdatedAt(LocalDateTime.now());
-        userRepository.save(user);
+        if (!user.getIsActive()) {
+            user.setIsActive(true);
+            user.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(user);
+        } else {
+            user.setIsActive(false);
+            user.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(user);
+        }
     }
+
 
 
     public User findById(Long id) {
@@ -65,5 +71,8 @@ public class UserService {
     }
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+    public List<User> findAllActiveUsers() {
+        return userRepository.findByIsActiveTrue();
     }
 }

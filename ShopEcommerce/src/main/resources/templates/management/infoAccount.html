@@ -86,21 +86,7 @@
     </main>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="modal">
-    <div class="modal-content">
-        <p>Bạn có chắc chắn muốn xóa tài khoản này không?</p>
-        <div class="modal-buttons">
-            <button class="back-btn" onclick="closeModal()">Hủy</button>
-            <!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
-            <!--                <button class="delete-btn-large">Xóa</button>-->
-            <!--            </a>-->
-            <a>
-                <button class="delete-btn-large">Xóa</button>
-            </a>
-        </div>
-    </div>
-</div>
+
 <th:block th:insert="~{component/footer}" />
 <script>
     // Modal functions
