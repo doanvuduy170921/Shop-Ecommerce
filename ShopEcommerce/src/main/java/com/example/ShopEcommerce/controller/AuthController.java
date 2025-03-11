@@ -204,6 +204,8 @@ public class AuthController {
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("registerForm") RegisterForm registerForm,
                                BindingResult result, RedirectAttributes redirectAttributes, HttpSession session) {
+
+        System.out.println("email: "+registerForm.getEmail());
         if (result.hasErrors()) {
             return "Auth/register";
         }

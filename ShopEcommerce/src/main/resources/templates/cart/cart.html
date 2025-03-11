@@ -2,255 +2,284 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cart</title>
+    <title>Giỏ Hàng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-	<link rel="stylesheet" th:href="@{/css/cart.css}"/>
-	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/cart.css}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<th:block th:insert="~{component/header}" />
-<div class="main">
-    <div class="main-cart">
-        <div class="main-list">
-            <div class="list-cart-1 container">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="mainCheckbox">
-                    <div class="product-list-cart-1">Sản Phẩm</div>
-                </div>
-                <div class="title-list-cart-1">
-                    <div>Đơn Giá</div>
-                    <div>Số Lượng</div>
-                    <div>Số Tiền</div>
-                    <div>Thao Tác</div>
+<!--<th:block th:insert="~{component/header.html}"></th:block>-->
+<div class="cart-container">
+    <div class="cart-header">
+        <div class="cart-header-item">
+            <input type="checkbox" id="select-all-header" class="form-check-input">
+            <span class="ms-2">Sản Phẩm</span>
+        </div>
+        <div class="cart-header-item">Đơn Giá</div>
+        <div class="cart-header-item">Số Lượng</div>
+        <div class="cart-header-item">Số Tiền</div>
+        <div class="cart-header-item">Thao Tác</div>
+    </div>
+
+    <div class="shop-container">
+        <div class="product-item" th:each="item : ${cartList}">
+            <input type="checkbox" class="form-check-input product-checkbox">
+            <div class="product-info">
+                <a th:href="${'/product/details?id='+item.product.id}">
+                    <img class="product-image" th:src="${item.product.thumbnail}" src="/placeholder.svg?height=80&width=80" alt="Product Image">
+                </a>
+                <div>
+                    <div class="product-name" th:text="${item.product.name}"></div>
                 </div>
             </div>
-            <div class="list-cart-2 container">
-                <div class="list-cart-2-1 container">
-                    <div class="form-check-shop-name">
-                        <input class="form-check-input-1" type="checkbox" value="">
-                    </div>
-                    <div>
-                        <a href="#" class="shop-name">
-                            Tên Shop 1
-                        </a>
-                    </div>
-                </div>
-                <div class="list-cart-2-2 container">
-                    <div class="list-cart-2-2-left">
-                        <input class="form-check-input-1" type="checkbox" value="">
-                        <div>
-                            <img src=""> Hình ảnh
-                        </div>
-                        <div>
-                            Mô tả
-                        </div>
-                        <div>
-                            Phân loại
-                        </div>
-                    </div>
-                    <div class="list-cart-2-2-right">
-                        <div id="price">Giá trị Đơn giá</div>
-                        <div id="quantity">Giá trị Số lượng</div>
-                        <div id="total">Giá trị Số tiền</div>
-                        <div id="action">Giá trị Thao tác</div>
-                    </div>
 
-                </div>
-                <div class="list-cart-2-3 container">
-                    <div><i class="fa-solid fa-ticket" style="color: orangered"></i></div>
-                    <div><a href="#" class="vourcher-shop">Thêm Shop Voucher</a></div>
-                </div>
-                <div class="list-cart-2-4 container">
-                    <div><i class="fa-solid fa-van-shuttle " style="color: green"></i></div>
-                    <div>Giảm ₫300.000 phí vận chuyển đơn tối thiểu ₫0; Giảm ₫500.000 phí vận chuyển đơn tối thiểu
-                        ₫500.000
-                    </div>
-                </div>
+            <div class="product-price">
+                <span th:text="${item.product.price}">₫19.900</span>
+            </div>
+
+            <div class="product-quantity">
+                <form th:action="@{/cart/update}" method="post" class="quantity-control">
+                    <button type="button" class="quantity-btn minus" onclick="decreaseQuantity(this)">−</button>
+                    <input type="number" name="quantity" min="1" th:value="${item.quantity}" value="1" class="quantity-input">
+                    <button type="button" class="quantity-btn plus" onclick="increaseQuantity(this)">+</button>
+                    <input type="hidden" name="cart_id" th:value="${item.id}">
+                </form>
+            </div>
+
+            <div class="product-total" th:text="${item.quantity * item.product.price}"></div>
+
+            <div class="product-actions">
+                <form th:action="@{/cart/remove}" method="post" style="display: inline;">
+                    <input type="hidden" name="cart_id" th:value="${item.id}">
+                    <button type="submit" class="delete-btn">Xóa</button>
+                </form>
             </div>
         </div>
-        <div class="main-list">
-            <div class="list-cart-2 container">
-                <div class="list-cart-2-1 container">
-                    <div class="form-check-shop-name">
-                        <input class="form-check-input-1" type="checkbox" value="">
-                    </div>
-                    <div>
-                        <a href="#" class="shop-name">
-                            Tên Shop 2
-                        </a>
-                    </div>
-                </div>
-                <div class="list-cart-2-2 container">
-                    <div class="list-cart-2-2-left">
-                        <input class="form-check-input-1" type="checkbox" value="">
-                        <div>
-                            <img src=""> Hình ảnh
-                        </div>
-                        <div>
-                            Mô tả
-                        </div>
-                        <div>
-                            Phân loại
-                        </div>
-                    </div>
-                    <div class="list-cart-2-2-right">
-                        <div id="price">Giá trị Đơn giá</div>
-                        <div id="quantity">Giá trị Số lượng</div>
-                        <div id="total">Giá trị Số tiền</div>
-                        <div id="action">Giá trị Thao tác</div>
-                    </div>
+    </div>
 
-                </div>
-                <div class="list-cart-2-3 container">
-                    <div><i class="fa-solid fa-ticket" style="color: orangered"></i></div>
-                    <div><a href="#" class="vourcher-shop">Thêm Shop Voucher</a></div>
-                </div>
-                <div class="list-cart-2-4 container">
-                    <div><i class="fa-solid fa-van-shuttle" style="color: green"></i></div>
-                    <div>Giảm ₫300.000 phí vận chuyển đơn tối thiểu ₫0; Giảm ₫500.000 phí vận chuyển đơn tối thiểu
-                        ₫500.000
-                    </div>
-                </div>
-
-
+    <div class="cart-footer">
+        <div class="cart-summary">
+            <div class="summary-left">
+                <input type="checkbox" id="select-all-footer" class="form-check-input">
+                <span class="select-all">Chọn Tất Cả (1)</span>
+<!--                <span class="delete-selected">Xóa</span>-->
             </div>
-        </div>
-        <div class="main-list">
-            <div class="list-cart-2 container">
-                <div class="list-cart-2-1 container">
-                    <div class=form-check-shop-name"">
-                        <input class="form-check-input-1" type="checkbox" value="">
-                    </div>
-                    <div>
-                        <a href="#" class="shop-name">
-                            Tên Shop 3
-                        </a>
-                    </div>
-                </div>
-                <div class="list-cart-2-2 container">
-                    <div class="list-cart-2-2-left">
-                        <input class="form-check-input-1" type="checkbox" value="">
-                        <div>
-                            <img src=""> Hình ảnh
-                        </div>
-                        <div>
-                            Mô tả
-                        </div>
-                        <div>
-                            Phân loại
-                        </div>
-                    </div>
-                    <div class="list-cart-2-2-right">
-                        <div id="price">Giá trị Đơn giá</div>
-                        <div id="quantity">Giá trị Số lượng</div>
-                        <div id="total">Giá trị Số tiền</div>
-                        <div id="action">Giá trị Thao tác</div>
-                    </div>
 
-                </div>
-                <div class="list-cart-2-3 container">
-                    <div><i class="fa-solid fa-ticket" style="color: orangered"></i></div>
-                    <div><a href="#" class="vourcher-shop">Thêm Shop Voucher</a></div>
-                </div>
-                <div class="list-cart-2-4 container">
-                    <div><i class="fa-solid fa-van-shuttle" style="color: green"></i></div>
-                    <div>Giảm ₫300.000 phí vận chuyển đơn tối thiểu ₫0; Giảm ₫500.000 phí vận chuyển đơn tối thiểu
-                        ₫500.000
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="main-list-fixed container">
-            <div class="main-list-fixed-1">
-                <div style="padding-right: 10px"><i class="fa-solid fa-ticket" style="color: orangered"></i></div>
-                <div style="padding-right: 300px">Ecommerce Voucher</div>
-                <div><a href="#" style="text-decoration: none">Chọn hoặc nhập mã</a></div>
-            </div>
-            <div class="main-list-fixed-2">
-                <div class="main-list-fixed-2-detail">
-                    <div class="list-cart-2-2-detail-left">
-                        <div><input class="form-check-input" type="checkbox" id="mainCheckbox1"></div>
-                        <div>
-                            <label class="click-delete" style="width: 120px;">Chọn Tất Cả (i)</label>
-                        </div>
-                        <div>
-                            <label class="click-delete">Xóa</label>
-                        </div>
-                    </div>
-                    <div class="list-cart-2-2-detail-right">
-                        <div class="total-text" style="width: 230px">Tổng thanh toán (i sản phẩm): </div>
-                        <div class="value-price" style="width: 100px;">(i) (VND)</div>
-                        <div><button type="button" class="btn btn-danger" style="width: 200px">Mua Hàng</button></div>
-                    </div>
-
-                </div>
+            <div class="summary-right">
+                <span class="total-text">Tổng thanh toán (0 sản phẩm):</span>
+                <span class="total-price">₫0</span>
+                <button class="checkout-btn">Mua Hàng</button>
             </div>
         </div>
     </div>
 </div>
-<th:block th:insert="~{component/footer}" />
-<!--<div class="footer-part" id="footer-part"></div>-->
+<th:block th:insert="~{component/footer.html}"></th:block>
 
-<!-- Bootstrap 5 JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
-    // fetch('component/header.html')
-    //     .then(response => response.text())
-    //     .then(data => {
-    //         document.getElementById('header-part').innerHTML = data;
-    //     })
-    //     .catch(error => console.error('Error loading header:', error));
-    //
-    // fetch('component/footer.html')
-    //     .then(response => response.text())
-    //     .then(data => {
-    //         document.getElementById('footer-part').innerHTML = data;
-    //     })
-    //     .catch(error => console.error('Error loading header:', error));
+    updateSelectedCount();
 
-    const productData = {
-        price: "100.000đ",
-        quantity: 2,
-        total: "200.000đ",
-        action: '<button class="btn btn-danger">Xóa</button>'
-    };
+    function increaseQuantity(button) {
+        let input = button.previousElementSibling;
+        input.value = parseInt(input.value) + 1;
+        updateTotal(input);
+    }
 
-    // Cập nhật nội dung các div
-    document.getElementById("price").textContent = productData.price;
-    document.getElementById("quantity").textContent = productData.quantity;
-    document.getElementById("total").textContent = productData.total;
-    document.getElementById("action").innerHTML = productData.action;
-
-
-    // checkbox one of all
-    document.querySelectorAll(".form-check-input").forEach(
-        checkBox => {
-            checkBox.addEventListener("change", function () {
-                document.querySelectorAll(".form-check-input-1").forEach(cb => {
-                    cb.checked = this.checked;
-                });
-            });
+    function decreaseQuantity(button) {
+        let input = button.nextElementSibling;
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+            updateTotal(input);
         }
-    )
-    // checkbox one with one(n)
+    }
 
-    document.querySelectorAll(".list-cart-2-1 .form-check-input-1").forEach(
-        shopCheckBox => {
-            shopCheckBox.addEventListener("change", function () {
-            // Tìm phần tử cha gần nhất của checkbox (là shop tương ứng)
-            const shopContainer = this.closest(".list-cart-2");
-            // Chỉ ảnh hưởng đến checkbox trong shop này
-            shopContainer.querySelectorAll(".list-cart-2-2-left .form-check-input-1").forEach(cb => {
-                cb.checked = this.checked;
-            });
+    function updateTotal(input) {
+        const productItem = input.closest('.product-item');
+        const priceText = productItem.querySelector('.product-price span:last-child').innerText;
+        const price = parseFloat(priceText.replace('₫', '').replace(/\./g, '').replace(',', '.'));
+        const quantity = parseInt(input.value);
+        const totalElement = productItem.querySelector('.product-total');
+
+        const total = price * quantity;
+        totalElement.innerText = '₫' + total.toLocaleString('vi-VN');
+
+        updateTotalPrice();
+    }
+
+    function updateSelectedCount() {
+        const selectedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
+        const count = selectedCheckboxes.length;
+
+        document.querySelector('.select-all').textContent = `Chọn Tất Cả (${count})`;
+
+        document.querySelector('.total-text').textContent = `Tổng thanh toán (${count} sản phẩm):`;
+
+        updateTotalPrice();
+    }
+
+    // Calculate and update the total price of selected items
+    function updateTotalPrice() {
+        let totalPrice = 0;
+        let totalItems = 0;
+
+        document.querySelectorAll('.product-checkbox:checked').forEach(checkbox => {
+            const productItem = checkbox.closest('.product-item');
+            const quantityInput = productItem.querySelector('.quantity-input');
+            const quantity = parseInt(quantityInput.value);
+            const totalText = productItem.querySelector('.product-total').textContent;
+            const price = parseFloat(totalText.replace('₫', '').replace(/\./g, '').replace(',', '.'));
+
+            if (!isNaN(price)) {
+                totalPrice += price;
+                totalItems += quantity;
+            }
+        });
+
+        // Update the total price display
+        document.querySelector('.total-price').textContent = '₫' + totalPrice.toLocaleString('vi-VN');
+        // Update the total items count
+        document.querySelector('.total-text').textContent = `Tổng thanh toán (${totalItems} sản phẩm):`;
+    }
+
+    // Sync the select all checkboxes
+    document.getElementById('select-all-header').addEventListener('change', function() {
+        const isChecked = this.checked;
+        document.getElementById('select-all-footer').checked = isChecked;
+
+        document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+            checkbox.checked = isChecked;
+        });
+
+        updateSelectedCount();
+    });
+
+    document.getElementById('select-all-footer').addEventListener('change', function() {
+        const isChecked = this.checked;
+        document.getElementById('select-all-header').checked = isChecked;
+
+        document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+            checkbox.checked = isChecked;
+        });
+
+        updateSelectedCount();
+    });
+
+    // Product checkboxes might affect select all status
+    document.querySelectorAll('.product-checkbox').forEach(productCheckbox => {
+        productCheckbox.addEventListener('change', function() {
+            updateSelectAllStatus();
+            updateSelectedCount();
         });
     });
 
+    function updateSelectAllStatus() {
+        const allCheckboxes = document.querySelectorAll('.product-checkbox');
+        const checkedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
+
+        const allChecked = allCheckboxes.length > 0 && allCheckboxes.length === checkedCheckboxes.length;
+
+        document.getElementById('select-all-header').checked = allChecked;
+        document.getElementById('select-all-footer').checked = allChecked;
+    }
+
+    // Add event listeners to quantity buttons for all products
+    document.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            updateSelectedCount();
+        });
+    });
+
+    // Add some sample products for demonstration if needed
+    if (document.querySelectorAll('.product-item').length === 0) {
+        const sampleProducts = [
+            {
+                name: 'Tất đá bóng chống trơn, Vớ đá banh chống trượt thương hiệu Nike,Đen',
+                price: '19900',
+                originalPrice: '25000',
+                variant: 'Nike,Đen',
+                quantity: 1
+            },
+            {
+                name: 'Áo thun thể thao nam nữ form rộng',
+                price: '89000',
+                originalPrice: '120000',
+                variant: 'Trắng,XL',
+                quantity: 1
+            },
+            {
+                name: 'Giày thể thao chạy bộ nhẹ thoáng khí',
+                price: '299000',
+                originalPrice: '450000',
+                variant: 'Đen,42',
+                quantity: 1
+            }
+        ];
+
+        const shopContainer = document.querySelector('.shop-container');
+
+        sampleProducts.forEach((product, index) => {
+            const productItem = document.createElement('div');
+            productItem.className = 'product-item';
+            productItem.innerHTML = `
+                <input type="checkbox" class="form-check-input product-checkbox">
+
+                <div class="product-info">
+                    <img class="product-image" src="/placeholder.svg?height=80&width=80" alt="Product Image">
+                    <div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-variant">Phân Loại Hàng: ${product.variant}</div>
+                    </div>
+                </div>
+
+                <div class="product-price">
+                    <span class="text-decoration-line-through text-muted me-2">₫${product.originalPrice}</span>
+                    <span>₫${product.price}</span>
+                </div>
+
+                <div class="product-quantity">
+                    <form class="quantity-control">
+                        <button type="button" class="quantity-btn minus" onclick="decreaseQuantity(this)">−</button>
+                        <input type="number" name="quantity" min="1" value="${product.quantity}" class="quantity-input">
+                        <button type="button" class="quantity-btn plus" onclick="increaseQuantity(this)">+</button>
+                        <input type="hidden" name="cart_id" value="${index}">
+                    </form>
+                </div>
+
+                <div class="product-total">₫${product.price}</div>
+
+                <div class="product-actions">
+                    <button type="button" class="delete-btn">Xóa</button>
+                </div>
+            `;
+
+            shopContainer.appendChild(productItem);
+
+            // Add event listener to the newly created checkbox
+            const checkbox = productItem.querySelector('.product-checkbox');
+            checkbox.addEventListener('change', function() {
+                updateSelectAllStatus();
+                updateSelectedCount();
+            });
+
+            // Add event listener to the delete button
+            const deleteBtn = productItem.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', function() {
+                productItem.remove();
+                updateSelectAllStatus();
+                updateSelectedCount();
+            });
+        });
+
+        // Initialize the product checkboxes
+        document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        updateSelectedCount();
+    }
 </script>
 </body>
 </html>
+
