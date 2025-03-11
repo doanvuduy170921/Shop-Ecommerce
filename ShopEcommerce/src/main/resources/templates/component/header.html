@@ -72,7 +72,7 @@
                             </li>
                             <li class="nav-item d-flex align-items-center menu-item dropdown"><a href="#">Shop</a>
                                 <i class="fa-solid fa-angle-down"></i>
-                                <ul class="sub-menu">
+                                <!-- <ul class="sub-menu">
                                     <li class="menu-item"><a href="#">Shop</a></li>
                                     <li class="menu-item"><a href="#">Single Product</a></li>
                                     <li class="menu-item"><a href="#">Cart</a></li>
@@ -80,6 +80,14 @@
                                     <li class="menu-item"><a href="#">My account</a></li>
                                     <li class="menu-item"><a href="#">Order Tracking</a></li>
                                     <li class="menu-item"><a href="#">Wishlist</a></li>
+                                </ul> -->
+                                <ul class="sub-menu">
+                                    <li th:each="category : ${global_categories}" class="menu-item">
+                                        <a
+                                            th:href="@{/product(categoryId=${category.id})}"
+                                            th:text="${category.name}"
+                                        ></a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="nav-item d-flex align-items-center menu-item dropdown"><a href="#">Blog</a>
