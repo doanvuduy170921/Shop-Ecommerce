@@ -15,32 +15,59 @@
 <!--<th:block th:replace="component/header.html"></th:block>-->
 <body_admin>
 
-<header_admin>
-    <div class="logo-container_admin">
-        <img th:src="@{/logo/logo.png}" alt="" class="logo_admin">
-    </div>
-    <div class="user-profile">
-        <i class="fa-solid fa-user user-icon_admin"></i>
-    </div>
-</header_admin>
-
+<!--<header_admin>-->
+<!--    <div class="logo-container_admin">-->
+<!--        <img th:src="@{/logo/logo.png}" alt="" class="logo_admin">-->
+<!--    </div>-->
+<!--    <div class="user-profile">-->
+<!--        <i class="fa-solid fa-user user-icon_admin"></i>-->
+<!--    </div>-->
+<!--</header_admin>-->
+<th:block th:insert="~{component/header-admin}" />
 <div class="container_admin">
-    <aside class="sidebar">
-        <nav>
-            <ul>
-                <li class="nav-header-admin">Admin</li>
-                <li class="active"><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>
-                <li ><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>
-                <li><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>
-            </ul>
-        </nav>
+    <th:block th:insert="~{component/aside-admin}" />
+<!--    <aside class="sidebar">-->
+<!--        <nav>-->
+<!--            <ul>-->
+<!--                <li class="nav-header-admin">-->
+<!--                    <i class="bi bi-speedometer2"></i>Admin-->
+<!--                </li>-->
+<!--                <li class="active">-->
+<!--                    <a th:href="@{/admin/accountManagement}">-->
+<!--                        <i class="bi bi-people-fill"></i> Quản lý tài khoản-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a th:href="@{/admin/order-management}">-->
+<!--                        <i class="bi bi-cart-check-fill"></i> Quản lý đơn hàng-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li>-->
+<!--                    <a th:href="@{/admin/productManagement}">-->
+<!--                        <i class="bi bi-box-seam-fill"></i> Quản lý sản phẩm-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
 
-        <div class="logout">
-            <a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>
-        </div>
-    </aside>
+<!--        <div class="logout">-->
+<!--            <a th:href="@{/admin/logoutAdmin}" class="logout-btn">-->
+<!--                <i class="bi bi-box-arrow-right"></i>-->
+<!--                <span>Đăng xuất</span>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </aside>-->
 
     <main_admin class="content_admin">
+
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success" role="alert">
+            <span th:text="${success}"></span>
+        </div>
+
         <div class="content-header-admin">
             <h2>Quản lý tài khoản</h2>
             <form class="search-container" action="/admin/accountManagement" method="get">
@@ -75,10 +102,16 @@
                             <a th:href="@{/admin/accountDetail/{id}(id=${user.id})}" class="info-btn">
                                 <i class="bi bi-info"></i>
                             </a>
-<!--                            <a href="#" class="delete-btn" th:attr="data-id=${user.id}" onclick="toggleUserStatus(this)">-->
-<!--                                <i class="bi bi-lock-fill" th:classappend="${user.isActive} ? '' : 'text-danger'"></i>-->
-<!--                            </a>-->
-
+                            <form th:if="${user.isActive}" th:action="@{/admin/accountManagement/deactivate/{id}(id=${user.id})}" method="post" style="display:inline;" class="lock-form">
+                                <button type="button" class="delete-btn" onclick="confirmAction(this, 'Bạn có chắc chắn muốn khóa tài khoản này?')">
+                                    <i class="bi bi-lock-fill"></i>
+                                </button>
+                            </form>
+                            <form th:unless="${user.isActive}" th:action="@{/admin/accountManagement/activate/{id}(id=${user.id})}" method="post" style="display:inline;" class="unlock-form">
+                                <button type="button" class="unlock-btn" onclick="confirmAction(this, 'Bạn có chắc chắn muốn mở khóa tài khoản này?')">
+                                    <i class="bi bi-unlock-fill"></i>
+                                </button>
+                            </form>
 <!--                            <button class="delete-btn">×</button>-->
                         </td>
                     </tr>
@@ -87,7 +120,7 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-center mt-4">
+        <div class="pagination-container">
             <nav>
                 <ul class="pagination">
                     <li th:classappend="${currentPage == 1} ? 'disabled'">
@@ -121,6 +154,23 @@
                 }
             })
             .catch(error => console.error("Error:", error));
+    }
+
+    function confirmDeactivate(button) {
+        if (confirm('Bạn có chắc chắn muốn khóa tài khoản này?')) {
+            button.closest('.delete-form').submit();
+        } else {
+            // Không làm gì cả khi người dùng chọn "Hủy"
+            console.log('Đã hủy việc xóa tài khoản');
+        }
+    }
+
+    function confirmAction(button, message) {
+        if (confirm(message)) {
+            button.closest('form').submit();
+        } else {
+            console.log('Đã hủy thao tác');
+        }
     }
 </script>
 

@@ -55,6 +55,10 @@ public class AuthController {
             return "Auth/login";
         }
 
+        if (!user.getIsActive()) {
+            redirectAttributes.addFlashAttribute("successMsg", "Tài khoản đã bị khóa");
+            return "redirect:/login";
+        }
         // Gán role cho user
         if ("admin@gmail.com".equalsIgnoreCase(user.getEmail())) {
             Role adminRole = roleRepository.findByName("ADMIN");

@@ -11,17 +11,16 @@
 </head>
 <body>
 
-<header_admin>
-	<div class="logo-container_admin">
-		<img src="logo.png" alt="Logo" class="logo_admin">
-	</div>
-	<div class="user-profile">
-		<img src="user-icon.png" alt="User" class="user-icon_admin">
-	</div>
-</header_admin>
+<!--<header_admin>-->
+<!--	<div class="logo-container_admin">-->
+<!--		<img src="logo.png" alt="Logo" class="logo_admin">-->
+<!--	</div>-->
+<!--	<div class="user-profile">-->
+<!--		<img src="user-icon.png" alt="User" class="user-icon_admin">-->
+<!--	</div>-->
+<!--</header_admin>-->
 
-<!--<th:block th:replace="component/header.html"></th:block>-->
-
+<th:block th:insert="~{component/header-admin}" />
 <div class="container_admin">
 	<aside class="sidebar">
 		<nav>
@@ -88,9 +87,17 @@
 						<span class="back-icon"></span> Quay lại
 					</button>
 				</a>
-<!--				<button class="delete-btn-large" onclick="openModal()">-->
-<!--					<span class="delete-icon"></span> Khóa-->
-<!--				</button>-->
+				<form th:if="${user.isActive}" th:action="@{/admin/accountDetail/deactivate/{id}(id=${user.id})}" method="post" style="display:inline;" class="delete-form">
+					<button type="button" class="delete-btn-large" onclick="confirmAction(this, 'Bạn có chắc chắn muốn khóa tài khoản này?')">
+						<span class="delete-icon"></span> Khóa
+					</button>
+				</form>
+				<form th:unless="${user.isActive}" th:action="@{/admin/accountDetail/activate/{id}(id=${user.id})}" method="post" style="display:inline;" class="activate-form">
+					<button type="button" class="activate-btn-large" onclick="confirmAction(this, 'Bạn có chắc chắn muốn mở khóa tài khoản này?')">
+						<span></span> Mở khóa
+					</button>
+				</form>
+
 			</div>
 		</div>
 	</main_admin>
@@ -128,6 +135,23 @@
             closeModal();
         }
     }
+
+	function confirmDeactivate(button) {
+		if (confirm('Bạn có chắc chắn muốn xóa tài khoản này?')) {
+			button.closest('.delete-form').submit();
+		} else {
+			// Không làm gì cả khi người dùng chọn "Hủy"
+			console.log('Đã hủy việc xóa tài khoản');
+		}
+	}
+
+	function confirmAction(button, message) {
+		if (confirm(message)) {
+			button.closest('form').submit();
+		} else {
+			console.log('Đã hủy thao tác');
+		}
+	}
 </script>
 
 </body>

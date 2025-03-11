@@ -136,7 +136,7 @@
     margin-top: 20px;
 }
 
-.add-icon, .edit-icon, .delete-icon {
+.add-icon, .edit-icon, .delete-icon,.unlock-icon {
     margin-right: 5px;
 }
 
@@ -154,4 +154,26 @@
 
 .header-add-btn:hover {
     background-color: #45a049;
+}
+
+.activate-btn-large {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.activate-btn-large:hover {
+    background-color: #218838;
+    /*color: white;*/
+    /*border: none;*/
+    /*padding: 10px 20px;*/
+    /*cursor: pointer;*/
+    /*border-radius: 5px;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*gap: 5px;*/
 }

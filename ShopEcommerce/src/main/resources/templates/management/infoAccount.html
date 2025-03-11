@@ -76,29 +76,17 @@
                         <span class="update-icon"></span> Cập nhật
                     </button>
                 </a>
-<!--                <button class="delete-btn-large" onclick="openModal()">-->
-<!--                    <span class="delete-icon"></span> Khóa-->
-<!--                </button>-->
+                <form th:action="@{/infoAccount/deactivate/{id}(id=${user.id})}" method="post" style="display:inline;" class="delete-form" id="deleteForm">
+                    <button type="button" class="delete-btn-large" onclick="confirmDeactivate(this)">
+                        <span class="delete-icon"></span> Xóa
+                    </button>
+                </form>
             </div>
         </div>
     </main>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="modal">
-    <div class="modal-content">
-        <p>Bạn có chắc chắn muốn xóa tài khoản này không?</p>
-        <div class="modal-buttons">
-            <button class="back-btn" onclick="closeModal()">Hủy</button>
-            <!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
-            <!--                <button class="delete-btn-large">Xóa</button>-->
-            <!--            </a>-->
-            <a>
-                <button class="delete-btn-large">Xóa</button>
-            </a>
-        </div>
-    </div>
-</div>
+
 <th:block th:insert="~{component/footer}" />
 <script>
     // Modal functions
@@ -111,7 +99,7 @@
     }
 
     // Close modal if user clicks outside of it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == document.getElementById('deleteModal')) {
             closeModal();
         }
@@ -120,6 +108,17 @@
     function goBack() {
         window.history.back();
     }
+
+
+    function confirmDeactivate(button) {
+        if (confirm('Bạn có chắc chắn muốn xóa tài khoản này?')) {
+            button.closest('.delete-form').submit();
+        } else {
+            // Không làm gì cả khi người dùng chọn "Hủy"
+            console.log('Đã hủy việc xóa tài khoản');
+        }
+    }
+
 </script>
 
 </body>
