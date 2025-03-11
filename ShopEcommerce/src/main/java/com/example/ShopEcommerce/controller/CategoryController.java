@@ -22,7 +22,7 @@ public class CategoryController {
     public String getCategory(Model model) {
         List<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
-        return "category-list"; // Trang Thymeleaf để hiển thị danh sách
+        return "admin/addProduct"; // Trang Thymeleaf để hiển thị danh sách
     }
 
     // Hiển thị form thêm danh mục

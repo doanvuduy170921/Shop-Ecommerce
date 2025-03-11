@@ -37,7 +37,10 @@
     </head>
     <body style="background-color: #f5f5f5">
         <th:block th:insert="~{component/header.html}"></th:block>
-        <div class="container container-item-detail mt-5 mb-3 pt-5 d-flex">
+        <div
+            class="container container-item-detail mb-3 pt-5 d-flex"
+            style="margin-top: 400px"
+        >
             <div class="filter m-3">
                 <div class="category-list bg-light p-3">
                     <h6 class="fw-bold">TẤT CẢ DANH MỤC</h6>
@@ -61,7 +64,7 @@
                         <li><a href="#">Gaming</a></li> -->
                         <li th:each="category : ${categories}">
                             <a
-                                th:href="@{/products(categoryId=${category.id})}"
+                                th:href="@{/product(categoryId=${category.id})}"
                                 th:text="${category.name}"
                                 th:class="${category.id == selectedCategoryId} ? 'fw-bold text-danger'"
                             ></a>
@@ -91,13 +94,22 @@
                         type="number"
                         class="form-control mb-2"
                         placeholder="Từ"
+                        id="minPrice"
+                        th:value="${minPrice}"
                     />
                     <input
                         type="number"
                         class="form-control mb-2"
                         placeholder="Đến"
+                        id="maxPrice"
+                        th:value="${maxPrice}"
                     />
-                    <button class="btn btn-primary w-100">Áp dụng</button>
+                    <button
+                        class="btn btn-primary w-100"
+                        onclick="applyPriceFilter()"
+                    >
+                        Áp dụng
+                    </button>
                     <!--please write code in here-->
                 </div>
             </div>
@@ -117,15 +129,128 @@
                         </button>
                     </div>
                     <div>
-                        <select class="form-select">
-                            <option selected>Giá</option>
-                            <option value="1">Thấp đến cao</option>
-                            <option value="2">Cao đến thấp</option>
+                        <select
+                            class="form-select"
+                            id="sortSelect"
+                            onchange="updateSort()"
+                        >
+                            <option
+                                value="asc"
+                                th:selected="${sortDirection == 'asc'}"
+                            >
+                                Thấp đến cao
+                            </option>
+                            <option
+                                value="desc"
+                                th:selected="${sortDirection == 'desc'}"
+                            >
+                                Cao đến thấp
+                            </option>
                         </select>
                     </div>
                 </div>
-                <div class="item-list row">
-                    <!-- <div class="col-md-3 mb-4">
+                <div class="item-list row d-flex flex-wrap justify-content-start">
+                    <div class="col-md-3 mb-4" th:each="product : ${products}">
+                        <div class="card h-100 shadow-sm border-0">
+                            <img
+                                th:src="${product.thumbnail}"
+                                class="card-img-top"
+                                alt="Product Image"
+                            />
+                            <div
+                                class="card-body p-3"
+                                th:onclick="|window.location.href='/product/details?id=' + ${product.id}|"
+                            >
+                                <h6
+                                    class="card-title text-truncate"
+                                    th:text="${product.name}"
+                                ></h6>
+                                <p
+                                    class="text-danger fw-bold mb-1"
+                                    th:text="${product.price} + ' VND'"
+                                ></p>
+                                <div
+                                    class="d-flex justify-content-between align-items-center"
+                                >
+                                    <!-- <small class="text-muted" th:text="${product.rating} + ' ⭐ | Đã bán ' + ${product.sold}"></small> -->
+                                    <small class="text-muted"
+                                        >4.6 ⭐ | Đã bán 14.3k</small
+                                    >
+                                </div>
+                                <!-- <span class="badge bg-danger text-white" th:if="${product.discount > 0}" th:text="'Giảm giá ' + ${product.discount} + '%'"></span> -->
+                                <span class="badge bg-danger text-white"
+                                    >Giảm giá 28%</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <nav>
+                        <ul class="pagination">
+                            <li
+                                class="page-item"
+                                th:classappend="${currentPage == 1} ? 'disabled'"
+                            >
+                                <a
+                                    class="page-link"
+                                    th:href="@{/product(page=${currentPage - 1}, categoryId=${selectedCategoryId})}"
+                                    >&laquo;</a
+                                >
+                            </li>
+                            <li
+                                class="page-item"
+                                th:each="i : ${#numbers.sequence(1, totalPages)}"
+                                th:classappend="${i == currentPage} ? 'active'"
+                            >
+                                <a
+                                    class="page-link"
+                                    th:href="@{/product(page=${i}, categoryId=${selectedCategoryId})}"
+                                    th:text="${i}"
+                                ></a>
+                            </li>
+                            <li
+                                class="page-item"
+                                th:classappend="${currentPage == totalPages} ? 'disabled'"
+                            >
+                                <a
+                                    class="page-link"
+                                    th:href="@{/product(page=${currentPage + 1}, categoryId=${selectedCategoryId})}"
+                                    >&raquo;</a
+                                >
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        function updateSort() {
+            let selectedSort = document.getElementById("sortSelect").value;
+            let params = new URLSearchParams(window.location.search);
+            params.set("sortDirection", selectedSort);
+            window.location.href =
+                window.location.pathname + "?" + params.toString();
+        }
+
+        function applyPriceFilter() {
+            let minPrice = document.getElementById("minPrice").value;
+            let maxPrice = document.getElementById("maxPrice").value;
+
+            let params = new URLSearchParams(window.location.search);
+            if (minPrice) params.set("minPrice", minPrice);
+            else params.delete("minPrice");
+
+            if (maxPrice) params.set("maxPrice", maxPrice);
+            else params.delete("maxPrice");
+
+            window.location.href =
+                window.location.pathname + "?" + params.toString();
+        }
+    </script>
+</html>
+<!-- <div class="col-md-3 mb-4">
                         <div class="card h-100 shadow-sm border-0">
                             <img
                                 src="https://via.placeholder.com/150"
@@ -236,79 +361,3 @@
                             </div>
                         </div>
                     </div> -->
-                    <div class="col-md-3 mb-4" th:each="product : ${products}">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img
-                                th:src="${product.thumbnail}"
-                                class="card-img-top"
-                                alt="Product Image"
-                            />
-                            <div
-                                class="card-body p-3"
-                                th:onclick="|window.location.href='/products/details?id=' + ${product.id}|"
-                            >
-                                <h6
-                                    class="card-title text-truncate"
-                                    th:text="${product.name}"
-                                ></h6>
-                                <p
-                                    class="text-danger fw-bold mb-1"
-                                    th:text="${product.price} + ' VND'"
-                                ></p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <!-- <small class="text-muted" th:text="${product.rating} + ' ⭐ | Đã bán ' + ${product.sold}"></small> -->
-                                    <small class="text-muted"
-                                        >4.6 ⭐ | Đã bán 14.3k</small
-                                    >
-                                </div>
-                                <!-- <span class="badge bg-danger text-white" th:if="${product.discount > 0}" th:text="'Giảm giá ' + ${product.discount} + '%'"></span> -->
-                                <span class="badge bg-danger text-white"
-                                    >Giảm giá 28%</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center mt-4">
-                    <nav>
-                        <ul class="pagination">
-                            <li
-                                class="page-item"
-                                th:classappend="${currentPage == 1} ? 'disabled'"
-                            >
-                                <a
-                                    class="page-link"
-                                    th:href="@{/products(page=${currentPage - 1}, categoryId=${selectedCategoryId})}"
-                                    >&laquo;</a
-                                >
-                            </li>
-                            <li
-                                class="page-item"
-                                th:each="i : ${#numbers.sequence(1, totalPages)}"
-                                th:classappend="${i == currentPage} ? 'active'"
-                            >
-                                <a
-                                    class="page-link"
-                                    th:href="@{/products(page=${i}, categoryId=${selectedCategoryId})}"
-                                    th:text="${i}"
-                                ></a>
-                            </li>
-                            <li
-                                class="page-item"
-                                th:classappend="${currentPage == totalPages} ? 'disabled'"
-                            >
-                                <a
-                                    class="page-link"
-                                    th:href="@{/products(page=${currentPage + 1}, categoryId=${selectedCategoryId})}"
-                                    >&raquo;</a
-                                >
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>

@@ -72,7 +72,7 @@ public class AuthController {
 
         User user = authService.login(loginForm.getEmail(), loginForm.getPassword());
         if (user == null) {
-            result.rejectValue("password", "error.password", "Mật khẩu không chính xác");
+            result.rejectValue("password", "error.password", "Password không chính xác");
 
             if (authService.getUserByEmail(loginForm.getEmail()) == null) {
                 result.rejectValue("email", "error.email", "Email không tồn tại");
@@ -219,6 +219,7 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("errorMsg", "Email đã tồn tại. Vui lòng sử dụng email khác!");
             return "redirect:/register";
         }
+
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         User user = new User();

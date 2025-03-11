@@ -101,6 +101,7 @@ nav a {
 .content_admin_body {
     width: 80%;
     margin: 0 auto;
+    height: 60%;
 }
 
 .content-header-admin {
@@ -202,6 +203,29 @@ td:last-child {
     font-size: 25px;
 }
 
+.edit-btn {
+    background-color: #ffc107;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.edit-btn:hover {
+    background-color: #e0a800;
+    color: white;
+}
+
+.edit-btn i {
+    font-size: 16px;
+}
+
 .search-btn {
     padding: 8px 16px;
     background-color: #4285F4;
@@ -243,6 +267,95 @@ td:last-child {
 
 .addProduct-btn:hover {
     background-color: #45a049;
+}
+.pagination-container {
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    height: 30%;
+}
+
+.filter-header {
+    position: relative;
+}
+
+.filter-icon {
+    cursor: pointer;
+    margin-left: 5px;
+    color: #666;
+}
+
+.filter-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    min-width: 150px;
+    /* Thêm các thuộc tính mới */
+    max-height: 300px;
+    overflow-y: auto;
+    /* Đảm bảo dropdown hiển thị bên ngoài các phần tử bị ẩn */
+    transform: translateY(0);
+}
+
+/* Thêm lớp mới để hiển thị dropdown ở vị trí cố định khi có ít dữ liệu */
+.filter-dropdown.fixed-position {
+    position: fixed;
+    width: min-content;
+    /* Các vị trí sẽ được thiết lập qua JavaScript */
+}
+
+.filter-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap; /* Ngăn văn bản bị ngắt dòng */
+}
+
+.filter-option:last-child {
+    border-bottom: none;
+}
+
+.filter-option:hover {
+    background-color: #f5f5f5;
+}
+
+.filter-option.selected {
+    background-color: #e6f7ff;
+    font-weight: bold;
+}
+
+/* Hiển thị icon lọc rõ ràng hơn */
+.bi-funnel {
+    font-size: 0.8em;
+}
+
+.unlock-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.unlock-btn:hover {
+    background-color: #218838;
 }
 
 
