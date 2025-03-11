@@ -12,40 +12,35 @@
 </head>
 
 <body>
-	<header_admin>
-		<div class="logo-container_admin">
-			<img src="logo.png" alt="Logo" class="logo_admin">
-		</div>
-		<div class="user-profile">
-			<img src="user-icon.png" alt="User" class="user-icon_admin">
-		</div>
-	</header_admin>
-
+<!--	<header_admin>-->
+<!--		<div class="logo-container_admin">-->
+<!--			<img src="logo.png" alt="Logo" class="logo_admin">-->
+<!--		</div>-->
+<!--		<div class="user-profile">-->
+<!--			<img src="user-icon.png" alt="User" class="user-icon_admin">-->
+<!--		</div>-->
+<!--	</header_admin>-->
+	<th:block th:insert="~{component/header-admin}" />
 	<div class="container_admin">
-		<aside class="sidebar">
-			<nav>
-				<ul>
-					<li class="nav-header-admin">Admin</li>
-					<li><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>
-					<li class="active"><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>
-					<li><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>
-				</ul>
-			</nav>
+		<th:block th:insert="~{component/aside-admin}" />
+<!--		<aside class="sidebar">-->
+<!--			<nav>-->
+<!--				<ul>-->
+<!--					<li class="nav-header-admin">Admin</li>-->
+<!--					<li><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>-->
+<!--					<li class="active"><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>-->
+<!--					<li><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>-->
+<!--				</ul>-->
+<!--			</nav>-->
 
-			<div class="logout">
-				<a href="#">Logout</a>
-			</div>
-		</aside>
+<!--			<div class="logout">-->
+<!--				<a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>-->
+<!--			</div>-->
+<!--		</aside>-->
 
 		<main_admin class="content_admin">
-			<div class="sidebar">
+			<div class="content-header-admin">
 				<h2>Chi tiết đơn hàng</h2>
-			</div>
-
-			<div class="profile-header">
-				<div class="profile-avatar">
-					<img src="user-icon.png" alt="Avatar">
-				</div>
 			</div>
 
 			<div class="content_admin_body">
@@ -85,9 +80,9 @@
 							<span class="back-icon"></span> Quay lại
 						</button>
 					</a>
-					<button class="delete-btn-large" onclick="openModal()">
-						<span class="delete-icon"></span> Xóa
-					</button>
+<!--					<button class="delete-btn-large" onclick="openModal()">-->
+<!--						<span class="delete-icon"></span> Xóa-->
+<!--					</button>-->
 				</div>
 			</div>
 		</main_admin>
@@ -102,9 +97,9 @@
 					<!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
 					<!--                <button class="delete-btn-large">Xóa</button>-->
 					<!--            </a>-->
-					<a>
-						<button class="delete-btn-large">Xóa</button>
-					</a>
+<!--					<a>-->
+<!--						<button class="delete-btn-large">Xóa</button>-->
+<!--					</a>-->
 				</div>
 			</div>
 		</div>
