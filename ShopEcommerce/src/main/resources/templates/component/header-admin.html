@@ -1,13 +1,66 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
-<style>
-  .user-icon_admin {
-    background: none !important; /* Xóa màu nền */
-    background-color: transparent !important; /* Đảm bảo nền trong suốt */
-  }
-</style>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <style>
+    .user-container {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .user-icon_admin {
+      background: none !important;
+      background-color: transparent !important;
+      font-size: 24px;
+    }
+
+    .profile-menu {
+      display: none; /* Ẩn ban đầu */
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: white;
+      padding: 8px 12px;
+      border-radius: 5px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .profile-menu.show {
+      display: block; /* Hiện khi có class 'show' */
+    }
+  </style>
+</head>
+<body>
 <header_admin>
   <div class="logo-container_admin">
     <img th:src="@{/logo/logo.png}" alt="" class="logo_admin">
   </div>
-  <i class="fa-solid fa-user user-icon_admin"></i>
+  <div class="user-container" onclick="toggleProfile()">
+    <i class="fa-solid fa-user user-icon_admin"></i>
+    <div class="profile-menu" id="profileMenu" th:href="@{#}">Profile</div>
+  </div>
 </header_admin>
+
+<script>
+  function toggleProfile() {
+    document.getElementById("profileMenu").classList.toggle("show");
+  }
+
+  // Ẩn menu khi click ra ngoài
+  document.addEventListener("click", function(event) {
+    let userContainer = document.querySelector(".user-container");
+    let profileMenu = document.getElementById("profileMenu");
+
+    if (!userContainer.contains(event.target)) {
+      profileMenu.classList.remove("show");
+    }
+  });
+</script>
+</body>
+</html>

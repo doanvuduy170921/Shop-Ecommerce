@@ -1,3 +1,6 @@
+element.style {
+    display: none;
+}
 
 * {
     margin: 0;
@@ -98,11 +101,6 @@ nav a {
     flex: 1;
     padding: 20px;
 }
-.content_admin_body {
-    width: 80%;
-    margin: 0 auto;
-    height: 60%;
-}
 
 .content-header-admin {
     display: flex;
@@ -110,8 +108,27 @@ nav a {
     align-items: center;
     width: 80%;
     margin: 20px auto;
+    height: auto;
 }
-
+h2{
+    margin-left: 10%;
+}
+.content_admin_body {
+    width: 80%;
+    margin: 0 auto;
+    height: auto;
+}
+.pagination-container {
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    height: auto;
+}
 .search-input {
     width: 200px;
     padding: 8px;
@@ -148,9 +165,9 @@ th {
 
 
 td:last-child {
-    display: flex;
+    /*display: flex;*/
     justify-content: space-evenly;
-    gap: 1px;
+    /*gap: 1px;*/
     border: none;
 }
 
@@ -159,6 +176,9 @@ td:last-child {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    position: relative;
+    height: 100%;
+    min-width: 80px;
 }
 
 
@@ -241,8 +261,6 @@ td:last-child {
     background-color: #3367D6;
 }
 
-
-
 .back-btn{
     margin-bottom: 10px;
     padding: 8px 16px;
@@ -268,58 +286,125 @@ td:last-child {
 .addProduct-btn:hover {
     background-color: #45a049;
 }
-.pagination-container {
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    padding: 10px 0;
+
+
+/*.filter-header {*/
+/*    position: relative;*/
+/*}*/
+
+/*.filter-icon {*/
+/*    cursor: pointer;*/
+/*    margin-left: 5px;*/
+/*    color: #666;*/
+/*}*/
+
+/*.filter-dropdown {*/
+/*    display: none;*/
+/*    position: absolute;*/
+/*    right: 0;*/
+/*    top: 100%;*/
+/*    background-color: white;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 4px;*/
+/*    box-shadow: 0 2px 10px rgba(0,0,0,0.1);*/
+/*    z-index: 1000;*/
+/*    min-width: 150px;*/
+/*    !* Thêm các thuộc tính mới *!*/
+/*    max-height: 300px;*/
+/*    overflow-y: auto;*/
+/*    !* Đảm bảo dropdown hiển thị bên ngoài các phần tử bị ẩn *!*/
+/*    transform: translateY(0);*/
+/*}*/
+
+/*!* Thêm lớp mới để hiển thị dropdown ở vị trí cố định khi có ít dữ liệu *!*/
+/*.filter-dropdown.fixed-position {*/
+/*    position: fixed;*/
+/*    width: min-content;*/
+/*    !* Các vị trí sẽ được thiết lập qua JavaScript *!*/
+/*}*/
+
+/*.filter-option {*/
+/*    padding: 8px 12px;*/
+/*    cursor: pointer;*/
+/*    border-bottom: 1px solid #eee;*/
+/*    white-space: nowrap; !* Ngăn văn bản bị ngắt dòng *!*/
+/*}*/
+
+/*.filter-option:last-child {*/
+/*    border-bottom: none;*/
+/*}*/
+
+/*.filter-option:hover {*/
+/*    background-color: #f5f5f5;*/
+/*}*/
+
+/*.filter-option.selected {*/
+/*    background-color: #e6f7ff;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*!* Hiển thị icon lọc rõ ràng hơn *!*/
+/*.bi-funnel {*/
+/*    font-size: 0.8em;*/
+/*}*/
+
+.filter-bar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    z-index: 1000;
-    height: 30%;
+    gap: 15px;
+    margin-bottom: 15px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    width: 30%;
 }
 
-.filter-header {
+.filter-item {
     position: relative;
 }
 
-.filter-icon {
+.filter-button {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 14px;
+}
+
+.filter-button i {
     margin-left: 5px;
-    color: #666;
 }
 
 .filter-dropdown {
-    display: none;
     position: absolute;
-    right: 0;
     top: 100%;
+    left: 0;
+    margin-top: 5px;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
-    min-width: 150px;
-    /* Thêm các thuộc tính mới */
+    min-width: 180px;
     max-height: 300px;
     overflow-y: auto;
-    /* Đảm bảo dropdown hiển thị bên ngoài các phần tử bị ẩn */
-    transform: translateY(0);
+    display: none;
 }
 
-/* Thêm lớp mới để hiển thị dropdown ở vị trí cố định khi có ít dữ liệu */
-.filter-dropdown.fixed-position {
-    position: fixed;
-    width: min-content;
-    /* Các vị trí sẽ được thiết lập qua JavaScript */
+.filter-dropdown.show {
+    display: block;
 }
 
 .filter-option {
     padding: 8px 12px;
     cursor: pointer;
     border-bottom: 1px solid #eee;
-    white-space: nowrap; /* Ngăn văn bản bị ngắt dòng */
+    white-space: nowrap;
 }
 
 .filter-option:last-child {
@@ -333,11 +418,6 @@ td:last-child {
 .filter-option.selected {
     background-color: #e6f7ff;
     font-weight: bold;
-}
-
-/* Hiển thị icon lọc rõ ràng hơn */
-.bi-funnel {
-    font-size: 0.8em;
 }
 
 .unlock-btn {
@@ -358,5 +438,105 @@ td:last-child {
     background-color: #218838;
 }
 
+.logout {
+    padding: 10px 15px;
+    margin-top: 20px;
+}
 
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+    color: white;
+}
+
+.logout-btn i {
+    font-size: 1.2rem;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.options-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.options-btn:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown-content {
+    /* position: absolute; */
+    top: 50%;          /* Đặt phần trên của dropdown ở giữa nút */
+    transform: translateY(-50%);
+    right: 100%;
+    margin-right: 10px;
+    background-color: white;
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+    z-index: 1;
+    display: flex;
+    /* border-radius: 4px; */
+        overflow: hidden;
+    /* gap: 5px; */
+}
+
+.dropdown-content::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -8px; /* Vị trí của mũi tên */
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid white; /* Tạo mũi tên cùng màu với dropdown */
+}
+
+/* Đảm bảo các nút và liên kết trong dropdown hiển thị đúng */
+.dropdown-content a,
+.dropdown-content button,
+.dropdown-content form {
+    /*width: 100%;*/
+    /*padding: 10px 12px;*/
+    text-align: left;
+    /*background: none;*/
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    margin: 4px 4px ; /* Thêm margin trên và dưới */
+}
+
+/*.dropdown-content a:hover,*/
+/*.dropdown-content button:hover {*/
+/*    background-color: #f1f1f1;*/
+/*}*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+/* Style cho các nút */
+.info-btn, .delete-btn, .unlock-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 

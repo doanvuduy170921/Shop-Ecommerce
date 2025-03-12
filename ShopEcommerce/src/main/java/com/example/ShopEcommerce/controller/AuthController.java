@@ -56,7 +56,7 @@ public class AuthController {
         }
 
         if (!user.getIsActive()) {
-            redirectAttributes.addFlashAttribute("successMsg", "Tài khoản đã bị khóa");
+            redirectAttributes.addFlashAttribute("successMsg", "Đăng nhập thất bại");
             return "redirect:/login";
         }
         // Gán role cho user

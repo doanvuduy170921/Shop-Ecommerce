@@ -23,21 +23,38 @@
 <!--	</header_admin>-->
 
 	<div class="container_admin">
-		<th:block th:insert="~{component/aside-admin}" />
-<!--		<aside class="sidebar">-->
-<!--			<nav>-->
-<!--				<ul>-->
-<!--					<li class="nav-header-admin">Admin</li>-->
-<!--					<li><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>-->
-<!--					<li class="active"><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>-->
-<!--					<li><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>-->
-<!--				</ul>-->
-<!--			</nav>-->
+<!--		<th:block th:insert="~{component/aside-admin}" />-->
+		<aside class="sidebar">
+			<nav>
+				<ul>
+					<li class="nav-header-admin">
+						<i class="bi bi-speedometer2"></i>Admin
+					</li>
+					<li>
+						<a th:href="@{/admin/accountManagement}">
+							<i class="bi bi-people-fill"></i> Quản lý tài khoản
+						</a>
+					</li>
+					<li class="active">
+						<a th:href="@{/admin/order-management}">
+							<i class="bi bi-cart-check-fill"></i> Quản lý đơn hàng
+						</a>
+					</li>
+					<li>
+						<a th:href="@{/admin/productManagement}">
+							<i class="bi bi-box-seam-fill"></i> Quản lý sản phẩm
+						</a>
+					</li>
+				</ul>
+			</nav>
 
-<!--			<div class="logout">-->
-<!--				<a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>-->
-<!--			</div>-->
-<!--		</aside>-->
+			<div class="logout">
+				<a th:href="@{/admin/logoutAdmin}" class="logout-btn">
+					<i class="bi bi-box-arrow-right"></i>
+					<span>Đăng xuất</span>
+				</a>
+			</div>
+		</aside>
 
 		<main_admin class="content_admin">
 			<div class="content-header-admin">
