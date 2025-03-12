@@ -17,8 +17,4 @@ public class OrderManagementController {
 		return "management/orderDetail"; // Không cần .html
 	}
 
-	@GetMapping("/order")
-	public String order() {
-		return "order";
-	}
 }
