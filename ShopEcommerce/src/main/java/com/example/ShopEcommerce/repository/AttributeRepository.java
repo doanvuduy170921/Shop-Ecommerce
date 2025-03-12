@@ -6,5 +6,4 @@ import com.example.ShopEcommerce.entity.Attribute;
 
 public interface AttributeRepository extends JpaRepository<Attribute, Integer> {
     // List<Attribute> findAllByCategoryId(Integer categoryId);
-
 }

@@ -13,125 +13,140 @@
 
 <body>
 <th:block th:insert="~{component/header-admin}" />
-<!--	<header_admin>-->
-<!--		<div class="logo-container_admin">-->
-<!--			<img src="logo.png" alt="Logo" class="logo_admin">-->
-<!--		</div>-->
-<!--		<div class="user-profile">-->
-<!--			<img src="user-icon.png" alt="User" class="user-icon_admin">-->
-<!--		</div>-->
-<!--	</header_admin>-->
 
-	<div class="container_admin">
-<!--		<th:block th:insert="~{component/aside-admin}" />-->
-		<aside class="sidebar">
+<div class="container_admin">
+	<aside class="sidebar">
+		<nav>
+			<ul>
+				<li class="nav-header-admin">
+					<i class="bi bi-speedometer2"></i>Admin
+				</li>
+				<li>
+					<a th:href="@{/admin/accountManagement}">
+						<i class="bi bi-people-fill"></i> Quản lý tài khoản
+					</a>
+				</li>
+				<li class="active">
+					<a th:href="@{/admin/order-management}">
+						<i class="bi bi-cart-check-fill"></i> Quản lý đơn hàng
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/admin/productManagement}">
+						<i class="bi bi-box-seam-fill"></i> Quản lý sản phẩm
+					</a>
+				</li>
+			</ul>
+		</nav>
+
+		<div class="logout">
+			<a th:href="@{/admin/logoutAdmin}" class="logout-btn">
+				<i class="bi bi-box-arrow-right"></i>
+				<span>Đăng xuất</span>
+			</a>
+		</div>
+	</aside>
+
+	<main_admin class="content_admin">
+		<h2>Quản lý Đơn hàng</h2>
+		<div class="content-header-admin">
+			<form class="search-container" method="get" th:action="@{/admin/order-management}">
+				<input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm theo tên khách hàng hoặc tên sản phẩm" class="search-input">
+				<button type="submit" class="search-btn">Tìm kiếm</button>
+			</form>
+		</div>
+		<div class="content_admin_body">
+			<div class="admin-table">
+				<table>
+					<thead>
+					<tr>
+						<th>Mã đơn hàng</th>
+						<th>Khách hàng</th>
+						<th>Sản phẩm</th>
+						<th>Ngày đặt</th>
+						<th>Tổng tiền</th>
+						<th>Trạng thái</th>
+						<th>Action</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:if="${#lists.isEmpty(orders)}">
+						<td colspan="7" class="text-center">Không có đơn hàng nào</td>
+					</tr>
+					<tr th:each="order : ${orders}">
+						<td th:text="${order.id}"></td>
+						<td th:text="${order.customerName}"></td>
+						<td th:text="${order.productPreview}"></td>
+						<td th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></td>
+						<td th:text="${#numbers.formatDecimal(order.totalMoney, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+						<td th:text="${order.status}"></td>
+						<td class="action-container-admin">
+							<div class="dropdown">
+								<button class="options-btn" onclick="toggleDropdown(this)">
+									<i class="bi bi-three-dots"></i>
+								</button>
+								<div class="dropdown-content" style="display: none;">
+									<a th:href="@{/admin/order-detail-management/{id}(id=${order.id})}" class="info-btn">
+										<i class="bi bi-info"></i>
+									</a>
+								</div>
+							</div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="pagination-container">
 			<nav>
-				<ul>
-					<li class="nav-header-admin">
-						<i class="bi bi-speedometer2"></i>Admin
+				<ul class="pagination">
+					<li th:classappend="${currentPage == 1} ? 'disabled'">
+						<a class="page-link" th:href="@{/admin/order-management(page=1, keyword=${keyword})}">&laquo;</a>
 					</li>
-					<li>
-						<a th:href="@{/admin/accountManagement}">
-							<i class="bi bi-people-fill"></i> Quản lý tài khoản
-						</a>
+
+					<li th:each="i : ${#numbers.sequence(1, totalPages)}"
+						th:classappend="${currentPage == i} ? 'active'">
+						<a class="page-link" th:href="@{/admin/order-management(page=${i}, keyword=${keyword})}" th:text="${i}"></a>
 					</li>
-					<li class="active">
-						<a th:href="@{/admin/order-management}">
-							<i class="bi bi-cart-check-fill"></i> Quản lý đơn hàng
-						</a>
-					</li>
-					<li>
-						<a th:href="@{/admin/productManagement}">
-							<i class="bi bi-box-seam-fill"></i> Quản lý sản phẩm
-						</a>
+
+					<li th:classappend="${currentPage == totalPages} ? 'disabled'">
+						<a class="page-link" th:href="@{/admin/order-management(page=${totalPages}, keyword=${keyword})}">&raquo;</a>
 					</li>
 				</ul>
 			</nav>
-
-			<div class="logout">
-				<a th:href="@{/admin/logoutAdmin}" class="logout-btn">
-					<i class="bi bi-box-arrow-right"></i>
-					<span>Đăng xuất</span>
-				</a>
-			</div>
-		</aside>
-
-		<main_admin class="content_admin">
-			<div class="content-header-admin">
-				<h2>Quản lý Đơn hàng</h2>
-				<form class="search-container">
-					<input type="text" placeholder="Tìm kiếm" class="search-input">
-					<button type="submit" class="search-btn">Tìm kiếm</button>
-				</form>
-			</div>
-			<div class="content_admin_body">
-				<div class="admin-table">
-					<table>
-						<thead>
-							<tr>
-								<th>Mã đơn hàng</th>
-								<th>Tên đơn hàng</th>
-								<th>Số lượng</th>
-								<th>Trạng thái</th>
-								<th>Action</th>
-								<!--<th>Đơn giá</th>
-								<th>Trạng thái</th>
-								<th>Ngày tạo đơn</th>
-								<th>Ngày cập nhật đơn</th>
-								<th>Mô tả</th>
-								<th>Phương thức vận chuyển</th>
-								<th>Tổng tiền</th>
-								<th>Action</th>-->
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>DH01</td>
-								<td>Điện thoại</td>
-								<td>2</td>
-								<td>Còn hàng</td>
-							<!--<td>28000000</td>
-								<td>Còn hàng</td>
-								<td>01/02/2025</td>
-								<td>01/04/2025</td>
-								<td>Nhập từ Châu Âu</td>
-								<td>vietpost</td>
-								<td>54000000</td>-->
-								<td class="action-container-admin">
-									<a href="/admin/order-detail-management" class="info-btn">
-									    <i class="bi bi-info"></i>
-									</a>
-<!--									<button class="delete-btn">×</button>-->
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-			<div class="d-flex justify-content-center mt-4">
-				<nav>
-					<ul class="pagination">
-						<li class="page-item disabled">
-							<a class="page-link" href="#">&laquo;</a>
-						</li>
-						<li class="page-item active">
-							<a class="page-link" href="#">1</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="#">2</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="#">3</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" href="#">&raquo;</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-		</main_admin>
-	</div>
+		</div>
+	</main_admin>
+</div>
 </body>
+<script>
+	function toggleDropdown(button) {
+		// Đóng tất cả các dropdown đang mở
+		const allDropdowns = document.querySelectorAll('.dropdown-content');
+		allDropdowns.forEach(dropdown => {
+			if (dropdown !== button.nextElementSibling) {
+				dropdown.style.display = 'none';
+			}
+		});
+
+		// Chuyển đổi trạng thái hiển thị của dropdown hiện tại
+		const dropdownContent = button.nextElementSibling;
+		if (dropdownContent.style.display === 'none' || dropdownContent.style.display === '') {
+			dropdownContent.style.display = 'flex';
+		} else {
+			dropdownContent.style.display = 'none';
+		}
+	}
+
+	// Đóng dropdown khi nhấp vào nơi khác trên trang
+	document.addEventListener('click', function(event) {
+		if (!event.target.matches('.options-btn') && !event.target.closest('.dropdown-content') && !event.target.matches('.bi-three-dots')) {
+			const dropdowns = document.querySelectorAll('.dropdown-content');
+			dropdowns.forEach(dropdown => {
+				dropdown.style.display = 'none';
+			});
+		}
+	});
+</script>
 
 </html>

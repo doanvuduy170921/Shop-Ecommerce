@@ -56,7 +56,7 @@
                 </li>
 
                 <li class="nav-item mx-1">
-                    <a class="nav-link py-2 position-relative" th:href="@{cart/carts}" title="Giỏ hàng">
+                    <a class="nav-link py-2 position-relative" th:href="@{/cart/carts}" title="Giỏ hàng">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="d-none d-xl-inline ms-1">Giỏ hàng</span>
                         <span class="badge bg-danger rounded-pill position-absolute" style="font-size: 0.6rem; top: 0; right: -5px;">3</span>
@@ -69,6 +69,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                         <li th:if="${session.user}">
+                            <a class="dropdown-item text-center btn btn-danger" th:href="@{/infoAccount/{id}(id=${session.user.id})}">Thông tin tài khoản</a>
                             <a class="dropdown-item btn btn-danger" th:href="@{/logout}">Đăng xuất</a>
                         </li>
                         <li th:unless="${session.user}">

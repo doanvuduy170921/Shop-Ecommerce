@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/accountDetail.css}">
     <link rel="stylesheet" href="../../static/css/management.css">
     <link rel="stylesheet" href="../../static/css/accountDetail.css">
+    <link rel="stylesheet" th:href="@{/css/infoAccount.css}">
 </head>
 <body>
 
@@ -28,7 +29,7 @@
                 <li class="nav-header-admin">
                     <i class="bi bi-speedometer2"></i>Admin
                 </li>
-                <li class="active">
+                <li>
                     <a th:href="@{/admin/accountManagement}">
                         <i class="bi bi-people-fill"></i> Quản lý tài khoản
                     </a>
@@ -55,23 +56,23 @@
     </aside>
 
     <main_admin class="content_admin">
-        <div class="content-header-admin">
+<!--        <div class="content-header-admin">-->
             <h2>Chi tiết tài khoản Admin</h2>
+<!--        </div>-->
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
         </div>
 
-        <!--		<div class="profile-header">-->
-        <!--			<div class="profile-avatar">-->
-        <!--				<img src="user-icon.png" alt="Avatar">-->
-        <!--			</div>-->
-        <!--		</div>-->
-
+        <div th:if="${success}" class="alert alert-success" role="alert">
+            <span th:text="${success}"></span>
+        </div>
         <div class="content_admin_body">
             <div class="account-details">
                 <table>
-                    <tr>
-                        <th>Mã tài khoản:</th>
-                        <td th:text="${user.id}"></td>
-                    </tr>
+<!--                    <tr style="display: none;">-->
+<!--                        <th>ID:</th>-->
+<!--                        <td><input type="hidden" id="id" name="id" th:value="${session.user.id}"></td>-->
+<!--                    </tr>-->
                     <tr>
                         <th>Họ tên:</th>
                         <td th:text="${user.name}"></td>
@@ -81,16 +82,16 @@
                         <td th:text="${user.phoneNumber}"></td>
                     </tr>
                     <tr>
-                        <th>Email:</th>
-                        <td th:text="${user.email}"></td>
-                    </tr>
-                    <tr>
                         <th>Địa chỉ:</th>
                         <td th:text="${user.address}"></td>
                     </tr>
                     <tr>
                         <th>Ngày sinh:</th>
                         <td th:text="${#temporals.format(user.dateOfBirth, 'dd/MM/yyyy')}"></td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td th:text="${user.email}"></td>
                     </tr>
                     <tr>
                         <th>Ngày tạo:</th>
@@ -104,17 +105,11 @@
                         <span class="back-icon"></span> Quay lại
                     </button>
                 </a>
-                <form th:if="${user.isActive}" th:action="@{/admin/accountDetail/deactivate/{id}(id=${user.id})}" method="post" style="display:inline;" class="delete-form">
-                    <button type="button" class="delete-btn-large" onclick="confirmAction(this, 'Bạn có chắc chắn muốn khóa tài khoản này?')">
-                        <span class="delete-icon"></span> Khóa
+                <a th:href="@{/admin/updateProfileAdmin/{id}(id=${user.id})}" style="">
+                    <button class="update-btn-large">
+                        <span class="update-icon"></span> Cập nhật
                     </button>
-                </form>
-                <form th:unless="${user.isActive}" th:action="@{/admin/accountDetail/activate/{id}(id=${user.id})}" method="post" style="display:inline;" class="activate-form">
-                    <button type="button" class="activate-btn-large" onclick="confirmAction(this, 'Bạn có chắc chắn muốn mở khóa tài khoản này?')">
-                        <span></span> Mở khóa
-                    </button>
-                </form>
-
+                </a>
             </div>
         </div>
     </main_admin>
