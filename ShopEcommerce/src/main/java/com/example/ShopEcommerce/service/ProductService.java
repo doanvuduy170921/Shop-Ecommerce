@@ -21,4 +21,5 @@ public interface ProductService {
     Product saveProduct(Product product);
     void deleteProduct(Long id);
     List<String> getImagesByProductId(Long productId);
+    Page<Product> filterProducts(String keyword, String priceRange, Integer categoryId, Pageable pageable);
 }

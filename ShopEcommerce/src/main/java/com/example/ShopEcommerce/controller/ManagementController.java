@@ -5,17 +5,14 @@ import com.example.ShopEcommerce.entity.Category;
 import com.example.ShopEcommerce.entity.Product;
 import com.example.ShopEcommerce.entity.ProductImage;
 import com.example.ShopEcommerce.entity.User;
-import com.example.ShopEcommerce.repository.ProductImageRepository;
 import com.example.ShopEcommerce.service.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.security.Principal;
+
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -50,31 +46,35 @@ public class ManagementController {
 
     @GetMapping("/productManagement")
     public String productManagement(@RequestParam(name = "keyword", required = false) String keyword,
+                                    @RequestParam(name = "priceRange", required = false) String priceRange,
+                                    @RequestParam(name = "categoryId", required = false) Integer categoryId,
                                     @RequestParam(name = "page", defaultValue = "1") int page,
-                                    @RequestParam(name = "size", defaultValue = "5") int size,
-                                    Model model){
+                                    @RequestParam(name = "size", defaultValue = "10") int size,
+                                    Model model) {
 
         Pageable pageable = PageRequest.of(page - 1, size);
-        Page<Product> productsPage = productService.searchProductPaginated(keyword, pageable);
+        Page<Product> productsPage = productService.filterProducts(keyword, priceRange, categoryId, pageable);
+
+        // Lấy danh sách tất cả các danh mục để hiển thị trong dropdown filter
+        List<CategoryResp> categories = categoryService.getAllCategories();
 
         model.addAttribute("products", productsPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", productsPage.getTotalPages());
         model.addAttribute("keyword", keyword);
+        model.addAttribute("priceRange", priceRange);
+        model.addAttribute("categoryId", categoryId);
+        model.addAttribute("categories", categories);
 
         return "management/productManagement";
-
-//        List<Product> products = productService.searchProducts(keyword);
-//
-//        model.addAttribute("products",products);
-//        model.addAttribute("keyword", keyword);
-//        return "management/productManagement";
     }
 
     @PostMapping("/toggleUserStatus/{id}")
     public String toggleUserStatus(@PathVariable Long id) {
         return userService.toggleUserStatus(id) ? "success" : "error";
     }
+
+
 
     @PostMapping("/productManagement/delete/{id}")
     @Transactional
@@ -111,32 +111,32 @@ public class ManagementController {
         return "redirect:/admin/productManagement";
     }
 
-    @PostMapping("/deleteProductImage/{id}")
-    @ResponseBody
-    public ResponseEntity<?> deleteProductImage(@PathVariable Long id) {
-        try {
-            // Lấy thông tin ảnh
-            ProductImage image = productImageService.findById(id);
-            if (image == null) {
-                return ResponseEntity.status(404).body("Không tìm thấy ảnh");
-            }
-
-            // Xóa file ảnh từ thư mục storage
-            fileUploadService.deleteFile(image.getImageUrl());
-
-            // Xóa record trong database
-            productImageService.deleteByProductId(id);
-
-            return ResponseEntity.ok("Xóa ảnh thành công");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Lỗi xóa ảnh: " + e.getMessage());
-        }
-    }
+//    @PostMapping("/deleteProductImage/{id}")
+//    @ResponseBody
+//    public ResponseEntity<?> deleteProductImage(@PathVariable Long id) {
+//        try {
+//            // Lấy thông tin ảnh
+//            ProductImage image = productImageService.findById(id);
+//            if (image == null) {
+//                return ResponseEntity.status(404).body("Không tìm thấy ảnh");
+//            }
+//
+//            // Xóa file ảnh từ thư mục storage
+//            fileUploadService.deleteFile(image.getImageUrl());
+//
+//            // Xóa record trong database
+//            productImageService.deleteByProductId(id);
+//
+//            return ResponseEntity.ok("Xóa ảnh thành công");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body("Lỗi xóa ảnh: " + e.getMessage());
+//        }
+//    }
 
     @GetMapping("/accountManagement")
     public String accountManagement(@RequestParam(name = "keyword", required = false) String keyword,
                                     @RequestParam(name = "page", defaultValue = "1") int page,
-                                    @RequestParam(name = "size", defaultValue = "5") int size,
+                                    @RequestParam(name = "size", defaultValue = "10") int size,
                                     Model model) {
 //        List<User> users = userService.searchUsers(keyword);
         Pageable pageable = PageRequest.of(page - 1, size);
@@ -154,6 +154,30 @@ public class ManagementController {
 //        return "management/accountManagement";
     }
 
+    @PostMapping("/accountManagement/deactivate/{id}")
+    public String deactivateUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            userService.activateUser(id);
+            redirectAttributes.addFlashAttribute("success", "Tài khoản đã khóa thành công");
+            return "redirect:/admin/accountManagement?page=";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi khi khóa tài khoản: " + e.getMessage());
+            return "redirect:/admin/accountManagement";
+        }
+    }
+    @PostMapping("/accountManagement/activate/{id}")
+    public String activateUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            userService.activateUser(id);
+            redirectAttributes.addFlashAttribute("success", "Tài khoản đã mở khóa thành công");
+            return "redirect:/admin/accountManagement";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi khi mở khóa tài khoản: " + e.getMessage());
+            return "redirect:/admin/accountManagement";
+        }
+    }
+
+
     @GetMapping("/accountDetail/{id}")
     public String accountDetail(@PathVariable Long id, Model model){
         User user = userService.findById(id);
@@ -162,6 +186,30 @@ public class ManagementController {
         }
         model.addAttribute("user", user);
         return "management/accountDetail";
+    }
+
+    @PostMapping("/accountDetail/deactivate/{id}")
+    public String deactivateDetailUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            userService.activateUser(id);
+            redirectAttributes.addFlashAttribute("success", "Tài khoản đã khóa thành công");
+            return "redirect:/admin/accountDetail/" + id;
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi khi khóa tài khoản: " + e.getMessage());
+            return "redirect:/admin/accountDetail/" + id;
+        }
+    }
+
+    @PostMapping("/accountDetail/activate/{id}")
+    public String activateDetailUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            userService.activateUser(id);
+            redirectAttributes.addFlashAttribute("success", "Tài khoản đã mở khóa thành công");
+            return "redirect:/admin/accountDetail/" + id;
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi khi mở khóa tài khoản: " + e.getMessage());
+            return "redirect:/admin/accountDetail/" + id;
+        }
     }
 
     @GetMapping("/productDetail/{id}")
@@ -174,12 +222,14 @@ public class ManagementController {
         return "management/productDetail";
     }
 
+
     @GetMapping("/addProduct")
     public String addProduct(Model model){
         List<CategoryResp> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
         return "management/addProduct";
     }
+
 
     @PostMapping("/addProduct")
     public String saveProduct(@RequestParam("name") String name,
@@ -356,5 +406,6 @@ public class ManagementController {
         redirectAttributes.addFlashAttribute("successMsg", "Đăng xuất thành công!");
         return "redirect:/home";
     }
+
 }
 
