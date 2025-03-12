@@ -1,9 +1,10 @@
 package com.example.ShopEcommerce.controller;
 
-import com.example.ShopEcommerce.dto.resp.CategoryResp;
-import com.example.ShopEcommerce.service.CategoryService;
+import com.example.ShopEcommerce.dto.resp.ProductResp;
 import com.example.ShopEcommerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +16,13 @@ import java.util.List;
 @RequestMapping("/home")
 @RequiredArgsConstructor
 public class HomeController {
-    private final CategoryService categoryService;
+    private final ProductService productService;
     @GetMapping("")
     public String home(Model model) {
-        List<CategoryResp> categories = categoryService.getAllCategories();
-        model.addAttribute("categories", categories);
+        
+        Page<ProductResp> products = productService.findAll();
+        model.addAttribute("products", products);
+
         return "index";
     }
 }

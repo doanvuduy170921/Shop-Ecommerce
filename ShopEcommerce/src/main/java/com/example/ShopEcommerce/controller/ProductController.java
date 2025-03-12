@@ -15,9 +15,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,16 +39,11 @@ import com.example.ShopEcommerce.service.CartService;
 import com.example.ShopEcommerce.service.CategoryService;
 import com.example.ShopEcommerce.service.ProductService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @Controller
 @RequestMapping("/product")
@@ -64,7 +55,6 @@ public class ProductController {
     private final CartService cartService;
 
     private final ProductRepository productRepository;
-
 
     private final ProductImageRepository productImageRepository;
 
@@ -88,8 +78,8 @@ public class ProductController {
     // 📌 Upload ảnh
     @PostMapping("/{productId}/upload")
     public String uploadImage(@PathVariable Long productId,
-                              @RequestParam("files") List<MultipartFile> files,
-                              RedirectAttributes redirectAttributes) {
+            @RequestParam("files") List<MultipartFile> files,
+            RedirectAttributes redirectAttributes) {
         try {
             // Thêm log để xác nhận ID từ đường dẫn
             System.out.println("Received productId from URL: " + productId);
@@ -105,12 +95,14 @@ public class ProductController {
             System.out.println("Found product with ID: " + product.getId() + ", Name: " + product.getName());
 
             File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) uploadDir.mkdirs();
+            if (!uploadDir.exists())
+                uploadDir.mkdirs();
 
             ProductImage latestImage = null;
 
             for (MultipartFile file : files) {
-                if (file.isEmpty()) continue;
+                if (file.isEmpty())
+                    continue;
 
                 // Kiểm tra định dạng ảnh
                 String contentType = file.getContentType();
@@ -176,12 +168,14 @@ public class ProductController {
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {
         try {
             Path imagePath = Paths.get(uploadPath).resolve(filename);
-            if (!Files.exists(imagePath)) return ResponseEntity.notFound().build();
+            if (!Files.exists(imagePath))
+                return ResponseEntity.notFound().build();
 
             Resource resource = new UrlResource(imagePath.toUri());
             String contentType = Files.probeContentType(imagePath);
             return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType != null ? contentType : "application/octet-stream"))
+                    .contentType(
+                            MediaType.parseMediaType(contentType != null ? contentType : "application/octet-stream"))
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
                     .body(resource);
         } catch (Exception e) {
@@ -192,14 +186,14 @@ public class ProductController {
     @GetMapping
     public String getProducts(
             Model model,
-            @RequestParam(required = false, defaultValue = "1") int categoryId,
+            @RequestParam(required = false, defaultValue = "0") int categoryId,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             @RequestParam(required = false) Integer minPrice,
-            @RequestParam(required = false) Integer maxPrice
-    ) {
+            @RequestParam(required = false) Integer maxPrice) {
         // Gọi service để lấy danh sách sản phẩm
-        Page<ProductResp> products = productService.getAllProductsByCategoryId(categoryId, page - 1, 5, sortDirection, minPrice, maxPrice);
+        Page<ProductResp> products = productService.getAllProductsByCategoryId(categoryId, page - 1, 5, sortDirection,
+                minPrice, maxPrice);
         List<CategoryResp> categories = categoryService.getAllCategories();
         int totalPages = products.getTotalPages();
 
@@ -214,6 +208,7 @@ public class ProductController {
         // Xử lý dữ liệu hoặc trả về view tương ứng
         return "shop/listItems"; // Trả về tên view để hiển thị danh sách sản phẩm
     }
+
     @GetMapping("/details")
     public String getProductDetail(@RequestParam Long id, Model model) {
         ProductResp product = productService.getProductById(id);
@@ -229,20 +224,23 @@ public class ProductController {
         model.addAttribute("attributes", attributes);
         return "shop/ItemDetails";
     }
+
     @PostMapping("/details/add-to-cart")
-    public String addToCart(@ModelAttribute AddToCardReq entity, RedirectAttributes redirectAttributes, HttpSession session) {
-        //TODO: process POST request
+    public String addToCart(@ModelAttribute AddToCardReq entity, RedirectAttributes redirectAttributes,
+            HttpSession session, HttpServletRequest request) {
+        // TODO: process POST request
         User user = (User) session.getAttribute("user");
-//        if (user == null) {
-//            return "redirect:/login";
-//        }
-//        entity.setUserId(user.getId());
+        if (user == null) {
+            return "redirect:/login";
+        }
+        entity.setUserId(user.getId());
         cartService.addToCart(entity);
         redirectAttributes.addFlashAttribute("successMessage", "Add to cart successfully");
-//        return "redirect:/product/details?id=" + entity.getProductId();
-        return "redirect:/cart/carts";
+        // return "redirect:/product/details?id=" + entity.getProductId();
+        // return "redirect:/cart/carts";
+        String referer = request.getHeader("Referer");
+        return "redirect:" + (referer != null ? referer : "/");
 
     }
-
 
 }
