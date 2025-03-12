@@ -7,3 +7,7 @@
     min-width: 250px; /* Đảm bảo không nhỏ hơn 250px */
     max-width: 300px; /* Giới hạn kích thước tối đa */
 }
+
+.container-item-detail .filter {
+    position: fixed;
+}

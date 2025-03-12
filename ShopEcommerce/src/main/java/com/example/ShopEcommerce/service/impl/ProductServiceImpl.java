@@ -146,4 +146,12 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findAll(spec, pageable);
     }
+
+    @Override
+    public Page<ProductResp> findAll() {
+        // TODO Auto-generated method stub
+        Sort sort = Sort.by("price").ascending();
+        Pageable pageable = PageRequest.of(0, 4, sort);
+        return productRepository.findAll(pageable).map(ProductMapper::toProductResp);
+    }
 }
