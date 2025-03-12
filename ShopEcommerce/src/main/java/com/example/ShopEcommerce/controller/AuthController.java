@@ -281,4 +281,9 @@ public class AuthController {
         redirectAttributes.addFlashAttribute("successMsg", "Đăng xuất thành công!");
         return "redirect:/";
     }
+
+    @GetMapping("")
+    public String home() {
+        return "redirect:/home";
+    }
 }

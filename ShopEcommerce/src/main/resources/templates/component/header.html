@@ -29,13 +29,13 @@
                         <span class="d-none d-xl-inline ms-1">Trang chủ</span>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle py-2" th:href="@{/product}" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                <li class="nav-item dropdown" th:onclick="|window.location.href='/product'|">
+                    <a class="nav-link dropdown-toggle py-2" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-th-large"></i>
                         <span class="d-none d-xl-inline ms-1">Danh mục</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 py-2">
-                        <li th:each="category : ${categories}">
+                        <li th:each="category : ${global_categories}">
                             <a class="dropdown-item py-1" th:href="@{/product(categoryId=${category.id})}" th:text="${category.name}">
                                 <i class="fas fa-mobile-alt text-primary me-2"></i>
                             </a>
