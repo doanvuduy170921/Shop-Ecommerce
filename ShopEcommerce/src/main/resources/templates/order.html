@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đơn Hàng Của Bạn | Thế Giới Di Động</title>
+    <link rel="stylesheet" th:href="@{/css/order.css}">
+
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <h1>Đơn Hàng Của Bạn</h1>
+</header>
+
+<!-- Danh sách đơn hàng -->
+<div class="order-container">
+    <div class="order-card">
+        <div class="order-header">
+            <span>Mã đơn hàng: #123456</span>
+            <span class="status processing">Đang xử lý</span>
+        </div>
+        <div class="order-details">
+            <img src="https://via.placeholder.com/80" alt="Sản phẩm">
+            <div class="info">
+                <h3>Điện thoại Samsung Galaxy S23</h3>
+                <p>Số lượng: 1</p>
+                <p class="price">Giá: 23.990.000₫</p>
+            </div>
+        </div>
+        <div class="order-footer">
+            <span>Tổng tiền: <b>23.990.000₫</b></span>
+            <a href="#" class="btn">Chi tiết đơn hàng</a>
+        </div>
+    </div>
+
+    <div class="order-card">
+        <div class="order-header">
+            <span>Mã đơn hàng: #987654</span>
+            <span class="status delivered">Đã giao</span>
+        </div>
+        <div class="order-details">
+            <img src="https://via.placeholder.com/80" alt="Sản phẩm">
+            <div class="info">
+                <h3>Laptop Dell Inspiron 15</h3>
+                <p>Số lượng: 1</p>
+                <p class="price">Giá: 17.490.000₫</p>
+            </div>
+        </div>
+        <div class="order-footer">
+            <span>Tổng tiền: <b>17.490.000₫</b></span>
+            <a href="#" class="btn">Chi tiết đơn hàng</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

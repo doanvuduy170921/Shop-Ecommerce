@@ -25,4 +25,15 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Cart(Product product, int quantity, User user) {
+        this.product = product;
+        this.quantity = quantity;
+        this.user = user;
+    }
+    public Cart() {
+
+    }
+    public void increaseQuantity(int amount) {
+        this.quantity += amount;
+    }
 }

@@ -233,13 +233,15 @@ public class ProductController {
     public String addToCart(@ModelAttribute AddToCardReq entity, RedirectAttributes redirectAttributes, HttpSession session) {
         //TODO: process POST request
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/login";
-        }
-        entity.setUserId(user.getId());
+//        if (user == null) {
+//            return "redirect:/login";
+//        }
+//        entity.setUserId(user.getId());
         cartService.addToCart(entity);
         redirectAttributes.addFlashAttribute("successMessage", "Add to cart successfully");
-        return "redirect:/product/details?id=" + entity.getProductId();
+//        return "redirect:/product/details?id=" + entity.getProductId();
+        return "redirect:/cart/carts";
+
     }
 
 
