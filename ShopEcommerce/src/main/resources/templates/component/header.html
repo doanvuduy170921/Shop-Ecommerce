@@ -4,7 +4,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
         <!-- Logo và Brand - Thu gọn kích thước -->
-        <a class="navbar-brand d-flex align-items-center" href="#">
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/home}">
             <i class="fas fa-shopping-bag me-1 text-primary" style="font-size: 1.3rem;"></i>
             <span style="font-weight: 700; font-size: 1.3rem;">Shop<span class="text-primary">Ecommerce</span></span>
         </a>
@@ -36,7 +36,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 py-2">
                         <li th:each="category : ${categories}">
-                            <a class="dropdown-item py-1" th:href="@{/product/{id}(id=${category.id})}" th:text="${category.name}">
+                            <a class="dropdown-item py-1" th:href="@{/product(categoryId=${category.id})}" th:text="${category.name}">
                                 <i class="fas fa-mobile-alt text-primary me-2"></i>
                             </a>
                         </li>
@@ -49,9 +49,9 @@
                 </li>
 
                 <li class="nav-item mx-1">
-                    <a class="nav-link py-2" href="#" title="Yêu thích">
+                    <a class="nav-link py-2" th:href="@{/order}" title="Yêu thích">
                         <i class="fas fa-heart"></i>
-                        <span class="d-none d-xl-inline ms-1">Yêu thích</span>
+                        <span class="d-none d-xl-inline ms-1">Đơn hàng</span>
                     </a>
                 </li>
 

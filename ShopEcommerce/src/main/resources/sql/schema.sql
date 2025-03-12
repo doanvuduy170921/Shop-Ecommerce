@@ -87,17 +87,19 @@ create table users
         primary key,
     created_at    datetime(6)  null,
     updated_at    datetime(6)  null,
-    address       varchar(200) null,
-    date_of_birth datetime(6)  null,
+    address       varchar(255) null,
+    date_of_birth date         null,
     is_active     bit          null,
     password      varchar(255) null,
-    phone_number  varchar(10)  null,
+    phone_number  varchar(255) null,
     role_id       bigint       null,
     email         varchar(255) null,
     name          varchar(255) null,
+    is_verified   bit          not null,
     constraint FKp56c1712k691lhsyewcssf40f
         foreign key (role_id) references roles (id)
 );
+
 
 create table cart
 (
