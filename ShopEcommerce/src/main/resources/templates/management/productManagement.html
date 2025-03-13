@@ -14,21 +14,37 @@
 <th:block th:insert="~{component/header-admin}" />
 
 <div class="container_admin">
-    <th:block th:insert="~{component/aside-admin}" />
-<!--    <aside class="sidebar">-->
-<!--        <nav>-->
-<!--            <ul>-->
-<!--                <li class="nav-header-admin">Admin</li>-->
-<!--                <li><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>-->
-<!--                <li><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>-->
-<!--                <li class="active"><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>-->
-<!--            </ul>-->
-<!--        </nav>-->
+    <aside class="sidebar">
+        <nav>
+            <ul>
+                <li class="nav-header-admin">
+                    <i class="bi bi-speedometer2"></i>Admin
+                </li>
+                <li >
+                    <a th:href="@{/admin/accountManagement}">
+                        <i class="bi bi-people-fill"></i> Quản lý tài khoản
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/order-management}">
+                        <i class="bi bi-cart-check-fill"></i> Quản lý đơn hàng
+                    </a>
+                </li>
+                <li class="active">
+                    <a th:href="@{/admin/productManagement}">
+                        <i class="bi bi-box-seam-fill"></i> Quản lý sản phẩm
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-<!--        <div class="logout">-->
-<!--            <a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>-->
-<!--        </div>-->
-<!--    </aside>-->
+        <div class="logout">
+            <a th:href="@{/admin/logoutAdmin}" class="logout-btn">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Đăng xuất</span>
+            </a>
+        </div>
+    </aside>
 
     <main_admin class="content_admin">
         <div th:if="${error}" class="alert alert-danger" role="alert">
@@ -38,9 +54,9 @@
         <div th:if="${success}" class="alert alert-success" role="alert">
             <span th:text="${success}"></span>
         </div>
+        <h2>Quản lý sản phẩm</h2>
         <div class="content-header-admin">
-            <h2>Quản lý sản phẩm</h2>
-            <form class="search-container" action="/admin/productManagement" method="get">
+            <form class="search-container" action="/admin/productManagement" method="get" id="filterForm">
                 <input type="text" name="keyword" placeholder="Nhập tên sản phẩm" class="search-input" th:value="${keyword}">
                 <input type="hidden" name="priceRange" id="hiddenPriceRange" th:value="${priceRange}">
                 <input type="hidden" name="categoryId" id="hiddenCategoryId" th:value="${categoryId}">
@@ -51,33 +67,43 @@
             </a>
         </div>
         <div class="content_admin_body">
+            <div class="filter-bar">
+                <div class="filter-item">
+                    <div class="filter-button" onclick="togglePriceFilter(event)">
+                        <span id="currentPriceFilter">Lọc theo giá</span>
+                        <i class="bi bi-funnel"></i>
+                    </div>
+                    <div id="priceFilterDropdown" class="filter-dropdown">
+                        <div class="filter-option" onclick="applyPriceFilter('')">Tất cả giá</div>
+                        <div class="filter-option" onclick="applyPriceFilter('under5m')">Dưới 5 triệu</div>
+                        <div class="filter-option" onclick="applyPriceFilter('5mto20m')">5 triệu - 20 triệu</div>
+                        <div class="filter-option" onclick="applyPriceFilter('above20m')">Trên 20 triệu</div>
+                    </div>
+                </div>
+
+                <div class="filter-item">
+                    <div class="filter-button" onclick="toggleCategoryFilter(event)">
+                        <span id="currentCategoryFilter">Lọc theo loại</span>
+                        <i class="bi bi-funnel"></i>
+                    </div>
+                    <div id="categoryFilterDropdown" class="filter-dropdown">
+                        <div class="filter-option" onclick="applyCategoryFilter('')">Tất cả loại</div>
+                        <div th:each="category : ${categories}" class="filter-option"
+                             th:attr="onclick='applyCategoryFilter(\'' + ${category.id} + '\')'">
+                            <span th:text="${category.name}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="admin-table">
                 <table>
                     <thead>
                     <tr>
                         <th>Mã sản phẩm</th>
                         <th>Tên sản phẩm</th>
-                        <th class="filter-header">
-                            Giá
-                            <i class="bi bi-funnel filter-icon" onclick="togglePriceFilter(event)"></i>
-                            <div id="priceFilterDropdown" class="filter-dropdown">
-                                <div class="filter-option" onclick="applyPriceFilter('')">Tất cả giá</div>
-                                <div class="filter-option" onclick="applyPriceFilter('under5m')">Dưới 5 triệu</div>
-                                <div class="filter-option" onclick="applyPriceFilter('5mto20m')">5 triệu - 20 triệu</div>
-                                <div class="filter-option" onclick="applyPriceFilter('above20m')">Trên 20 triệu</div>
-                            </div>
-                        </th>
-                        <th class="filter-header">
-                            Loại
-                            <i class="bi bi-funnel filter-icon" onclick="toggleCategoryFilter(event)"></i>
-                            <div id="categoryFilterDropdown" class="filter-dropdown">
-                                <div class="filter-option" onclick="applyCategoryFilter('')">Tất cả loại</div>
-                                <div th:each="category : ${categories}" class="filter-option"
-                                     th:attr="onclick='applyCategoryFilter(\'' + ${category.id} + '\')'">
-                                    <span th:text="${category.name}"></span>
-                                </div>
-                            </div>
-                        </th>
+                        <th>Giá</th>
+                        <th>Loại</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -91,15 +117,24 @@
                         <td th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
                         <td th:text="${product.category.name}"></td>
                         <td class="action-container-admin">
-                            <a th:href="@{/admin/productDetail/{id}(id=${product.id})}" class="info-btn">
-                                <i class="bi bi-info"></i>
-                            </a>
-                            <a th:href="@{/admin/updateProduct/{id}(id=${product.id})}" class="edit-btn">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <form th:action="@{/admin/productManagement/delete/{id}(id=${product.id})}" method="post" style="display:inline;" class="delete-form">
-                                <button type="button" class="delete-btn" onclick="confirmDelete(this)">×</button>
-                            </form>
+                            <div class="dropdown">
+                                <button class="options-btn" onclick="toggleDropdown(this)">
+                                    <i class="bi bi-three-dots"></i>
+                                </button>
+                                <div class="dropdown-content" style="display: none;">
+                                    <a th:href="@{/admin/productDetail/{id}(id=${product.id})}" class="info-btn">
+                                        <i class="bi bi-info"></i>
+                                    </a>
+                                    <a th:href="@{/admin/updateProduct/{id}(id=${product.id})}" class="edit-btn">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <form th:action="@{/admin/productManagement/delete/{id}(id=${product.id})}" method="post" class="delete-btn">
+                                        <button type="button" class="delete-btn" onclick="confirmDelete(this)">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -138,105 +173,72 @@
     function togglePriceFilter(event) {
         event.stopPropagation();
         const dropdown = document.getElementById('priceFilterDropdown');
-        const icon = event.currentTarget;
 
-        // Lấy vị trí của icon filter
-        const iconRect = icon.getBoundingClientRect();
+        // Đóng dropdown loại nếu đang mở
+        document.getElementById('categoryFilterDropdown').classList.remove('show');
 
-        // Nếu dropdown đang ẩn, hiển thị nó
-        if (dropdown.style.display !== 'block') {
-            // Ẩn dropdown category nếu đang mở
-            document.getElementById('categoryFilterDropdown').style.display = 'none';
-
-            // Kiểm tra xem bảng có ít dữ liệu không
-            const table = document.querySelector('.admin-table');
-            const tableBottom = table.getBoundingClientRect().bottom;
-
-            // Nếu vị trí bottom của bảng gần với vị trí filter, sử dụng vị trí cố định
-            if (tableBottom - iconRect.bottom < 150) {
-                dropdown.classList.add('fixed-position');
-                dropdown.style.top = (iconRect.bottom + window.scrollY) + 'px';
-                dropdown.style.left = (iconRect.left + window.scrollX) + 'px';
-            } else {
-                dropdown.classList.remove('fixed-position');
-            }
-
-            dropdown.style.display = 'block';
-        } else {
-            dropdown.style.display = 'none';
-        }
+        // Chuyển đổi trạng thái hiển thị dropdown giá
+        dropdown.classList.toggle('show');
     }
 
-    // Hiển thị/ẩn dropdown lọc loại sản phẩm
     function toggleCategoryFilter(event) {
         event.stopPropagation();
         const dropdown = document.getElementById('categoryFilterDropdown');
-        const icon = event.currentTarget;
 
-        // Lấy vị trí của icon filter
-        const iconRect = icon.getBoundingClientRect();
+        // Đóng dropdown giá nếu đang mở
+        document.getElementById('priceFilterDropdown').classList.remove('show');
 
-        // Nếu dropdown đang ẩn, hiển thị nó
-        if (dropdown.style.display !== 'block') {
-            // Ẩn dropdown giá nếu đang mở
-            document.getElementById('priceFilterDropdown').style.display = 'none';
-
-            // Kiểm tra xem bảng có ít dữ liệu không
-            const table = document.querySelector('.admin-table');
-            const tableBottom = table.getBoundingClientRect().bottom;
-
-            // Nếu vị trí bottom của bảng gần với vị trí filter, sử dụng vị trí cố định
-            if (tableBottom - iconRect.bottom < 150) {
-                dropdown.classList.add('fixed-position');
-                dropdown.style.top = (iconRect.bottom + window.scrollY) + 'px';
-                dropdown.style.left = (iconRect.left + window.scrollX) + 'px';
-            } else {
-                dropdown.classList.remove('fixed-position');
-            }
-
-            dropdown.style.display = 'block';
-        } else {
-            dropdown.style.display = 'none';
-        }
+        // Chuyển đổi trạng thái hiển thị dropdown loại
+        dropdown.classList.toggle('show');
     }
 
     // Áp dụng lọc giá
     function applyPriceFilter(value) {
         document.getElementById('hiddenPriceRange').value = value;
-        document.querySelector('.search-container').submit();
+        document.querySelector('#filterForm').submit();
     }
 
     // Áp dụng lọc loại sản phẩm
     function applyCategoryFilter(value) {
         document.getElementById('hiddenCategoryId').value = value;
-        document.querySelector('.search-container').submit();
+        document.querySelector('#filterForm').submit();
     }
 
     // Ẩn tất cả dropdown khi click ra ngoài
     document.addEventListener('click', function(event) {
-        document.getElementById('priceFilterDropdown').style.display = 'none';
-        document.getElementById('categoryFilterDropdown').style.display = 'none';
+        if (!event.target.closest('.filter-item')) {
+            document.getElementById('priceFilterDropdown').classList.remove('show');
+            document.getElementById('categoryFilterDropdown').classList.remove('show');
+        }
     });
 
-    // Highlight lựa chọn hiện tại
+    // Highlight lựa chọn hiện tại và cập nhật tên hiển thị của filter
     document.addEventListener('DOMContentLoaded', function() {
         const currentPriceRange = document.getElementById('hiddenPriceRange').value;
         const currentCategoryId = document.getElementById('hiddenCategoryId').value;
 
+        // Cập nhật hiển thị cho filter giá
         if (currentPriceRange) {
+            const priceText = getPriceRangeText(currentPriceRange);
+            document.getElementById('currentPriceFilter').textContent = priceText;
+
             const priceOptions = document.querySelectorAll('#priceFilterDropdown .filter-option');
             priceOptions.forEach(option => {
-                if (option.textContent.includes(getPriceRangeText(currentPriceRange))) {
+                if (option.textContent === priceText) {
                     option.classList.add('selected');
                 }
             });
         }
 
+        // Cập nhật hiển thị cho filter loại
         if (currentCategoryId) {
             const categoryOptions = document.querySelectorAll('#categoryFilterDropdown .filter-option');
             categoryOptions.forEach(option => {
-                if (option.getAttribute('onclick').includes(currentCategoryId)) {
+                if (option.getAttribute('onclick') && option.getAttribute('onclick').includes(currentCategoryId)) {
                     option.classList.add('selected');
+                    // Lấy tên loại từ option được chọn
+                    const categoryName = option.textContent.trim();
+                    document.getElementById('currentCategoryFilter').textContent = categoryName;
                 }
             });
         }
@@ -251,6 +253,7 @@
             default: return 'Tất cả giá';
         }
     }
+
     // Đảm bảo các tham số lọc được giữ lại khi phân trang
     document.addEventListener('DOMContentLoaded', function() {
         const paginationLinks = document.querySelectorAll('.pagination .page-link');
@@ -282,7 +285,34 @@
             }
         });
     });
+
+    function toggleDropdown(button) {
+        // Đóng tất cả các dropdown đang mở
+        const allDropdowns = document.querySelectorAll('.dropdown-content');
+        allDropdowns.forEach(dropdown => {
+            if (dropdown !== button.nextElementSibling) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Chuyển đổi trạng thái hiển thị của dropdown hiện tại
+        const dropdownContent = button.nextElementSibling;
+        if (dropdownContent.style.display === 'none' || dropdownContent.style.display === '') {
+            dropdownContent.style.display = 'flex';
+        } else {
+            dropdownContent.style.display = 'none';
+        }
+    }
+
+    // Đóng dropdown khi nhấp vào nơi khác trên trang
+    document.addEventListener('click', function(event) {
+        if (!event.target.matches('.options-btn') && !event.target.closest('.dropdown-content') && !event.target.matches('.bi-three-dots')) {
+            const dropdowns = document.querySelectorAll('.dropdown-content');
+            dropdowns.forEach(dropdown => {
+                dropdown.style.display = 'none';
+            });
+        }
+    });
 </script>
-</div>
 </body>
 </html>

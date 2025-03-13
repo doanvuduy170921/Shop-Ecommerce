@@ -75,4 +75,9 @@ public class UserService {
     public List<User> findAllActiveUsers() {
         return userRepository.findByIsActiveTrue();
     }
+
+    // Trong UserService
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cập nhật tài khoản Admin</title>
+  <link rel="stylesheet" th:href="@{/css/management.css}">
+  <link rel="stylesheet" th:href="@{/css/accountDetail.css}">
+  <link rel="stylesheet" href="../../static/css/management.css">
+  <link rel="stylesheet" href="../../static/css/accountDetail.css">
+  <link rel="stylesheet" th:href="@{/css/infoAccount.css}">
+  <link rel="stylesheet" th:href="@{/css/updateAccount.css}">
+</head>
+<body>
+
+<!--<header_admin>-->
+<!--	<div class="logo-container_admin">-->
+<!--		<img src="logo.png" alt="Logo" class="logo_admin">-->
+<!--	</div>-->
+<!--	<div class="user-profile">-->
+<!--		<img src="user-icon.png" alt="User" class="user-icon_admin">-->
+<!--	</div>-->
+<!--</header_admin>-->
+
+<th:block th:insert="~{component/header-admin}" />
+<div class="container_admin">
+  <aside class="sidebar">
+    <nav>
+      <ul>
+        <li class="nav-header-admin">
+          <i class="bi bi-speedometer2"></i>Admin
+        </li>
+        <li>
+          <a th:href="@{/admin/accountManagement}">
+            <i class="bi bi-people-fill"></i> Quản lý tài khoản
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/admin/order-management}">
+            <i class="bi bi-cart-check-fill"></i> Quản lý đơn hàng
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/admin/productManagement}">
+            <i class="bi bi-box-seam-fill"></i> Quản lý sản phẩm
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="logout">
+      <a th:href="@{/admin/logoutAdmin}" class="logout-btn">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Đăng xuất</span>
+      </a>
+    </div>
+  </aside>
+
+  <main_admin class="content_admin">
+    <!--        <div class="content-header-admin">-->
+    <h2>Cập nhật tài khoản Admin</h2>
+    <!--        </div>-->
+
+    <div class="updateAccount_container">
+      <form class="updateAccountForm" th:action="@{/admin/updateProfileAdmin}" th:object="${user}" method="POST"  >
+        <div class="form-group">
+          <label for="fullName">Họ Tên:</label>
+          <input type="text" id="fullName" th:field="*{name}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Số Điện Thoại:</label>
+          <input type="text" id="phone" class="form-control" th:field="*{phoneNumber}" required
+                 pattern="[0-9]{10,11}" title="Vui lòng nhập số điện thoại hợp lệ (10-11 chữ số)">
+        </div>
+
+        <div class="form-group">
+          <label for="address">Địa Chỉ:</label>
+          <input type="text" id="address" th:field="*{address}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="dateOfBirth">Ngày Sinh:</label>
+          <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" required
+                 th:data-value="${user.dateOfBirth}"
+                 th:value="${user.dateOfBirth != null ? #temporals.format(user.dateOfBirth, 'yyyy-MM-dd') : ''}">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" class="form-control" th:field="*{email}" required
+                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Vui lòng nhập email hợp lệ">
+        </div>
+
+        <!--                <div class="form-group">-->
+        <!--                    <label for="avatar">Ảnh Đại Diện:</label>-->
+        <!--                    <input type="file" name="avatar" />-->
+        <!--                </div>-->
+
+        <div class="form-group">
+          <label for="oldPassword">Mật Khẩu Cũ:</label>
+          <input type="password" id="oldPassword" name="oldPassword" class="form-control"
+                 placeholder="Nhập mật khẩu cũ nếu muốn thay đổi">
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword">Mật Khẩu Mới:</label>
+          <input type="password" id="newPassword" name="newPassword" class="form-control"
+                 placeholder="Để trống nếu không muốn thay đổi">
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Xác Nhận Mật Khẩu Mới:</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"
+                 placeholder="Nhập lại mật khẩu mới">
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn btn-primary mt-3 mr-2">Lưu Thay Đổi</button>
+          <a onclick="goBack()" class="btn btn-danger mt-3">Quay lại</a>
+        </div>
+      </form>
+    </div>
+  </main_admin>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <p>Bạn có chắc chắn muốn khóa tài khoản này không?</p>
+    <div class="modal-buttons">
+      <button class="back-btn" onclick="closeModal()">Hủy</button>
+      <!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
+      <!--                <button class="delete-btn-large">Xóa</button>-->
+      <!--            </a>-->
+      <!--			<a>-->
+      <!--				<button class="delete-btn-large">Khóa</button>-->
+      <!--			</a>-->
+    </div>
+  </div>
+</div>
+
+<script>
+  // Modal functions
+  function openModal() {
+    document.getElementById('deleteModal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+  }
+
+  // Close modal if user clicks outside of it
+  window.onclick = function(event) {
+    if (event.target == document.getElementById('deleteModal')) {
+      closeModal();
+    }
+  }
+
+  function confirmDeactivate(button) {
+    if (confirm('Bạn có chắc chắn muốn xóa tài khoản này?')) {
+      button.closest('.delete-form').submit();
+    } else {
+      // Không làm gì cả khi người dùng chọn "Hủy"
+      console.log('Đã hủy việc xóa tài khoản');
+    }
+  }
+
+  function confirmAction(button, message) {
+    if (confirm(message)) {
+      button.closest('form').submit();
+    } else {
+      console.log('Đã hủy thao tác');
+    }
+  }
+
+  function goBack() {
+    window.history.back();
+  }
+</script>
+
+</body>
+</html>

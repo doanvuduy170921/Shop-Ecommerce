@@ -82,7 +82,7 @@ public class ProfileController {
         userService.updateUser(existingUser);
 
         redirectAttributes.addFlashAttribute("success", "Cập nhật tài khoản thành công!");
-        return "redirect:/updateAccount/" + id;
+        return "redirect:/infoAccount/" + id;
     }
 
     @PostMapping("/infoAccount/deactivate/{id}")
