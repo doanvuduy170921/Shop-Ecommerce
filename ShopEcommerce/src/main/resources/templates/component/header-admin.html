@@ -49,7 +49,9 @@
   </a>
   <div class="user-container" onclick="toggleProfile()">
     <i class="fa-solid fa-user user-icon_admin"></i>
-    <a class="profile-menu" id="profileMenu" th:href="@{/admin/ProfileAdmin/{id}(id=${session.user.id})}">Profile</a>
+<!--    <a class="profile-menu" id="profileMenu" th:href="@{/admin/ProfileAdmin/{id}(id=${session.user.id})}">Profile</a>-->
+    <a class="profile-menu" id="profileMenu" th:href="@{/admin/ProfileAdmin}">Profile</a>
+
   </div>
 </header_admin>
 

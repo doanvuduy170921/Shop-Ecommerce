@@ -380,39 +380,65 @@ public class ManagementController {
         return "redirect:/admin/productManagement";
     }
 
-    @GetMapping("/ProfileAdmin/{id}")
-    public String ProfileAdmin(@PathVariable("id") Long id, Model model){
-        User user = userService.findById(id);
+//    @GetMapping("/ProfileAdmin/{id}")
+//    public String ProfileAdmin(@PathVariable("id") Long id, Model model){
+//        User user = userService.findById(id);
+//        if (user == null) {
+//            return "redirect:/login";
+//        }
+//        model.addAttribute("user", user);
+//        return "management/ProfileAdmin";
+//    }
+    @GetMapping("/ProfileAdmin")
+    public String ProfileAdmin(HttpSession session, Model model){
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findById(loggedInUser.getId());
         if (user == null) {
             return "redirect:/login";
         }
+
         model.addAttribute("user", user);
         return "management/ProfileAdmin";
     }
 
-    @GetMapping("/updateProfileAdmin/{id}")
-    public String updateAccount(@PathVariable Long id, Model model){
-        User user = userService.findById(id);
-        if (user == null) {
-            return "redirect:/admin/updateProfileAdmin";
+    @GetMapping("/updateProfileAdmin")
+    public String updateAccount(HttpSession session, Model model){
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
         }
+
+        User user = userService.findById(loggedInUser.getId());
+        if (user == null) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("user", user);
         return "management/updateProfileAdmin";
     }
 
-    @PostMapping("/updateProfileAdmin/{id}")
+    @PostMapping("/updateProfileAdmin")
     public String updateProfileAdmin(
-            @PathVariable Long id,
             @ModelAttribute("user") User updatedUser,
             @RequestParam(value = "oldPassword", required = false) String oldPassword,
             @RequestParam(value = "newPassword", required = false) String newPassword,
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
 
-        User existingUser = userService.findById(id);
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        User existingUser = userService.findById(loggedInUser.getId());
         if (existingUser == null) {
             redirectAttributes.addFlashAttribute("error", "Người dùng không tồn tại!");
-            return "redirect:/admin/updateProfileAdmin/" + id;
+            return "redirect:/login";
         }
 
         existingUser.setName(updatedUser.getName());
@@ -424,11 +450,11 @@ public class ManagementController {
         if (newPassword != null && !newPassword.isEmpty()) {
             if (!passwordEncoder.matches(oldPassword, existingUser.getPassword())) {
                 redirectAttributes.addFlashAttribute("error", "Mật khẩu cũ không đúng!");
-                return "redirect:/admin/updateProfileAdmin/" + id;
+                return "redirect:/admin/updateProfileAdmin";
             }
             if (!newPassword.equals(confirmPassword)) {
                 redirectAttributes.addFlashAttribute("error", "Xác nhận mật khẩu không khớp!");
-                return "redirect:/admin/updateProfileAdmin/" + id;
+                return "redirect:/admin/updateProfileAdmin";
             }
             existingUser.setPassword(passwordEncoder.encode(newPassword));
         }
@@ -436,8 +462,57 @@ public class ManagementController {
         userService.updateUser(existingUser);
 
         redirectAttributes.addFlashAttribute("success", "Cập nhật tài khoản thành công!");
-        return "redirect:/admin/ProfileAdmin/" + id;
+        return "redirect:/admin/ProfileAdmin";
     }
+
+//    @GetMapping("/updateProfileAdmin/{id}")
+//    public String updateAccount(@PathVariable Long id, Model model){
+//        User user = userService.findById(id);
+//        if (user == null) {
+//            return "redirect:/admin/updateProfileAdmin";
+//        }
+//        model.addAttribute("user", user);
+//        return "management/updateProfileAdmin";
+//    }
+//
+//    @PostMapping("/updateProfileAdmin/{id}")
+//    public String updateProfileAdmin(
+//            @PathVariable Long id,
+//            @ModelAttribute("user") User updatedUser,
+//            @RequestParam(value = "oldPassword", required = false) String oldPassword,
+//            @RequestParam(value = "newPassword", required = false) String newPassword,
+//            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+//            RedirectAttributes redirectAttributes) {
+//
+//        User existingUser = userService.findById(id);
+//        if (existingUser == null) {
+//            redirectAttributes.addFlashAttribute("error", "Người dùng không tồn tại!");
+//            return "redirect:/admin/updateProfileAdmin/" + id;
+//        }
+//
+//        existingUser.setName(updatedUser.getName());
+//        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+//        existingUser.setAddress(updatedUser.getAddress());
+//        existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
+//        existingUser.setEmail(updatedUser.getEmail());
+//
+//        if (newPassword != null && !newPassword.isEmpty()) {
+//            if (!passwordEncoder.matches(oldPassword, existingUser.getPassword())) {
+//                redirectAttributes.addFlashAttribute("error", "Mật khẩu cũ không đúng!");
+//                return "redirect:/admin/updateProfileAdmin/" + id;
+//            }
+//            if (!newPassword.equals(confirmPassword)) {
+//                redirectAttributes.addFlashAttribute("error", "Xác nhận mật khẩu không khớp!");
+//                return "redirect:/admin/updateProfileAdmin/" + id;
+//            }
+//            existingUser.setPassword(passwordEncoder.encode(newPassword));
+//        }
+//
+//        userService.updateUser(existingUser);
+//
+//        redirectAttributes.addFlashAttribute("success", "Cập nhật tài khoản thành công!");
+//        return "redirect:/admin/ProfileAdmin/" + id;
+//    }
 
     @GetMapping("/logoutAdmin")
     public String logoutUser(HttpSession session, RedirectAttributes redirectAttributes) {
