@@ -5,124 +5,118 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Chi tiết Đơn hàng</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 	<link rel="stylesheet" th:href="@{/css/management.css}">
 	<link rel="stylesheet" th:href="@{/css/accountDetail.css}">
-	<link rel="stylesheet" href="../../static/css/management.css">
-	<link rel="stylesheet" href="../../static/css/accountDetail.css">
 </head>
 
 <body>
-<!--	<header_admin>-->
-<!--		<div class="logo-container_admin">-->
-<!--			<img src="logo.png" alt="Logo" class="logo_admin">-->
-<!--		</div>-->
-<!--		<div class="user-profile">-->
-<!--			<img src="user-icon.png" alt="User" class="user-icon_admin">-->
-<!--		</div>-->
-<!--	</header_admin>-->
-	<th:block th:insert="~{component/header-admin}" />
-	<div class="container_admin">
-		<th:block th:insert="~{component/aside-admin}" />
-<!--		<aside class="sidebar">-->
-<!--			<nav>-->
-<!--				<ul>-->
-<!--					<li class="nav-header-admin">Admin</li>-->
-<!--					<li><a th:href="@{/admin/accountManagement}">Quản lý tài khoản</a></li>-->
-<!--					<li class="active"><a th:href="@{/admin/order-management}">Quản lý đơn hàng</a></li>-->
-<!--					<li><a th:href="@{/admin/productManagement}">Quản lý sản phẩm</a></li>-->
-<!--				</ul>-->
-<!--			</nav>-->
-
-<!--			<div class="logout">-->
-<!--				<a th:href="@{/admin/logoutAdmin}">Đăng xuất</a>-->
-<!--			</div>-->
-<!--		</aside>-->
-
-		<main_admin class="content_admin">
-			<div class="content-header-admin">
-				<h2>Chi tiết đơn hàng</h2>
-			</div>
-
-			<div class="content_admin_body">
-				<div class="account-details">
-					<table>
-						<tr>
-							<th>Mã đơn hàng:</th>
-							<!--                        <td th:text="${account.id}"></td>-->
-							<td>DH01</td>
-						</tr>
-						<tr>
-							<th>Tên đơn hàng:</th>
-							<td>Điện thoại</td>
-						</tr>
-						<tr>
-							<th>Đơn giá:</th>
-							<td>12000</td>
-						</tr>
-
-						<tr>
-							<th>Số lượng:</th>
-							<td>2</td>
-						</tr>
-						<tr>
-							<th>Tổng tiền:</th>
-							<td>24000</td>
-						</tr>
-						<tr>
-							<th>Tên sản phẩm:</th>
-							<td>Điện thoại ip14promax</td>
-						</tr>
-					</table>
-				</div>
-				<div class="buttons">
-					<a th:href="@{/admin/order-management}">
-						<button class="back-btn-large">
-							<span class="back-icon"></span> Quay lại
-						</button>
+<th:block th:insert="~{component/header-admin}" />
+<div class="container_admin">
+	<aside class="sidebar">
+		<nav>
+			<ul>
+				<li class="nav-header-admin">
+					<i class="bi bi-speedometer2"></i>Admin
+				</li>
+				<li>
+					<a th:href="@{/admin/accountManagement}">
+						<i class="bi bi-people-fill"></i> Quản lý tài khoản
 					</a>
-<!--					<button class="delete-btn-large" onclick="openModal()">-->
-<!--						<span class="delete-icon"></span> Xóa-->
-<!--					</button>-->
-				</div>
+				</li>
+				<li class="active">
+					<a th:href="@{/admin/order-management}">
+						<i class="bi bi-cart-check-fill"></i> Quản lý đơn hàng
+					</a>
+				</li>
+				<li>
+					<a th:href="@{/admin/productManagement}">
+						<i class="bi bi-box-seam-fill"></i> Quản lý sản phẩm
+					</a>
+				</li>
+			</ul>
+		</nav>
+
+		<div class="logout">
+			<a th:href="@{/admin/logoutAdmin}" class="logout-btn">
+				<i class="bi bi-box-arrow-right"></i>
+				<span>Đăng xuất</span>
+			</a>
+		</div>
+	</aside>
+
+	<main_admin class="content_admin">
+		<h2>Chi tiết đơn hàng</h2>
+		<div class="content-header-admin">
+		</div>
+
+		<div class="content_admin_body">
+			<div class="account-details">
+				<table>
+					<tr>
+						<th>Mã đơn hàng:</th>
+						<td th:text="${order.id}"></td>
+					</tr>
+<!--					<tr>-->
+<!--						<th>Mã đơn hàng:</th>-->
+<!--						<td th:text="${order.orderCode}"></td>-->
+<!--					</tr>-->
+					<tr>
+						<th>Khách hàng:</th>
+						<td th:text="${order.customerName}"></td>
+					</tr>
+					<tr>
+						<th>Ngày đặt:</th>
+						<td th:text="${#temporals.format(order.orderDate, 'dd/MM/yyyy')}"></td>
+					</tr>
+					<tr>
+						<th>Tổng tiền:</th>
+						<td th:text="${#numbers.formatDecimal(order.totalMoney, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+					</tr>
+					<tr>
+						<th>Trạng thái:</th>
+						<td th:text="${order.status}"></td>
+					</tr>
+					<tr>
+						<th>Sản phẩm:</th>
+						<td th:text="${order.productPreview}"></td>
+					</tr>
+				</table>
 			</div>
-		</main_admin>
 
+			<!-- Hiển thị chi tiết sản phẩm trong đơn hàng nếu có -->
+			<div class="order-products mt-4" th:if="${orderDetails != null && !orderDetails.isEmpty()}">
+				<h3>Chi tiết sản phẩm</h3>
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<th>Sản phẩm</th>
+						<th>Đơn giá</th>
+						<th>Số lượng</th>
+						<th>Thành tiền</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="detail : ${orderDetails}">
+						<td th:text="${detail.product != null ? detail.product.name : 'N/A'}"></td>
+						<td th:text="${#numbers.formatDecimal(detail.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+						<td th:text="${detail.quantity}"></td>
+						<td th:text="${#numbers.formatDecimal(detail.price * detail.quantity, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
 
-		<!-- Delete Confirmation Modal -->
-		<div id="deleteModal" class="modal">
-			<div class="modal-content">
-				<p>Bạn có chắc chắn muốn xóa đơn hàng này không?</p>
-				<div class="modal-buttons">
-					<button class="back-btn" onclick="closeModal()">Hủy</button>
-					<!--            <a th:href="@{'/deleteAccount/' + ${account.id}}">-->
-					<!--                <button class="delete-btn-large">Xóa</button>-->
-					<!--            </a>-->
-<!--					<a>-->
-<!--						<button class="delete-btn-large">Xóa</button>-->
-<!--					</a>-->
-				</div>
+			<div class="buttons mt-4">
+				<a th:href="@{/admin/order-management}">
+					<button class="back-btn-large">
+						<span class="back-icon"></span> Quay lại
+					</button>
+				</a>
 			</div>
 		</div>
-	</div>
-
-	<script>
-		// Modal functions
-		function openModal() {
-			document.getElementById('deleteModal').style.display = 'block';
-		}
-
-		function closeModal() {
-			document.getElementById('deleteModal').style.display = 'none';
-		}
-
-		// Close modal if user clicks outside of it
-		window.onclick = function (event) {
-			if (event.target == document.getElementById('deleteModal')) {
-				closeModal();
-			}
-		}
-	</script>
-
+	</main_admin>
+</div>
 </body>
-
 </html>

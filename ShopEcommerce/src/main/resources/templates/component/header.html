@@ -29,13 +29,13 @@
                         <span class="d-none d-xl-inline ms-1">Trang chủ</span>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle py-2" th:href="@{/product}" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                <li class="nav-item dropdown" th:onclick="|window.location.href='/product'|">
+                    <a class="nav-link dropdown-toggle py-2" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                         <i class="fas fa-th-large"></i>
                         <span class="d-none d-xl-inline ms-1">Danh mục</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 py-2">
-                        <li th:each="category : ${categories}">
+                        <li th:each="category : ${global_categories}">
                             <a class="dropdown-item py-1" th:href="@{/product(categoryId=${category.id})}" th:text="${category.name}">
                                 <i class="fas fa-mobile-alt text-primary me-2"></i>
                             </a>
@@ -56,7 +56,7 @@
                 </li>
 
                 <li class="nav-item mx-1">
-                    <a class="nav-link py-2 position-relative" th:href="@{cart/carts}" title="Giỏ hàng">
+                    <a class="nav-link py-2 position-relative" th:href="@{/cart/carts}" title="Giỏ hàng">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="d-none d-xl-inline ms-1">Giỏ hàng</span>
                         <span class="badge bg-danger rounded-pill position-absolute" style="font-size: 0.6rem; top: 0; right: -5px;">3</span>
@@ -69,6 +69,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                         <li th:if="${session.user}">
+                            <a class="dropdown-item text-center btn btn-danger" th:href="@{/infoAccount/{id}(id=${session.user.id})}">Thông tin tài khoản</a>
                             <a class="dropdown-item btn btn-danger" th:href="@{/logout}">Đăng xuất</a>
                         </li>
                         <li th:unless="${session.user}">

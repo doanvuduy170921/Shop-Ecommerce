@@ -86,6 +86,10 @@ public class AuthController {
             redirectAttributes.addFlashAttribute("errorMsg", "Tài khoản chưa được xác nhận. Vui lòng kiểm tra email.");
             return "redirect:/login";
         }
+        if (!user.getIsActive()) {
+            redirectAttributes.addFlashAttribute("successMsg", "Đăng nhập thất bại");
+            return "redirect:/login";
+        }
 
         Role role = user.getRole();
         if (role == null) {
@@ -280,5 +284,10 @@ public class AuthController {
         session.invalidate();
         redirectAttributes.addFlashAttribute("successMsg", "Đăng xuất thành công!");
         return "redirect:/";
+    }
+
+    @GetMapping("")
+    public String home() {
+        return "redirect:/home";
     }
 }

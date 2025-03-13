@@ -29,7 +29,13 @@
         <div class="content-header-infoUser">
             <span>Chi tiết tài khoản</span>
         </div>
+        <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+        </div>
 
+        <div th:if="${success}" class="alert alert-success" role="alert">
+            <span th:text="${success}"></span>
+        </div>
 <!--        <div class="profile-header">-->
 <!--            <div class="profile-avatar">-->
 <!--                <img src="user-icon.png" alt="Avatar">-->
@@ -76,11 +82,11 @@
                         <span class="update-icon"></span> Cập nhật
                     </button>
                 </a>
-                <form th:action="@{/infoAccount/deactivate/{id}(id=${user.id})}" method="post" style="display:inline;" class="delete-form" id="deleteForm">
-                    <button type="button" class="delete-btn-large" onclick="confirmDeactivate(this)">
-                        <span class="delete-icon"></span> Xóa
-                    </button>
-                </form>
+<!--                <form th:action="@{/infoAccount/deactivate/{id}(id=${user.id})}" method="post" style="display:inline;" class="delete-form" id="deleteForm">-->
+<!--                    <button type="button" class="delete-btn-large" onclick="confirmDeactivate(this)">-->
+<!--                        <span class="delete-icon"></span> Xóa-->
+<!--                    </button>-->
+<!--                </form>-->
             </div>
         </div>
     </main>
