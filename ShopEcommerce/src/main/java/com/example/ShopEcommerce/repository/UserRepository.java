@@ -13,7 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
+    User findByResetPasswordToken(String token);
+    User findByVerificationToken(String verificationToken);
     boolean existsByEmail(String email);
 //    @Query("SELECT u FROM User u WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :name, '%'))")
 //    List<User> searchByName(@Param("name") String name);
