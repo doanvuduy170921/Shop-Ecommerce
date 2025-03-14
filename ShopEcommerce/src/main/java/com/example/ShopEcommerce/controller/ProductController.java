@@ -192,7 +192,7 @@ public class ProductController {
             @RequestParam(required = false) Integer minPrice,
             @RequestParam(required = false) Integer maxPrice) {
         // Gọi service để lấy danh sách sản phẩm
-        Page<ProductResp> products = productService.getAllProductsByCategoryId(categoryId, page - 1, 5, sortDirection,
+        Page<ProductResp> products = productService.getAllProductsByCategoryId(categoryId, page - 1, 9, sortDirection,
                 minPrice, maxPrice);
         List<CategoryResp> categories = categoryService.getAllCategories();
         int totalPages = products.getTotalPages();
