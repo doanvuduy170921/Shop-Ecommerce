@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận đơn hàng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .success-icon {
+            font-size: 50px;
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .order-details {
+            margin-bottom: 30px;
+        }
+
+        .order-details h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .order-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .order-info p {
+            margin-bottom: 8px;
+        }
+
+        .order-info strong {
+            color: #2c3e50;
+        }
+
+        .product-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .product-list th, .product-list td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-list th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .product-list tr:last-child td {
+            border-bottom: none;
+        }
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .summary {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .summary-row.total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .customer-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .shipping-info, .billing-info {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .info-box {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .info-box h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            .customer-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .product-list th, .product-list td {
+                padding: 8px 10px;
+            }
+
+            .product-image {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="success-icon">✓</div>
+        <h1>Đặt hàng thành công!</h1>
+        <p>Cảm ơn bạn đã đặt hàng. Đơn hàng của bạn đã được xác nhận.</p>
+    </div>
+
+    <div class="order-details">
+        <h2>Thông tin đơn hàng</h2>
+        <div class="order-info">
+            <p><strong>Mã đơn hàng:</strong> #ORD-2025031301</p>
+            <p><strong>Ngày đặt hàng:</strong> 13/03/2025</p>
+            <p><strong>Phương thức thanh toán:</strong> Thanh toán qua thẻ tín dụng</p>
+            <p><strong>Trạng thái thanh toán:</strong> Đã thanh toán</p>
+            <p><strong>Trạng thái đơn hàng:</strong> Đang xử lý</p>
+        </div>
+    </div>
+
+    <h2>Sản phẩm đã đặt</h2>
+    <table class="product-list">
+        <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>Hình ảnh</th>
+            <th>Đơn giá</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Áo thun nam cổ tròn</td>
+            <td><img src="/api/placeholder/60/60" alt="Áo thun nam" class="product-image"></td>
+            <td>250.000 ₫</td>
+            <td>2</td>
+            <td>500.000 ₫</td>
+        </tr>
+        <tr>
+            <td>Quần jean nữ ống đứng</td>
+            <td><img src="/api/placeholder/60/60" alt="Quần jean nữ" class="product-image"></td>
+            <td>450.000 ₫</td>
+            <td>1</td>
+            <td>450.000 ₫</td>
+        </tr>
+        <tr>
+            <td>Giày thể thao nam</td>
+            <td><img src="/api/placeholder/60/60" alt="Giày thể thao" class="product-image"></td>
+            <td>780.000 ₫</td>
+            <td>1</td>
+            <td>780.000 ₫</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <div class="summary-row">
+            <span>Tổng tiền hàng:</span>
+            <span>1.730.000 ₫</span>
+        </div>
+        <div class="summary-row">
+            <span>Phí vận chuyển:</span>
+            <span>30.000 ₫</span>
+        </div>
+        <div class="summary-row">
+            <span>Giảm giá:</span>
+            <span>-100.000 ₫</span>
+        </div>
+        <div class="summary-row total">
+            <span>Tổng thanh toán:</span>
+            <span>1.660.000 ₫</span>
+        </div>
+    </div>
+
+    <div class="customer-info">
+        <div class="shipping-info">
+            <h2>Thông tin giao hàng</h2>
+            <div class="info-box">
+                <h3>Nguyễn Văn A</h3>
+                <p>0987654321</p>
+                <p>123 Đường Lê Lợi, Phường Bến Nghé</p>
+                <p>Quận 1, TP. Hồ Chí Minh</p>
+            </div>
+        </div>
+
+        <div class="billing-info">
+            <h2>Thông tin thanh toán</h2>
+            <div class="info-box">
+                <h3>Nguyễn Văn A</h3>
+                <p>0987654321</p>
+                <p>123 Đường Lê Lợi, Phường Bến Nghé</p>
+                <p>Quận 1, TP. Hồ Chí Minh</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a href="#" class="btn">Theo dõi đơn hàng</a>
+        <a href="#" class="btn btn-secondary">Tiếp tục mua sắm</a>
+    </div>
+
+    <div class="footer">
+        <p>Nếu bạn có bất kỳ câu hỏi nào, xin liên hệ với chúng tôi qua email: support@example.com</p>
+        <p>&copy; 2025 Shop Online. Tất cả các quyền được bảo lưu.</p>
+    </div>
+</div>
+</body>
+</html>

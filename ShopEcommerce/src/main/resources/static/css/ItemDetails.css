@@ -77,7 +77,7 @@
 
 .container-item-detail, .image-list, .col-md-5, .col-md-7, .mt-5 {
     background-color: white; /* Đặt màu nền cố định */
-    padding: 15px; /* Thêm padding để dễ nhìn hơn */
+    padding: 15px; 
     border-radius: 8px; /* Bo góc nhẹ */
 }
 
@@ -88,7 +88,12 @@
     width: 10rem;
 }
 
-.details h4 {
+.details h5 {
     background: rgba(0,0,0,.02);
     padding: 1rem;
+}
+
+#mainImage {
+    object-fit: contain;
+    aspect-ratio: 1/1;
 }

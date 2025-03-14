@@ -10,4 +10,15 @@ public class OrderController {
     public String order() {
         return "order";
     }
+
+
+    @GetMapping("/order-confirm")
+    public String orderConfirm() {
+        return "order-confirm";
+    }
+
+    @GetMapping("/order-success")
+    public String orderSuccess() {
+        return "order-success";
+    }
 }

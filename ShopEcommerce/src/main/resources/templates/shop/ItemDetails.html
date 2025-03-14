@@ -50,9 +50,20 @@
     </head>
     <body style="background-color: #f5f5f5">
         <th:block th:insert="~{component/header.html}"></th:block>
+        <nav class="container container-item-detail mt-3 mb-3" aria-label="breadcrumb">
+            <ol class="breadcrumb" style="margin-bottom: 0;">
+                <li class="breadcrumb-item">
+                    <a href="/">Trang chủ</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/category" th:href="@{/category/{id}(id=${product.category.id})}" th:text="${product.category.name}"></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${product.name}"></li>
+            </ol>
+        </nav>
+        
         <div
             class="container container-item-detail mb-3 pt-5"
-            style="margin-top: 400px"
         >
             <div class="row">
                 <div class="col-md-4">
@@ -125,11 +136,11 @@
                         <p class="text-warning">⭐⭐⭐⭐⭐ 8k đánh giá</p>
                         <h4
                             class="text-danger"
-                            th:text="'đ' + ${product.price}"
+                            th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"
                         >
                             <!-- đ33.000 - đ38.500 -->
                             <span
-                                th:text="'đ' + ${product.price}"
+                                th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"
                                 class="text-secondary text-decoration-line-through"
                             >
                                 <!-- đ52.800 -->
@@ -165,14 +176,14 @@
         </div>
         <div class="container md-4 mb-3">
             <div class="mt-3 details">
-                <h4>Chi Tiết Sản Phẩm</h4>
+                <h5>Chi Tiết Sản Phẩm</h5>
                 <ul class="pt-3">
                     <li th:each="entry : ${attributes}">
                         <label th:text="${entry.key} + ': '"></label>
                         <div th:text="${entry.value}"></div>
                     </li>
                 </ul>
-                <h4>Mô Tả Sản Phẩm</h4>
+                <h5>Mô Tả Sản Phẩm</h5>
                 <div class="pt-3" style="padding-left: 2rem">
                     <!-- <p>
                         Trải nghiệm khả năng điều khiển mượt mà và chính xác với
