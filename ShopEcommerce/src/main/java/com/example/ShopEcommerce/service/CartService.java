@@ -16,4 +16,5 @@ public interface CartService {
 //    void addProductToCart(Long productId, int quantity);
 //    final Map<Long, Cart> cartItems = new HashMap<>();
 //    void updateCart(Long cart_id, Integer quantity);
+    List<Cart> findAllCartsByUserId(Long userId);
 }

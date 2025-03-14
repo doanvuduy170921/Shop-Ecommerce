@@ -240,7 +240,6 @@ public class ProductController {
         // return "redirect:/cart/carts";
         String referer = request.getHeader("Referer");
         return "redirect:" + (referer != null ? referer : "/");
-
     }
 
 }

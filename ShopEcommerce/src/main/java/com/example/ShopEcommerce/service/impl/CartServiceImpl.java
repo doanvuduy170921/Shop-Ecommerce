@@ -58,6 +58,11 @@ public class CartServiceImpl implements CartService {
         cartRepository.deleteById(cart_id);
     }
 
+    @Override
+    public List<Cart> findAllCartsByUserId(Long userId) {
+        return cartRepository.getCartByUserId(userId);
+    }
+
     public Collection<Cart> getCartItems() {
         return cartItems.values();
     }
@@ -80,7 +85,7 @@ public class CartServiceImpl implements CartService {
     // return item;
     // });
     // User user = null;
-    // Product product = null;
+
     // cartItems.putIfAbsent(productId, new Cart(product, quantity, user));
     // }
 }

@@ -1,6 +1,7 @@
 package com.example.ShopEcommerce.controller;
 
 import com.example.ShopEcommerce.entity.Cart;
+import com.example.ShopEcommerce.entity.User;
 import com.example.ShopEcommerce.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.constraints.Past;
@@ -22,12 +23,12 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
-    @GetMapping("/carts")
+    /*@GetMapping("/carts")
     public String cartPage(Model model) {
         List<Cart> cartList = cartService.findAllCarts();
         model.addAttribute("cartList", cartList);
         return "cart/cart"; // Trả về file cart.html
-    }
+    }*/
 
 //    @PostMapping("/add")
 //    public String addToCart(@RequestParam Long productId, @RequestParam int quantity, RedirectAttributes redirectAttributes) {
@@ -49,10 +50,16 @@ public class CartController {
         return "redirect:/cart/carts";
     }
 
-//    @PostMapping("/update")
-//    public String updateCart(@RequestParam("cart_id") Long cart_id, @RequestParam("quantity") Integer quantity,  HttpSession session) {
-//        System.out.println("update cart");
-//        cartService.updateCart(cart_id, quantity);
-//        return "redirect:/cart/carts";
-//    }
+    @GetMapping("/carts")
+    public String getUserCart(Model model,HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if(user ==null){
+            return "redirect:/login";
+        }
+        List<Cart> carts = cartService.findAllCartsByUserId(user.getId());
+        model.addAttribute("cartList", carts);
+        return "cart/cart";
+
+    }
+
 }
