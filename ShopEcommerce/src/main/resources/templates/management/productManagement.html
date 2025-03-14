@@ -166,7 +166,10 @@
     // Hàm xác nhận xóa sản phẩm
     function confirmDelete(button) {
         if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
-            button.closest('.delete-form').submit();
+            button.closest('form').submit();
+        } else {
+            // Không làm gì cả khi người dùng chọn "Hủy"
+            console.log('Đã hủy việc xóa sản phẩm');
         }
     }
 
