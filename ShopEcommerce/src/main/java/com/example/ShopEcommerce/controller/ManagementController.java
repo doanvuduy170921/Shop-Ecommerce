@@ -8,6 +8,7 @@ import com.example.ShopEcommerce.entity.User;
 import com.example.ShopEcommerce.service.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
 
@@ -43,13 +45,15 @@ public class ManagementController {
         this.categoryService = categoryService;
         this.productImageService = productImageService;
     }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/productManagement")
     public String productManagement(@RequestParam(name = "keyword", required = false) String keyword,
                                     @RequestParam(name = "priceRange", required = false) String priceRange,
                                     @RequestParam(name = "categoryId", required = false) Integer categoryId,
                                     @RequestParam(name = "page", defaultValue = "1") int page,
-                                    @RequestParam(name = "size", defaultValue = "10") int size,
+                                    @RequestParam(name = "size", defaultValue = "8") int size,
                                     Model model) {
 
         Pageable pageable = PageRequest.of(page - 1, size);
@@ -69,10 +73,6 @@ public class ManagementController {
         return "management/productManagement";
     }
 
-    @PostMapping("/toggleUserStatus/{id}")
-    public String toggleUserStatus(@PathVariable Long id) {
-        return userService.toggleUserStatus(id) ? "success" : "error";
-    }
 
 
 
@@ -111,32 +111,12 @@ public class ManagementController {
         return "redirect:/admin/productManagement";
     }
 
-//    @PostMapping("/deleteProductImage/{id}")
-//    @ResponseBody
-//    public ResponseEntity<?> deleteProductImage(@PathVariable Long id) {
-//        try {
-//            // Lấy thông tin ảnh
-//            ProductImage image = productImageService.findById(id);
-//            if (image == null) {
-//                return ResponseEntity.status(404).body("Không tìm thấy ảnh");
-//            }
-//
-//            // Xóa file ảnh từ thư mục storage
-//            fileUploadService.deleteFile(image.getImageUrl());
-//
-//            // Xóa record trong database
-//            productImageService.deleteByProductId(id);
-//
-//            return ResponseEntity.ok("Xóa ảnh thành công");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(500).body("Lỗi xóa ảnh: " + e.getMessage());
-//        }
-//    }
+
 
     @GetMapping("/accountManagement")
     public String accountManagement(@RequestParam(name = "keyword", required = false) String keyword,
                                     @RequestParam(name = "page", defaultValue = "1") int page,
-                                    @RequestParam(name = "size", defaultValue = "10") int size,
+                                    @RequestParam(name = "size", defaultValue = "8") int size,
                                     Model model) {
 //        List<User> users = userService.searchUsers(keyword);
         Pageable pageable = PageRequest.of(page - 1, size);
@@ -399,6 +379,140 @@ public class ManagementController {
         redirectAttributes.addFlashAttribute("success", "Cập nhật sản phẩm thành công!");
         return "redirect:/admin/productManagement";
     }
+
+//    @GetMapping("/ProfileAdmin/{id}")
+//    public String ProfileAdmin(@PathVariable("id") Long id, Model model){
+//        User user = userService.findById(id);
+//        if (user == null) {
+//            return "redirect:/login";
+//        }
+//        model.addAttribute("user", user);
+//        return "management/ProfileAdmin";
+//    }
+    @GetMapping("/ProfileAdmin")
+    public String ProfileAdmin(HttpSession session, Model model){
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findById(loggedInUser.getId());
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user);
+        return "management/ProfileAdmin";
+    }
+
+    @GetMapping("/updateProfileAdmin")
+    public String updateAccount(HttpSession session, Model model){
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findById(loggedInUser.getId());
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("user", user);
+        return "management/updateProfileAdmin";
+    }
+
+    @PostMapping("/updateProfileAdmin")
+    public String updateProfileAdmin(
+            @ModelAttribute("user") User updatedUser,
+            @RequestParam(value = "oldPassword", required = false) String oldPassword,
+            @RequestParam(value = "newPassword", required = false) String newPassword,
+            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        User existingUser = userService.findById(loggedInUser.getId());
+        if (existingUser == null) {
+            redirectAttributes.addFlashAttribute("error", "Người dùng không tồn tại!");
+            return "redirect:/login";
+        }
+
+        existingUser.setName(updatedUser.getName());
+        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        existingUser.setAddress(updatedUser.getAddress());
+        existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
+        existingUser.setEmail(updatedUser.getEmail());
+
+        if (newPassword != null && !newPassword.isEmpty()) {
+            if (!passwordEncoder.matches(oldPassword, existingUser.getPassword())) {
+                redirectAttributes.addFlashAttribute("error", "Mật khẩu cũ không đúng!");
+                return "redirect:/admin/updateProfileAdmin";
+            }
+            if (!newPassword.equals(confirmPassword)) {
+                redirectAttributes.addFlashAttribute("error", "Xác nhận mật khẩu không khớp!");
+                return "redirect:/admin/updateProfileAdmin";
+            }
+            existingUser.setPassword(passwordEncoder.encode(newPassword));
+        }
+
+        userService.updateUser(existingUser);
+
+        redirectAttributes.addFlashAttribute("success", "Cập nhật tài khoản thành công!");
+        return "redirect:/admin/ProfileAdmin";
+    }
+
+//    @GetMapping("/updateProfileAdmin/{id}")
+//    public String updateAccount(@PathVariable Long id, Model model){
+//        User user = userService.findById(id);
+//        if (user == null) {
+//            return "redirect:/admin/updateProfileAdmin";
+//        }
+//        model.addAttribute("user", user);
+//        return "management/updateProfileAdmin";
+//    }
+//
+//    @PostMapping("/updateProfileAdmin/{id}")
+//    public String updateProfileAdmin(
+//            @PathVariable Long id,
+//            @ModelAttribute("user") User updatedUser,
+//            @RequestParam(value = "oldPassword", required = false) String oldPassword,
+//            @RequestParam(value = "newPassword", required = false) String newPassword,
+//            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+//            RedirectAttributes redirectAttributes) {
+//
+//        User existingUser = userService.findById(id);
+//        if (existingUser == null) {
+//            redirectAttributes.addFlashAttribute("error", "Người dùng không tồn tại!");
+//            return "redirect:/admin/updateProfileAdmin/" + id;
+//        }
+//
+//        existingUser.setName(updatedUser.getName());
+//        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+//        existingUser.setAddress(updatedUser.getAddress());
+//        existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
+//        existingUser.setEmail(updatedUser.getEmail());
+//
+//        if (newPassword != null && !newPassword.isEmpty()) {
+//            if (!passwordEncoder.matches(oldPassword, existingUser.getPassword())) {
+//                redirectAttributes.addFlashAttribute("error", "Mật khẩu cũ không đúng!");
+//                return "redirect:/admin/updateProfileAdmin/" + id;
+//            }
+//            if (!newPassword.equals(confirmPassword)) {
+//                redirectAttributes.addFlashAttribute("error", "Xác nhận mật khẩu không khớp!");
+//                return "redirect:/admin/updateProfileAdmin/" + id;
+//            }
+//            existingUser.setPassword(passwordEncoder.encode(newPassword));
+//        }
+//
+//        userService.updateUser(existingUser);
+//
+//        redirectAttributes.addFlashAttribute("success", "Cập nhật tài khoản thành công!");
+//        return "redirect:/admin/ProfileAdmin/" + id;
+//    }
 
     @GetMapping("/logoutAdmin")
     public String logoutUser(HttpSession session, RedirectAttributes redirectAttributes) {

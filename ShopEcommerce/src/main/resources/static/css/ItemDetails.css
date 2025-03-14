@@ -92,3 +92,8 @@
     background: rgba(0,0,0,.02);
     padding: 1rem;
 }
+
+#mainImage {
+    object-fit: contain;
+    aspect-ratio: 1/1;
+}
