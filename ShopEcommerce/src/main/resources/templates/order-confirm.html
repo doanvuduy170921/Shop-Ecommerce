@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận đơn hàng</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .product-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .product-list th, .product-list td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-list th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .product-list tr:last-child td {
+            border-bottom: none;
+        }
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .summary {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .summary-row.total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .shipping-options {
+            margin-bottom: 20px;
+        }
+
+        .shipping-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .shipping-option.selected {
+            border-color: #3498db;
+            background-color: #f0f9ff;
+        }
+
+        .shipping-option input {
+            margin-right: 10px;
+        }
+
+        .shipping-option .price {
+            margin-left: auto;
+            font-weight: bold;
+        }
+
+        .payment-methods {
+            margin-bottom: 20px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .payment-method.selected {
+            border-color: #3498db;
+            background-color: #f0f9ff;
+        }
+
+        .payment-method input {
+            margin-right: 10px;
+        }
+
+        .payment-method img {
+            height: 24px;
+            margin-right: 10px;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+        }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+        .btn-primary {
+            background-color: #27ae60;
+        }
+
+        .btn-primary:hover {
+            background-color: #219955;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .info-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .product-list th, .product-list td {
+                padding: 8px 10px;
+            }
+
+            .product-image {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Xác nhận đơn hàng</h1>
+        <p>Vui lòng kiểm tra lại thông tin đơn hàng của bạn trước khi tiến hành thanh toán</p>
+    </div>
+
+    <div class="info-box">
+        <p>Đơn hàng của bạn đang được xử lý. Vui lòng cung cấp thông tin giao hàng và chọn phương thức thanh toán.</p>
+    </div>
+
+    <h2>Sản phẩm trong đơn hàng</h2>
+    <table class="product-list">
+        <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>Hình ảnh</th>
+            <th>Đơn giá</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Áo thun nam cổ tròn</td>
+            <td><img src="/api/placeholder/60/60" alt="Áo thun nam" class="product-image"></td>
+            <td>250.000 ₫</td>
+            <td>2</td>
+            <td>500.000 ₫</td>
+        </tr>
+        <tr>
+            <td>Quần jean nữ ống đứng</td>
+            <td><img src="/api/placeholder/60/60" alt="Quần jean nữ" class="product-image"></td>
+            <td>450.000 ₫</td>
+            <td>1</td>
+            <td>450.000 ₫</td>
+        </tr>
+        <tr>
+            <td>Giày thể thao nam</td>
+            <td><img src="/api/placeholder/60/60" alt="Giày thể thao" class="product-image"></td>
+            <td>780.000 ₫</td>
+            <td>1</td>
+            <td>780.000 ₫</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="form-section">
+        <h2>Thông tin giao hàng</h2>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="fullname">Họ và tên</label>
+                <input type="text" id="fullname" class="form-control" placeholder="Nhập họ và tên">
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại</label>
+                <input type="tel" id="phone" class="form-control" placeholder="Nhập số điện thoại">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" placeholder="Nhập email">
+        </div>
+        <div class="form-group">
+            <label for="address">Địa chỉ</label>
+            <input type="text" id="address" class="form-control" placeholder="Nhập địa chỉ">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="district">Quận/Huyện</label>
+                <input type="text" id="district" class="form-control" placeholder="Nhập quận/huyện">
+            </div>
+            <div class="form-group">
+                <label for="city">Tỉnh/Thành phố</label>
+                <input type="text" id="city" class="form-control" placeholder="Nhập tỉnh/thành phố">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="note">Ghi chú</label>
+            <textarea id="note" class="form-control" rows="3" placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn"></textarea>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>Phương thức vận chuyển</h2>
+        <div class="shipping-options">
+            <div class="shipping-option selected">
+                <input type="radio" name="shipping" id="standard-shipping" checked>
+                <label for="standard-shipping">Giao hàng tiêu chuẩn (2-3 ngày)</label>
+                <span class="price">30.000 ₫</span>
+            </div>
+            <div class="shipping-option">
+                <input type="radio" name="shipping" id="express-shipping">
+                <label for="express-shipping">Giao hàng nhanh (1-2 ngày)</label>
+                <span class="price">60.000 ₫</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>Phương thức thanh toán</h2>
+        <div class="payment-methods">
+            <div class="payment-method selected">
+                <input type="radio" name="payment" id="cod" checked>
+                <label for="cod">Thanh toán khi nhận hàng (COD)</label>
+            </div>
+            <div class="payment-method">
+                <input type="radio" name="payment" id="bank-transfer">
+                <label for="bank-transfer">Chuyển khoản ngân hàng</label>
+            </div>
+            <div class="payment-method">
+                <input type="radio" name="payment" id="credit-card">
+                <label for="credit-card">Thẻ tín dụng/Ghi nợ</label>
+            </div>
+            <div class="payment-method">
+                <input type="radio" name="payment" id="momo">
+                <label for="momo">Ví điện tử (MoMo, ZaloPay, VNPay)</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="summary">
+        <h2>Tổng đơn hàng</h2>
+        <div class="summary-row">
+            <span>Tổng tiền hàng:</span>
+            <span>1.730.000 ₫</span>
+        </div>
+        <div class="summary-row">
+            <span>Phí vận chuyển:</span>
+            <span>30.000 ₫</span>
+        </div>
+        <div class="summary-row">
+            <span>Giảm giá:</span>
+            <span>-100.000 ₫</span>
+        </div>
+        <div class="summary-row total">
+            <span>Tổng thanh toán:</span>
+            <span>1.660.000 ₫</span>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a href="#" class="btn btn-secondary">Quay lại giỏ hàng</a>
+        <button type="submit" class="btn btn-primary">Tiến hành thanh toán</button>
+    </div>
+</div>
+</body>
+</html>
