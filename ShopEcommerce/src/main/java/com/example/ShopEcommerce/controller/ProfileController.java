@@ -96,5 +96,10 @@ public class ProfileController {
             return "redirect:/infoAccount/" + id;
         }
     }
+
+
+
+
+
 }
 
