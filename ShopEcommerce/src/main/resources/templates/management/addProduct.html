@@ -119,7 +119,7 @@
                             <div class="thumbnail-container">
                                 <div class="image-box add-image">
                                     <span>+</span>
-                                    <input type="file" id="thumbnailUpload" name="thumbnail" multiple style="display: none;">                                </div>
+                                    <input type="file" id="thumbnailUpload" name="thumbnail" style="display: none;">                                </div>
                             </div>
                         </div>
                     </div>
@@ -190,7 +190,7 @@
 
                 let removeBtn = document.createElement('button');
                 removeBtn.innerHTML = '×';
-                removeBtn.type = 'button'; // Đảm bảo nút không submit form
+                removeBtn.type = 'button';
                 removeBtn.classList.add('remove-image');
                 removeBtn.onclick = function() {
                     // Xóa file khỏi mảng
@@ -230,7 +230,7 @@
     // Thêm các input ẩn vào form để lưu trữ file
     function updateHiddenInputs() {
         // Xóa tất cả input ẩn cũ
-        document.querySelectorAll('input[name="real_images"], input[name="real_thumbnail"]').forEach(el => el.remove());
+        document.querySelectorAll('input[name="image"], input[name="thumbnails"]').forEach(el => el.remove());
 
         // Tạo input file ẩn mới cho images
         const form = document.getElementById('addProductForm');
