@@ -154,4 +154,11 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(0, 4, sort);
         return productRepository.findAll(pageable).map(ProductMapper::toProductResp);
     }
+
+
+
+
+    public List<Product> getLaptops() {
+        return productRepository.findByCategory_Id(1L);
+    }
 }

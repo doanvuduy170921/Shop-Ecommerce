@@ -242,4 +242,11 @@ public class ProductController {
         return "redirect:" + (referer != null ? referer : "/");
     }
 
+    @GetMapping("/home")
+    public String homePage(Model model) {
+        List<Product> laptops = productService.getLaptops();
+        model.addAttribute("laptops", laptops);
+        return "home"; // Trả về trang home.html
+    }
+
 }
