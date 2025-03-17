@@ -444,7 +444,9 @@
 }
 /* Gradient background cho navbar */
 .navbar {
-    background: linear-gradient(to right, #1a237e, #0d47a1);
+    /*background: linear-gradient(to right, #1a237e, #0d47a1);*/
+    background: linear-gradient(135deg, #ff8717, #3a3a3a);
+    /*background-color: #ff8717;*/
     padding: 25px 0;
     /*box-shadow: 0 4px 6px rgba(0,0,0,0.1);*/
     box-shadow: 0px 0px 10px rgb(40 33 33 / 94%);
