@@ -121,7 +121,7 @@
     </div>
     <div class="row" >
         <div class="col-6 col-md-3" th:each="product : ${products}">
-            <div class="card product-card">
+            <div class="card product-card" th:onclick="|window.location.href='/product/details?id='+${product.id}|">
                 <form th:action="@{/product/details/add-to-cart}" method="post">
                     <input type="hidden" name="productId" th:value="${product.id}">
                     <input type="hidden" name="quantity" value="1">

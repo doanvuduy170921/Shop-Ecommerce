@@ -38,29 +38,12 @@
     <body style="background-color: #f5f5f5">
         <th:block th:insert="~{component/header.html}"></th:block>
         <div
-            class="container container-item-detail mb-3 pt-5 d-flex"
+            class="container container-item-detail mb-3 pt-1 d-flex"
         >
             <div class="filter position-fixed">
                 <div class="category-list bg-light p-3">
                     <h6 class="fw-bold">TẤT CẢ DANH MỤC</h6>
                     <ul class="list-unstyled bg-light">
-                        <!-- <li>
-                            <a href="#" class="fw-bold text-danger"
-                                >&#9656; Máy Tính & Laptop</a
-                            >
-                        </li>
-                        <li>
-                            <a href="#">Máy Tính Bàn</a>
-                        </li>
-                        <li><a href="#">Màn Hình</a></li>
-                        <li><a href="#">Linh Kiện Máy Tính</a></li>
-                        <li><a href="#">Thiết Bị Lưu Trữ</a></li>
-                        <li><a href="#">Thiết Bị Mạng</a></li>
-                        <li><a href="#">Máy In, Máy Scan & Máy Chiếu</a></li>
-                        <li><a href="#">Phụ Kiện Máy Tính</a></li>
-                        <li><a href="#">Laptop</a></li>
-                        <li><a href="#">Khác</a></li>
-                        <li><a href="#">Gaming</a></li> -->
                         <li th:each="category : ${categories}">
                             <a
                                 th:href="@{/product(categoryId=${category.id})}"
@@ -166,7 +149,7 @@
                                 ></h6>
                                 <p
                                     class="text-danger fw-bold mb-1"
-                                    th:text="${product.price} + ' VND'"
+                                    th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"
                                 ></p>
                                 <div
                                     class="d-flex justify-content-between align-items-center"
@@ -249,114 +232,3 @@
         }
     </script>
 </html>
-<!-- <div class="col-md-3 mb-4">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img
-                                src="https://via.placeholder.com/150"
-                                class="card-img-top"
-                                alt="Product Image"
-                            />
-                            <div class="card-body p-3">
-                                <h6 class="card-title text-truncate">
-                                    Tai nghe Bluetooth Không Dây
-                                </h6>
-                                <p class="text-danger fw-bold mb-1">
-                                    49.500 &#8363;
-                                </p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <small class="text-muted"
-                                        >4.5 ⭐ | Đã bán 627</small
-                                    >
-                                </div>
-                                <span class="badge bg-danger text-white"
-                                    >Giảm giá 20%</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img
-                                src="https://via.placeholder.com/150"
-                                class="card-img-top"
-                                alt="Product Image"
-                            />
-                            <div class="card-body p-3">
-                                <h6 class="card-title text-truncate">
-                                    Tai nghe Nhét Tai Bluetooth
-                                </h6>
-                                <p class="text-danger fw-bold mb-1">
-                                    58.300 &#8363;
-                                </p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <small class="text-muted"
-                                        >4.8 ⭐ | Đã bán 89.9k</small
-                                    >
-                                </div>
-                                <span class="badge bg-danger text-white"
-                                    >Giảm giá 44%</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img
-                                src="https://via.placeholder.com/150"
-                                class="card-img-top"
-                                alt="Product Image"
-                            />
-                            <div class="card-body p-3">
-                                <h6 class="card-title text-truncate">
-                                    Tai nghe X15TWS
-                                </h6>
-                                <p class="text-danger fw-bold mb-1">
-                                    61.380 &#8363;
-                                </p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <small class="text-muted"
-                                        >4.5 ⭐ | Đã bán 15.9k</small
-                                    >
-                                </div>
-                                <span class="badge bg-danger text-white"
-                                    >Giảm giá 23%</span
-                                >
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img
-                                src="https://via.placeholder.com/150"
-                                class="card-img-top"
-                                alt="Product Image"
-                            />
-                            <div class="card-body p-3">
-                                <h6 class="card-title text-truncate">
-                                    Tai nghe A6S TWS
-                                </h6>
-                                <p class="text-danger fw-bold mb-1">
-                                    55.000 &#8363;
-                                </p>
-                                <div
-                                    class="d-flex justify-content-between align-items-center"
-                                >
-                                    <small class="text-muted"
-                                        >4.6 ⭐ | Đã bán 14.3k</small
-                                    >
-                                </div>
-                                <span class="badge bg-danger text-white"
-                                    >Giảm giá 28%</span
-                                >
-                            </div>
-                        </div>
-                    </div> -->
