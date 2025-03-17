@@ -11,3 +11,54 @@
 /* .container-item-detail .filter {
     position: fixed;
 } */
+
+.filter {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .filter {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin-top: 50px;
+        width: 250px;
+        height: calc(100% - 50px);;
+        background: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .filter.active {
+        display: block;
+    }
+
+    .menu-button {
+        display: block;
+        /* position: fixed; */
+        top: 10px;
+        left: 10px;
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        z-index: 1100;
+    }
+
+    .menu-button.active {
+        z-index: -1;
+    }
+
+    .close-filter {
+        background: none;
+        border: none;
+        font-size: 20px;
+        float: right;
+        cursor: pointer;
+    }
+}
