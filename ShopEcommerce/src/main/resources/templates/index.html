@@ -208,7 +208,7 @@
                     <div class="card-body">
                         <h5 class="card-title" th:text="${product.name}">Laptop Ultrabook</h5>
                         <div class="d-flex justify-content-between mb-2">
-                            <strong th:text="${product.price}">19.990.000đ</strong>
+                            <strong th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '₫'" class="text-danger">19.990.000đ</strong>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="rating">

@@ -82,45 +82,6 @@
                             th:alt="'Ảnh ' + ${index}"
                             class="img-thumbnail me-2"
                         />
-                        <!-- <img
-                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp"
-                            onmouseover="changeMainImage(this.src)"
-                            alt="Ảnh 1"
-                            class="img-thumbnail me-2"
-                        />
-                        <img
-                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdyw-lxtef5wjpznudf@resize_w900_nl.webp"
-                            onmouseover="changeMainImage(this.src)"
-                            alt="Ảnh 2"
-                            class="img-thumbnail me-2"
-                        />
-                        <img
-                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdyu-lyx2w7m1t9wi8d@resize_w900_nl.webp"
-                            onmouseover="changeMainImage(this.src)"
-                            alt="Ảnh 3"
-                            class="img-thumbnail me-2"
-                        />
-                        <img
-                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdw8-lxtfla7stjrgc0@resize_w900_nl.webp"
-                            onmouseover="changeMainImage(this.src)"
-                            alt="Ảnh 4"
-                            class="img-thumbnail me-2"
-                        />
-                        <img
-                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdww-lxtfla5utld2f2@resize_w900_nl.webp"
-                            alt="Ảnh 5"
-                            class="img-thumbnail me-2"
-                        />
-                        <img
-                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdyk-lxtfla46xfpm07.webp"
-                            alt="Ảnh 6"
-                            class="img-thumbnail me-2"
-                        />
-                        <img
-                            src="https://down-vn.img.susercontent.com/file/sg-11134301-7rdvq-lxtfla8wp4ne3a.webp"
-                            alt="Ảnh 7"
-                            class="img-thumbnail me-2"
-                        /> -->
                     </div>
                 </div>
                 <div class="col-md-7">
@@ -136,11 +97,11 @@
                         <p class="text-warning">⭐⭐⭐⭐⭐ 8k đánh giá</p>
                         <h4
                             class="text-danger"
-                            th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"
+                            th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '₫'"
                         >
                             <!-- đ33.000 - đ38.500 -->
                             <span
-                                th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"
+                                th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '₫'"
                                 class="text-secondary text-decoration-line-through"
                             >
                                 <!-- đ52.800 -->
@@ -185,30 +146,6 @@
                 </ul>
                 <h5>Mô Tả Sản Phẩm</h5>
                 <div class="pt-3" style="padding-left: 2rem">
-                    <!-- <p>
-                        Trải nghiệm khả năng điều khiển mượt mà và chính xác với
-                        hoạt động quang học công nghệ cao, hoàn hảo cho game thủ
-                        và các chuyên gia văn phòng.
-                    </p>
-                    <p>
-                        Tận hưởng khả năng truyền dữ liệu nhanh chóng và đáng
-                        tin cậy với kết nối có dây, lý tưởng cho người dùng máy
-                        tính để bàn và máy tính xách tay.
-                    </p>
-                    <p>
-                        Chi tiết kích thước: Chuột chơi game RGB này có chiều
-                        dài 12,5cm và chiều rộng 6,8cm.
-                    </p>
-                    <p>
-                        Nâng cao trải nghiệm chơi game với đèn nền phát sáng,
-                        cải thiện khả năng hiển thị trong điều kiện ánh sáng
-                        yếu.
-                    </p>
-                    <p>
-                        Đảm bảo một môi trường văn phòng yên tĩnh với hoạt động
-                        không ồn ào, hoàn hảo cho các cuộc họp hoặc thuyết trình
-                        quan trọng.
-                    </p> -->
                     <p th:utext="${product.description}"></p>
                 </div>
             </div>
@@ -239,9 +176,6 @@
                     <button class="btn btn-outline-secondary btn-sm">
                         1 Sao (150)
                     </button>
-                    <!-- <button class="btn btn-outline-secondary btn-sm">Có Hình Ảnh / Video (1,3k)</button>
-                        <button class="btn btn-outline-secondary btn-sm">Trong Nước (2,6k)</button>
-                        <button class="btn btn-outline-secondary btn-sm">Có Bình Luận (2,5k)</button> -->
                 </div>
             </div>
 

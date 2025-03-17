@@ -37,68 +37,75 @@
     </head>
     <body style="background-color: #f5f5f5">
         <th:block th:insert="~{component/header.html}"></th:block>
+        
         <div
             class="container container-item-detail mb-3 pt-1 d-flex"
         >
-            <div class="filter position-fixed">
-                <div class="category-list bg-light p-3">
-                    <h6 class="fw-bold">TẤT CẢ DANH MỤC</h6>
-                    <ul class="list-unstyled bg-light">
-                        <li th:each="category : ${categories}">
-                            <a
-                                th:href="@{/product(categoryId=${category.id})}"
-                                th:text="${category.name}"
-                                th:class="${category.id == selectedCategoryId} ? 'fw-bold text-danger'"
-                            ></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="search-filter bg-light p-3">
-                    <h6 class="fw-bold">BỘ LỌC TÌM KIẾM</h6>
-                    <p class="text-muted">Theo Danh Mục</p>
-                    <ul class="list-unstyled bg-light">
-                        <li>
-                            <input type="checkbox" /> Chuột & Bàn Phím (175k+)
-                        </li>
-                        <li>
-                            <input type="checkbox" /> Linh Kiện Máy Tính / Khác
-                            (100k+)
-                        </li>
-                        <li>
-                            <input type="checkbox" /> Máy In & Máy Scan (99k+)
-                        </li>
-                        <li><input type="checkbox" /> Pin Laptop (95k+)</li>
-                    </ul>
-                </div>
-                <div class="price-filter bg-light p-3">
-                    <h6 class="fw-bold">Lọc theo giá</h6>
-                    <input
-                        type="number"
-                        class="form-control mb-2"
-                        placeholder="Từ"
-                        id="minPrice"
-                        th:value="${minPrice}"
-                    />
-                    <input
-                        type="number"
-                        class="form-control mb-2"
-                        placeholder="Đến"
-                        id="maxPrice"
-                        th:value="${maxPrice}"
-                    />
-                    <button
-                        class="btn btn-primary w-100"
-                        onclick="applyPriceFilter()"
-                    >
-                        Áp dụng
-                    </button>
-                    <!--please write code in here-->
+            <div class="filter-container">
+                <div class="filter position-fixed">
+                    <button class="close-filter d-md-none" onclick="toggleFilter()">✖</button>
+                    <div class="category-list bg-light p-3">
+                        <h6 class="fw-bold">TẤT CẢ DANH MỤC</h6>
+                        <ul class="list-unstyled bg-light">
+                            <li th:each="category : ${categories}">
+                                <a
+                                    th:href="@{/product(categoryId=${category.id})}"
+                                    th:text="${category.name}"
+                                    th:class="${category.id == selectedCategoryId} ? 'fw-bold text-danger'"
+                                ></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="search-filter bg-light p-3">
+                        <h6 class="fw-bold">BỘ LỌC TÌM KIẾM</h6>
+                        <p class="text-muted">Theo Danh Mục</p>
+                        <ul class="list-unstyled bg-light">
+                            <li>
+                                <input type="checkbox" /> Chuột & Bàn Phím (175k+)
+                            </li>
+                            <li>
+                                <input type="checkbox" /> Linh Kiện Máy Tính / Khác
+                                (100k+)
+                            </li>
+                            <li>
+                                <input type="checkbox" /> Máy In & Máy Scan (99k+)
+                            </li>
+                            <li><input type="checkbox" /> Pin Laptop (95k+)</li>
+                        </ul>
+                    </div>
+                    <div class="price-filter bg-light p-3">
+                        <h6 class="fw-bold">Lọc theo giá</h6>
+                        <input
+                            type="number"
+                            class="form-control mb-2"
+                            placeholder="Từ"
+                            id="minPrice"
+                            th:value="${minPrice}"
+                        />
+                        <input
+                            type="number"
+                            class="form-control mb-2"
+                            placeholder="Đến"
+                            id="maxPrice"
+                            th:value="${maxPrice}"
+                        />
+                        <button
+                            class="btn btn-primary w-100"
+                            onclick="applyPriceFilter()"
+                        >
+                            Áp dụng
+                        </button>
+                        <!--please write code in here-->
+                    </div>
                 </div>
             </div>
+            
             <div class="main col-md-9 offset-md-3 p-3">
+                <button class="menu-button d-md-none btn btn-outline-primary" onclick="toggleFilter()">☰ Bộ Lọc</button>
                 <div
                     class="sort-filter d-flex justify-content-between align-items-center mb-3"
                 >
+                    
                     <div>
                         <button class="btn btn-outline-primary">
                             Phổ Biến
@@ -230,5 +237,11 @@
             window.location.href =
                 window.location.pathname + "?" + params.toString();
         }
+
+        function toggleFilter() {
+            document.querySelector(".filter").classList.toggle("active");
+            document.querySelector(".menu-button").classList.toggle("active");
+        }
+
     </script>
 </html>
