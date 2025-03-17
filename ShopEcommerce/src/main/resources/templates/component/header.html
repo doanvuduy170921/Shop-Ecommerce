@@ -59,9 +59,12 @@
                     <a class="nav-link py-2 position-relative" th:href="@{/cart/carts}" title="Giỏ hàng">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="d-none d-xl-inline ms-1">Giỏ hàng</span>
-                        <span class="badge bg-danger rounded-pill position-absolute" style="font-size: 0.6rem; top: 0; right: -5px;">3</span>
+<!--                        <span id="cart-count" class="badge bg-danger rounded-pill position-absolute"-->
+<!--                              style="font-size: 0.6rem; top: 0; right: -5px;"-->
+<!--                              th:text="${session.totalCartQuantity}">0</span>-->
                     </a>
                 </li>
+
                 <li class="nav-item ms-1 dropdown" th:classappend="${session.user} ? 'pl-35' : ''">
                     <a class="nav-link btn btn-primary btn-sm rounded-pill px-3 py-1" href="#" role="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user"></i>
@@ -81,4 +84,17 @@
         </div>
     </div>
 </nav>
+<!--<script>-->
+<!--    function updateCartCount() {-->
+<!--        fetch('/cart/getTotalQuantity')-->
+<!--            .then(response => response.json())-->
+<!--            .then(count => {-->
+<!--                document.getElementById('cart-count').textContent = count;-->
+<!--            })-->
+<!--            .catch(error => console.error('Error fetching cart quantity:', error));-->
+<!--    }-->
 
+<!--    // Gọi khi trang tải xong-->
+<!--    document.addEventListener('DOMContentLoaded', updateCartCount);-->
+
+<!--</script>-->

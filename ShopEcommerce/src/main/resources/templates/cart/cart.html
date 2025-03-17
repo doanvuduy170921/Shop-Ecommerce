@@ -281,6 +281,40 @@
 
         updateSelectedCount();
     }
+    function updateQuantity(element, delta) {
+        let input = element.parentElement.querySelector(".quantity-input");
+        let newQuantity = parseInt(input.value) + delta;
+        if (newQuantity < 1) return;
+
+        input.value = newQuantity;
+
+        let cartId = element.parentElement.querySelector("input[name='cart_id']").value;
+
+        // Gửi AJAX cập nhật số lượng
+        fetch('/cart/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `cart_id=${cartId}&quantity=${newQuantity}`
+        })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "success") {
+                    updateCartCount(); // Cập nhật số lượng trên header
+                } else {
+                    console.error("Cập nhật giỏ hàng thất bại");
+                }
+            })
+            .catch(error => console.error('Lỗi:', error));
+    }
+
+    function increaseQuantity(button) {
+        updateQuantity(button, 1);
+    }
+
+    function decreaseQuantity(button) {
+        updateQuantity(button, -1);
+    }
+
 </script>
 </body>
 </html>

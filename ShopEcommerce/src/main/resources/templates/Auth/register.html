@@ -9,71 +9,125 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="red_body">
-<div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="login-container">
-        <div class="login-header">Đăng ký </div>
-        <p th:if="${successMsg}" class="alert alert-success text-center">
-            [[${successMsg}]]
-        </p>
-        <p th:if="${errorMsg}" class="alert alert-success text-center">
-            [[${errorMsg}]]
-        </p>
-        <form th:action="@{/register}" th:object="${registerForm}" method="post">
-            <div class="mb-3">
-                <label class="form-label">Họ và Tên</label>
-                <input type="text" class="form-control" placeholder="Nhập họ và tên" th:field="*{fullName}" required>
-                <span class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="login-card row m-0">
+            <!-- Phần form đăng ký -->
+            <div class="col-md-6 login-side">
+                <h2 class="mb-4 text-center">Đăng ký</h2>
+
+    <!--            <div class="login-header">Đăng ký </div>-->
+                <p th:if="${successMsg}" class="alert alert-success text-center">
+                    [[${successMsg}]]
+                </p>
+                <p th:if="${errorMsg}" class="alert alert-success text-center">
+                    [[${errorMsg}]]
+                </p>
+                <form th:action="@{/register}" th:object="${registerForm}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Họ và Tên</label>
+                        <input type="text" class="form-control" placeholder="Nhập họ và tên" th:field="*{fullName}" required>
+                        <span class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Nhập email" th:field="*{email}" required>
+                        <small class="error-message" id="email-error">Vui lòng nhập email hợp lệ</small>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" placeholder="**********" th:field="*{password}" required id="registerPassword">
+                            <button class="btn btn-outline-secondary" type="button" id="toggleRegisterPassword">
+                                <i class="fa fa-eye-slash" id="toggleRegisterPasswordIcon"></i>
+                            </button>
+                        </div>
+                        <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nhập lại mật khẩu</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="**********" required id="confirmRegisterPassword">
+                            <button class="btn btn-outline-secondary" type="button" id="toggleConfirmRegisterPassword">
+                                <i class="fa fa-eye-slash" id="toggleConfirmRegisterPasswordIcon"></i>
+                            </button>
+                        </div>
+                        <span class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-login w-100">ĐĂNG KÝ</button>
+                </form>
+
+                <!-- Hiển thị thông báo -->
+                <div th:if="${successMessage}" class="alert alert-success">
+                    <p th:text="${successMessage}"></p>
+                </div>
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+
+                <div class="or-divider">
+                    <span>HOẶC</span>
+                </div>
+
+
+                <div class="social-login d-flex justify-content-center mt-3">
+                    <button class="btn btn-outline-secondary d-flex align-items-center px-4 me-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" width="20" class="me-2">
+                        Facebook
+                    </button>
+                    <button class="btn btn-outline-secondary d-flex align-items-center px-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png" alt="Google" width="20" class="me-2">
+                        Google
+                    </button>
+                </div>
+
+
+                <div class="footer-text">
+                    Bạn đã có tài khoản ở ShopEcommerce? <a th:href="@{/login}" class="text-primary">Đăng nhập</a>
+                </div>
+        </div>
+
+            <!-- Phần hình ảnh bên phải -->
+            <div class="col-md-6 image-side">
+                <img src="https://img.lovepik.com/photo/45010/2354.jpg_wh300.jpg" alt="Dashboard Illustration" >
             </div>
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Nhập email" th:field="*{email}" required>
-                <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Mật khẩu</label>
-                <input type="password" class="form-control" placeholder="**********" th:field="*{password}" required>
-                <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Nhập lại mật khẩu</label>
-                <input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="**********" required>
-                <span class="error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
-            </div>
-            <button type="submit" class="btn btn-login w-100">ĐĂNG KÝ</button>
-        </form>
-
-        <!-- Hiển thị thông báo -->
-        <div th:if="${successMessage}" class="alert alert-success">
-            <p th:text="${successMessage}"></p>
-        </div>
-        <div th:if="${errorMessage}" class="alert alert-danger">
-            <p th:text="${errorMessage}"></p>
-        </div>
-
-
-        <div class="or-divider">
-            <span>HOẶC</span>
-        </div>
-
-
-        <div class="social-login d-flex justify-content-center mt-3">
-            <button class="btn btn-outline-secondary d-flex align-items-center px-4 me-2">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" width="20" class="me-2">
-                Facebook
-            </button>
-            <button class="btn btn-outline-secondary d-flex align-items-center px-4">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png" alt="Google" width="20" class="me-2">
-                Google
-            </button>
-        </div>
-
-
-        <div class="footer-text">
-            Bạn đã có tài khoản ở ShopEcommerce? <a th:href="@{/login}" class="text-primary">Đăng nhập</a>
-        </div>
     </div>
-</div>
+        <script>
+            // Lấy phần tử DOM cho đăng ký
+            const registerPassword = document.getElementById("registerPassword");
+            const confirmRegisterPassword = document.getElementById("confirmRegisterPassword");
+            const toggleRegisterPassword = document.getElementById("toggleRegisterPassword");
+            const toggleRegisterPasswordIcon = document.getElementById("toggleRegisterPasswordIcon");
+            const toggleConfirmRegisterPassword = document.getElementById("toggleConfirmRegisterPassword");
+            const toggleConfirmRegisterPasswordIcon = document.getElementById("toggleConfirmRegisterPasswordIcon");
 
+            // Hàm kiểm tra email hợp lệ
+            function validateEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                // Hiển thị/ẩn mật khẩu cho trường "Mật khẩu"
+                toggleRegisterPassword.addEventListener("click", function () {
+                    const type = registerPassword.getAttribute("type") === "password" ? "text" : "password";
+                    registerPassword.setAttribute("type", type);
+                    toggleRegisterPasswordIcon.classList.toggle("fa-eye");
+                    toggleRegisterPasswordIcon.classList.toggle("fa-eye-slash");
+                });
+
+                // Hiển thị/ẩn mật khẩu cho trường "Nhập lại mật khẩu"
+                toggleConfirmRegisterPassword.addEventListener("click", function () {
+                    const type = confirmRegisterPassword.getAttribute("type") === "password" ? "text" : "password";
+                    confirmRegisterPassword.setAttribute("type", type);
+                    toggleConfirmRegisterPasswordIcon.classList.toggle("fa-eye");
+                    toggleConfirmRegisterPasswordIcon.classList.toggle("fa-eye-slash");
+                });
+            });
+    </script>
 </body>
 </html>
 <!--<script>-->

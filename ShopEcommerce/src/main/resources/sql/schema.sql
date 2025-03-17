@@ -148,18 +148,4 @@ create table order_details
         foreign key (order_id) references orders (id)
 );
 
-CREATE TABLE verification_token (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    token VARCHAR(255) NOT NULL,
-    expiry_date TIMESTAMP NOT NULL,
-    user_id BIGINT NOT NULL,
-    CONSTRAINT fk_verification_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
 
-CREATE TABLE password_reset_token (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    token VARCHAR(255) NOT NULL UNIQUE,
-    user_id BIGINT NOT NULL,
-    expiry_date DATETIME NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);

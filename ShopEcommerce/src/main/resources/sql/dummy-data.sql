@@ -41,3 +41,21 @@ INSERT INTO shop_ecommerce.users (id, created_at, updated_at, address, date_of_b
 
 ALTER TABLE users
     ADD COLUMN is_verified BIT NOT NULL DEFAULT 0;
+
+
+ALTER TABLE users
+    ADD COLUMN reset_password_token VARCHAR(255);
+
+ALTER TABLE users
+    ADD COLUMN token_expiry_time DATETIME;
+
+ALTER TABLE users
+    ADD COLUMN password_changed_at DATETIME;
+
+ALTER TABLE users
+    ADD COLUMN verification_token VARCHAR(255);
+
+
+
+
+

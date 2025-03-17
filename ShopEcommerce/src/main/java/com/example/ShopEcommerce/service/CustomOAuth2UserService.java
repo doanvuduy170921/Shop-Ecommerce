@@ -30,7 +30,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new RuntimeException("Email không khả dụng! Người dùng chưa cấp quyền email.");
         }
 
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElse(null);
         if (user == null) {
             user = new User();
             user.setEmail(email);

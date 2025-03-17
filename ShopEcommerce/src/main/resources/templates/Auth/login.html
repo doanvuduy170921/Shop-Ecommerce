@@ -3,66 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-<!--    <link rel="stylesheet" href="/static/css/AuthForm.css?v=1">-->
+    <title>Đăng nhập</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+
+    </style>
 </head>
 <body class="red_body">
 <div class="container d-flex justify-content-center align-items-center vh-100">
-    <div class="login-container">
-        <div class="login-header">Đăng nhập</div>
-        <p th:if="${successMsg}" class="text-success text-center">
-            [[${successMsg}]]
-        </p>
-<!--        <p th:if="${errorMsg}" class="text-success text-center">-->
-<!--            [[${errorMsg}]]-->
-<!--        </p>-->
-        <form th:action="@{/login}" th:object="${loginForm}" method="post">
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" th:field="*{email}" required placeholder="Nhập email">
+    <div class="login-card row m-0">
+        <!-- Phần form đăng nhập -->
+        <div class="col-md-6 login-side">
+            <h2 class="mb-4 text-center">Đăng nhập</h2>
+
+            <p th:if="${successMsg}" class="text-success text-center">
+                [[${successMsg}]]
+            </p>
+
+            <form th:action="@{/login}" th:object="${loginForm}" method="post" id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" th:field="*{email}" required placeholder="Nhập email để đăng nhập" id="email">
+                    <small class="error-message" id="email-error">Vui lòng nhập email hợp lệ</small>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Mật khẩu</label>
+                    <div class="input-group">
+                        <input type="password" name="password" class="form-control" th:field="*{password}" placeholder="**********" id="password">
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                            <i class="fa fa-eye-slash" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                    <small class="error-message" id="password-error">Vui lòng nhập mật khẩu</small>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                    <span
+                            class="fs-7 text-danger"
+                            th:if="${#fields.hasErrors('password')}"
+                            th:errors="*{password}"
+                    ></span>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="remember">
+                    <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
+                    <a th:href="@{/forgot-password}" class="float-end text-decoration-none">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="btn btn-login w-100">ĐĂNG NHẬP</button>
+            </form>
+
+            <div class="or-divider">
+                <span>HOẶC</span>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Mật khẩu</label>
-                <input type="password" name="password" class="form-control" th:field="*{password}" placeholder="**********">
+
+            <div class="social-login d-flex justify-content-center mt-3">
+                <a class="btn btn-outline-secondary d-flex align-items-center px-3 me-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" width="20" class="me-2">
+                    Facebook
+                </a>
+                <a th:href="@{/oauth2/authorization/google}" class="btn btn-outline-secondary d-flex align-items-center px-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png" width="20" class="me-2">
+                    Google
+                </a>
             </div>
-            <span
-                    class="fs-7 text-danger"
-                    th:if="${#fields.hasErrors('password')}"
-                    th:errors="*{password}"
-            ></span>
-            <button type="submit" class=" btn btn-login w-100">ĐĂNG NHẬP</button>
-        </form>
 
-        <div class="text-center mt-3">
-            <a th:href="@{/forgot-password}" class="text-decoration-none">Quên mật khẩu?</a>
+            <div class="footer-text">
+                Bạn chưa có tài khoản ở ShopEcommerce? <a th:href="@{/register}" class="text-primary">Đăng ký</a>
+            </div>
         </div>
 
-        <div class="or-divider">
-            <span>HOẶC</span>
-        </div>
+        <!-- Phần hình ảnh bên phải -->
+        <div class="col-md-6 image-side">
+            <img src="https://img.lovepik.com/photo/45010/2354.jpg_wh300.jpg" alt="Dashboard Illustration" >
+            <!--            <h2>Kiểm tra tiến độ dự án của bạn</h2>-->
+            <!--            <p>Đăng nhập để xem thông tin chi tiết về đơn hàng và tài khoản của bạn.</p>-->
 
-
-        <div class="social-login d-flex justify-content-center mt-3">
-            <a class="btn btn-outline-secondary d-flex align-items-center px-4 me-2">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" width="20" class="me-2">
-                Facebook
-            </a>
-            <a th:href="@{/oauth2/authorization/google}" class="btn btn-outline-secondary d-flex align-items-center px-4 me-2">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png" width="20">
-                Google
-            </a>
-
-        </div>
-
-
-        <div class="footer-text">
-            Bạn đã có tài khoản ở ShopEcommerce? <a th:href="@{/register}" class="text-primary">Đăng ký</a>
+            <!--            <div class="pagination-dots">-->
+            <!--                <span class="dot active"></span>-->
+            <!--                <span class="dot"></span>-->
+            <!--                <span class="dot"></span>-->
+            <!--            </div>-->
         </div>
     </div>
 </div>
 
+<script>
+    // Lấy các phần tử DOM
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailError = document.getElementById('email-error');
+    const passwordError = document.getElementById('password-error');
+    const form = document.getElementById('loginForm');
+    const togglePassword = document.getElementById('togglePassword');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    // Hàm kiểm tra email hợp lệ
+    function validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    // Kiểm tra email khi người dùng nhập
+    emailInput.addEventListener('input', function() {
+        if (!validateEmail(this.value) && this.value.length > 0) {
+            emailError.style.display = 'block';
+            this.classList.add('is-invalid');
+        } else {
+            emailError.style.display = 'none';
+            this.classList.remove('is-invalid');
+        }
+    });
+
+    // Kiểm tra mật khẩu khi người dùng nhập
+    passwordInput.addEventListener('input', function() {
+        if (this.value.length === 0) {
+            passwordError.style.display = 'block';
+            this.classList.add('is-invalid');
+        } else {
+            passwordError.style.display = 'none';
+            this.classList.remove('is-invalid');
+        }
+    });
+
+    // Xử lý khi gửi form
+    form.addEventListener('submit', function(e) {
+        let isValid = true;
+
+        if (!validateEmail(emailInput.value)) {
+            emailError.style.display = 'block';
+            emailInput.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        if (passwordInput.value.length === 0) {
+            passwordError.style.display = 'block';
+            passwordInput.classList.add('is-invalid');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
+
+    // Hiển thị/ẩn mật khẩu
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        // Thay đổi biểu tượng
+        if (type === 'password') {
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    });
+</script>
 </body>
 </html>
