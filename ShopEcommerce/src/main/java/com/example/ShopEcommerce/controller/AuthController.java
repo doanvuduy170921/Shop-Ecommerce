@@ -1,19 +1,14 @@
 package com.example.ShopEcommerce.controller;
 
-import com.example.ShopEcommerce.dto.ForgotPasswordRequest;
-import com.example.ShopEcommerce.dto.ResetPasswordRequest;
-import com.example.ShopEcommerce.entity.PasswordResetToken;
 import com.example.ShopEcommerce.entity.Role;
 import com.example.ShopEcommerce.entity.User;
 import com.example.ShopEcommerce.entity.VerificationToken;
 import com.example.ShopEcommerce.form.LoginForm;
 import com.example.ShopEcommerce.form.RegisterForm;
-import com.example.ShopEcommerce.repository.PasswordResetTokenRepository;
 import com.example.ShopEcommerce.repository.RoleRepository;
 import com.example.ShopEcommerce.repository.VerificationTokenRepository;
 import com.example.ShopEcommerce.service.AuthService;
 import com.example.ShopEcommerce.service.EmailService;
-import com.example.ShopEcommerce.service.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Controller
@@ -37,22 +32,19 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final VerificationTokenRepository verificationTokenRepository;
-    private final PasswordResetService passwordResetService;
-    private final PasswordResetTokenRepository tokenRepository;
 
     @Autowired
     private RoleRepository roleRepository;
 
+
     @Autowired
     public AuthController(AuthService authService, PasswordEncoder passwordEncoder,
-                          EmailService emailService, VerificationTokenRepository verificationTokenRepository,
-                          PasswordResetService passwordResetService , PasswordResetTokenRepository tokenRepository) {
+                          EmailService emailService, VerificationTokenRepository verificationTokenRepository
+                          ) {
         this.authService = authService;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
         this.verificationTokenRepository = verificationTokenRepository;
-        this.passwordResetService = passwordResetService;
-        this.tokenRepository = tokenRepository;
     }
 
     @GetMapping("/login")
@@ -105,95 +97,77 @@ public class AuthController {
 
 
     @GetMapping("/forgot-password")
-    public String showForgotPasswordForm() {
+    public String showForgotPassword() {
         return "Auth/forgot-password";
     }
 
     @PostMapping("/forgot-password")
-    public String processForgotPassword(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
+    public String forgotPassword(@RequestParam("email") String email, Model model) {
         User user = authService.getUserByEmail(email);
         if (user == null) {
-            redirectAttributes.addFlashAttribute("errorMsg", "Email không tồn tại!");
-            return "redirect:/forgot-password";
+            model.addAttribute("error", "Email không tồn tại!");
+            return "Auth/forgot-password";
         }
 
-        passwordResetService.createPasswordResetToken(user); // Tạo token mới trước
+        // Tạo token reset password
+        String token = UUID.randomUUID().toString();
+        user.setResetPasswordToken(token);
+        user.setTokenExpiryTime(LocalDateTime.now().plusMinutes(30)); // Token hết hạn sau 30 phút
+        authService.save(user);
+        emailService.sendResetPasswordEmail(user,token);
 
-        // Lấy token mới nhất từ DB để gửi email
-        Optional<PasswordResetToken> optionalResetToken = tokenRepository.findByUser(user);
 
-        if (optionalResetToken.isEmpty()) {
-            redirectAttributes.addFlashAttribute("errorMsg", "Không thể tạo token mới!");
-            return "redirect:/forgot-password";
-        }
-
-        PasswordResetToken resetToken = optionalResetToken.get();
-
-        if (resetToken == null) {
-            redirectAttributes.addFlashAttribute("errorMsg", "Không thể tạo token mới!");
-            return "redirect:/forgot-password";
-        }
-
-        String resetLink = "http://localhost:8080/reset-password?token=" + resetToken.getToken();
-        emailService.sendResetPasswordEmail(user, resetLink);
-
-        redirectAttributes.addFlashAttribute("successMsg", "Email đặt lại mật khẩu đã được gửi!");
-        return "redirect:/forgot-password";
+        model.addAttribute("message", "Hướng dẫn đặt lại mật khẩu đã được gửi đến email!");
+        return "Auth/forgot-password";
     }
+
 
 
     @GetMapping("/reset-password")
     public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
-        System.out.println("🔍 Token từ request: " + token);
+        User user = authService.getUserByResetPasswordToken(token);
 
-        if (token == null || token.isEmpty()) {
-            model.addAttribute("errorMsg", "Token không hợp lệ!");
-            return "Auth/login";
+        if (user == null || user.getTokenExpiryTime().isBefore(LocalDateTime.now())) {
+            model.addAttribute("error", "Token không hợp lệ hoặc đã hết hạn!");
+            return "Auth/reset-password";
         }
-
-        PasswordResetToken resetToken = passwordResetService.getToken(token);
-        if (resetToken == null || resetToken.isExpired()) {
-            System.out.println("Token không hợp lệ hoặc đã hết hạn!");
-            model.addAttribute("errorMsg", "Token không hợp lệ hoặc đã hết hạn!");
-            return "Auth/login";
-        }
-
-        System.out.println("Token hợp lệ: " + resetToken.getToken());
 
         model.addAttribute("token", token);
-        model.addAttribute("resetForm", new ResetPasswordRequest());
         return "Auth/reset-password";
     }
 
-
     @PostMapping("/reset-password")
-    public String processResetPassword(@ModelAttribute("resetForm") ResetPasswordRequest resetForm,
-                                       RedirectAttributes redirectAttributes) {
-        String token = resetForm.getToken();
-        if (token == null || token.isEmpty()) {
-            redirectAttributes.addFlashAttribute("errorMsg", "Token không hợp lệ!");
-            return "redirect:/login";
+    public String resetPassword(@RequestParam("token") String token,
+                                @RequestParam("password") String newPassword,
+                                @RequestParam("confirmPassword") String confirmPassword,
+                                RedirectAttributes redirectAttributes,
+                                Model model) {
+        User user = authService.getUserByResetPasswordToken(token);
+
+        if (user == null || user.getTokenExpiryTime().isBefore(LocalDateTime.now())) {
+            model.addAttribute("error", "Token không hợp lệ hoặc đã hết hạn!");
+            return "Auth/forgot-password";
         }
 
-        PasswordResetToken resetToken = passwordResetService.getToken(token);
-        if (resetToken == null || resetToken.isExpired()) {
-            redirectAttributes.addFlashAttribute("errorMsg", "Token không hợp lệ hoặc đã hết hạn!");
-            return "redirect:/login";
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("token", token);
+            model.addAttribute("error", "Mật khẩu xác nhận không khớp");
+            return "Auth/reset-password";
         }
 
-        User user = resetToken.getUser();
-        if (user == null) {
-            redirectAttributes.addFlashAttribute("errorMsg", "Không tìm thấy tài khoản!");
-            return "redirect:/login";
-        }
-
-        user.setPassword(new BCryptPasswordEncoder().encode(resetForm.getPassword()));
+        // Cập nhật mật khẩu mới
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetPasswordToken(null); // Xóa token
+        user.setTokenExpiryTime(null);
+        user.setPasswordChangedAt(LocalDateTime.now());
         authService.save(user);
-        passwordResetService.deleteToken(resetToken);
 
         redirectAttributes.addFlashAttribute("successMsg", "Mật khẩu đã được đặt lại thành công!");
         return "redirect:/login";
     }
+
+
+
 
 
 
@@ -247,8 +221,9 @@ public class AuthController {
 
         authService.save(user);
         String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = new VerificationToken(user, token);
-        verificationTokenRepository.save(verificationToken);
+        user.setVerificationToken(token);
+        user.setTokenExpiryTime(LocalDateTime.now().plusDays(1));
+        authService.save(user);
         emailService.sendVerificationEmail(user, token);
         redirectAttributes.addFlashAttribute("successMsg", "Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản.");
 
@@ -258,26 +233,22 @@ public class AuthController {
 
     @GetMapping("/verify")
     public String verifyAccount(@RequestParam("token") String token, RedirectAttributes redirectAttributes) {
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        User user = authService.getUserByVerificationToken(token);
 
-        if (verificationToken == null) {
-            redirectAttributes.addFlashAttribute("errorMsg", "Token không hợp lệ!");
-            return "redirect:/login";
-        }
-
-        User user = verificationToken.getUser();
-        if (user.getIsVerified()) {
-            redirectAttributes.addFlashAttribute("successMsg", "Tài khoản đã được xác nhận trước đó.");
+        if (user == null || user.getTokenExpiryTime().isBefore(LocalDateTime.now())) {
+            redirectAttributes.addFlashAttribute("errorMsg", "Token không hợp lệ hoặc đã hết hạn!");
             return "redirect:/login";
         }
 
         user.setIsVerified(true);
+        user.setVerificationToken(null); // Xóa token sau khi xác minh
+        user.setTokenExpiryTime(null);
         authService.save(user);
-        verificationTokenRepository.delete(verificationToken);
 
         redirectAttributes.addFlashAttribute("successMsg", "Xác nhận tài khoản thành công! Bạn có thể đăng nhập.");
         return "redirect:/login";
     }
+
 
     @GetMapping("/logout")
     public String logoutUser(HttpSession session, RedirectAttributes redirectAttributes) {

@@ -95,4 +95,14 @@
 .swiper {
     z-index: 0 !important;
 }
+.carousel-item img {
+    width: 100%;
+    height: 500px; /* Giữ ảnh ở chiều cao hợp lý */
+    object-fit: cover; /* Giúp ảnh không bị méo và giữ tỷ lệ */
+    image-rendering: crisp-edges; /* Hiển thị ảnh sắc nét */
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
 
