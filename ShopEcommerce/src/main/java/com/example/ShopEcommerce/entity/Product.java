@@ -39,4 +39,11 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> productImages;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Rating> ratings;
+
+    public Product(Long id){
+        this.id = id;
+    }
+
 }
