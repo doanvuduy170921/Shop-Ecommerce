@@ -154,8 +154,9 @@
             <h4>ĐÁNH GIÁ SẢN PHẨM</h4>
             <div class="bg-light p-3 rounded d-flex">
                 <div class="rating-overall me-3">
-                    <h4 class="text-danger">4.8 trên 5</h4>
-                    <div class="text-warning fs-4">⭐⭐⭐⭐⭐</div>
+                    <!-- <h4 class="text-danger">4.8 trên 5</h4>
+                    <div class="text-warning fs-4">⭐⭐⭐⭐⭐</div> -->
+                    <h4>⭐ <span th:text="${averageRating}"></span>/5</h4>
                 </div>
                 <div class="mt-3">
                     <button class="btn btn-outline-danger btn-sm">
@@ -180,6 +181,55 @@
             </div>
 
             <!-- Đánh giá 1 -->
+
+
+            <div th:if="${#lists.isEmpty(ratings)}">
+                <p>Chưa có đánh giá nào.</p>
+            </div>
+            <ul th:unless="${#lists.isEmpty(ratings)}" style="padding-left: 0%;">
+                <li th:each="_rating : ${ratings}" class="list-unstyled">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <!-- Avatar người dùng -->
+                                <img th:src="@{/images/default-avatar.png}"
+                                    class="rounded-circle"
+                                    width="50"
+                                    height="50"
+                                    alt="User"
+                                />
+                                <div class="ms-3">
+                                    <h6 class="mb-1" th:text="${_rating.user.name}">Tên người dùng</h6>
+                                    <p class="text-muted small">
+                                        <span th:text="${#temporals.format(_rating.createdAt, 'yyyy-MM-dd HH:mm')}"></span> | 
+                                        <!-- Phân loại hàng: <span th:text="${_rating.category}">Không có</span> -->
+                                    </p>
+                                    <!-- Hiển thị số sao (rating) -->
+                                    <div class="text-warning">
+                                        <span th:utext="${'⭐'.repeat(_rating.rating)}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Đánh giá chi tiết -->
+                            <!-- <p><strong>Tính năng nổi bật:</strong> <span th:text="${rating.featureHighlight}"></span></p>
+                            <p><strong>Chất lượng sản phẩm:</strong> <span th:text="${rating.quality}"></span></p> -->
+                            <p th:text="${_rating.review}"></p>
+            
+                            <!-- Ảnh đánh giá (nếu có) -->
+                            <!-- <div class="d-flex" th:if="${not #lists.isEmpty(rating.images)}">
+                                <img th:each="img : ${rating.images}"
+                                    th:src="${img}"
+                                    class="me-2 rounded"
+                                    width="100"
+                                    alt="Ảnh đánh giá"
+                                />
+                            </div> -->
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
             <div class="card mt-3">
                 <div class="card-body">
                     <div class="d-flex">
@@ -207,7 +257,7 @@
                         đã. Giá cực kỳ tốt. Giao nhanh. Đóng gói cẩn thận. Nên
                         mua lắm ạ.
                     </p>
-                    <div class="d-flex">
+                    <!-- <div class="d-flex">
                         <img
                             src="https://via.placeholder.com/100"
                             class="me-2 rounded"
@@ -221,7 +271,7 @@
                             alt="Ảnh đánh giá"
                         />
                     </div>
-                    <div class="mt-2 text-muted small">👍 6</div>
+                    <div class="mt-2 text-muted small">👍 6</div> -->
                 </div>
             </div>
 
