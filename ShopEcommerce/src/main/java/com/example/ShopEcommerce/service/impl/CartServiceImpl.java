@@ -58,6 +58,17 @@ public class CartServiceImpl implements CartService {
         cartRepository.deleteById(cart_id);
     }
 
+    @Override
+    public void updateCart(Long cartId, Integer quantity) {
+        {
+            Cart cart = cartRepository.findById(cartId).orElse(null);
+            if (cart != null) {
+                cart.setQuantity(quantity);
+                cartRepository.save(cart);
+            }
+        }
+    }
+
     public Collection<Cart> getCartItems() {
         return cartItems.values();
     }
@@ -83,4 +94,5 @@ public class CartServiceImpl implements CartService {
     // Product product = null;
     // cartItems.putIfAbsent(productId, new Cart(product, quantity, user));
     // }
+
 }

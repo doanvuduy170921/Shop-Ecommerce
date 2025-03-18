@@ -51,7 +51,7 @@
     </div>
 </div>
 <div class="container mb-5">
-    <h2 class="text-center mb-4">Danh mục sản phẩm</h2>
+    <h1 class="text-center mb-4">Danh mục sản phẩm</h1>
     <div class="row">
         <div class="col-6 col-md-2 mb-3" th:each="category : ${global_categories}">
             <a th:href="@{/product(categoryId=${category.id})}">
@@ -73,22 +73,24 @@
 <!-- Flash Sale -->
 <div class="container mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Flash Sale</h2>
+        <h1>Flash Sale</h1>
         <div class="d-flex align-items-center">
             <span class="me-2">Kết thúc sau:</span>
             <div id="countdown" class="bg-danger text-white p-2 rounded">05:23:45</div>
-            <a href="#" class="btn btn-outline-primary ms-3">Xem tất cả</a>
+            <a th:href="@{/product}" class="btn btn-outline-primary ms-3">Xem tất cả</a>
         </div>
     </div>
     <div class="row">
-        <div class="col-6 col-md-3">
-            <div class="card product-card">
+        <div class="col-6 col-md-3" th:each="product : ${products}">
+            <form class="card product-card" th:action="@{/product/details/add-to-cart}" method="post">
+                <input type="hidden" name="productId" th:value="${product.id}">
+                <input type="hidden" name="quantity" value="1">
                 <span class="flash-sale-badge">-30%</span>
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 1">
+                <img th:src="${product.thumbnail}" class="card-img-top" alt="Product 1">
                 <div class="card-body">
-                    <h5 class="card-title">Smartphone XYZ</h5>
+                    <h5 class="card-title" th:text="${product.name}"></h5>
                     <div class="d-flex justify-content-between mb-2">
-                        <strong class="text-danger">3.499.000đ</strong>
+                        <strong class="text-danger" th:text="${product.price}"></strong>
                         <del class="text-muted">4.990.000đ</del>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
@@ -104,90 +106,9 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
+                    <button class="btn btn-primary" th:action="@{/product/details/add-to-cart}" method="post" type="submit">Thêm vào giỏ</button>
                 </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card product-card">
-                <span class="flash-sale-badge">-45%</span>
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 2">
-                <div class="card-body">
-                    <h5 class="card-title">Tai nghe không dây</h5>
-                    <div class="d-flex justify-content-between mb-2">
-                        <strong class="text-danger">890.000đ</strong>
-                        <del class="text-muted">1.590.000đ</del>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="ms-1 text-muted">(85)</span>
-                        </div>
-                        <span class="text-success"><small>Đã bán 199</small></span>
-                    </div>
-                </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card product-card">
-                <span class="flash-sale-badge">-20%</span>
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 3">
-                <div class="card-body">
-                    <h5 class="card-title">Máy ảnh Canon</h5>
-                    <div class="d-flex justify-content-between mb-2">
-                        <strong class="text-danger">12.990.000đ</strong>
-                        <del class="text-muted">15.990.000đ</del>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="ms-1 text-muted">(56)</span>
-                        </div>
-                        <span class="text-success"><small>Đã bán 85</small></span>
-                    </div>
-                </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card product-card">
-                <span class="flash-sale-badge">-35%</span>
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 4">
-                <div class="card-body">
-                    <h5 class="card-title">Đồng hồ thông minh</h5>
-                    <div class="d-flex justify-content-between mb-2">
-                        <strong class="text-danger">1.890.000đ</strong>
-                        <del class="text-muted">2.990.000đ</del>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <span class="ms-1 text-muted">(42)</span>
-                        </div>
-                        <span class="text-success"><small>Đã bán 136</small></span>
-                    </div>
-                </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -195,8 +116,8 @@
 <!-- Popular Products -->
 <div class="container mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Sản phẩm phổ biến</h2>
-        <a href="#" class="btn btn-outline-primary">Xem tất cả</a>
+        <h1>Sản phẩm phổ biến</h1>
+        <a th:href="@{/product}" class="btn btn-outline-primary">Xem tất cả</a>
     </div>
     <div class="row" >
         <div class="col-6 col-md-3" th:each="product : ${products}">
@@ -223,121 +144,46 @@
                         </div>
                     </div>
                     <div class="card-footer bg-white d-grid">
-                        <button type="submit" class="btn btn-primary">Thêm vào giỏ</button>
+                        <button type="submit" class="btn btn-primary" th:action="@{/product/details/add-to-cart}" method="post" >Thêm vào giỏ</button>
                     </div>
                 </form>
             </div>
         </div>
-        <!-- <div class="col-6 col-md-3">
-            <div class="card product-card">
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 6">
-                <div class="card-body">
-                    <h5 class="card-title">Áo thun nam</h5>
-                    <div class="d-flex justify-content-between mb-2">
-                        <strong>199.000đ</strong>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="ms-1 text-muted">(354)</span>
-                        </div>
-                        <span class="text-success"><small>Đã bán 1025</small></span>
-                    </div>
-                </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card product-card">
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 7">
-                <div class="card-body">
-                    <h5 class="card-title">Nồi cơm điện</h5>
-                    <div class="d-flex justify-content-between mb-2">
-                        <strong>890.000đ</strong>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="ms-1 text-muted">(186)</span>
-                        </div>
-                        <span class="text-success"><small>Đã bán 421</small></span>
-                    </div>
-                </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card product-card">
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 8">
-                <div class="card-body">
-                    <h5 class="card-title">Máy lọc không khí</h5>
-                    <div class="d-flex justify-content-between mb-2">
-                        <strong>3.490.000đ</strong>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <span class="ms-1 text-muted">(95)</span>
-                        </div>
-                        <span class="text-success"><small>Đã bán 152</small></span>
-                    </div>
-                </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>
 
 <!-- Featured Brands -->
 <div class="container mb-5">
-    <h2 class="text-center mb-4">Thương hiệu nổi bật</h2>
+    <h1 class="text-center mb-4">Thương hiệu nổi bật</h1>
     <div class="row">
         <div class="col-4 col-md-2 mb-3 text-center">
             <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 1" class="img-fluid">
+                <img src="/image/Samsung_logo_blue.png" alt="Brand 1" class="img-fluid">
             </div>
         </div>
         <div class="col-4 col-md-2 mb-3 text-center">
             <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 2" class="img-fluid">
+                <img src="/image/AsusTek-black-logo.png" alt="Brand 2" class="img-fluid">
             </div>
         </div>
         <div class="col-4 col-md-2 mb-3 text-center">
             <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 3" class="img-fluid">
+                <img src="/image/Dell_Logo.png" alt="Brand 3" class="img-fluid">
             </div>
         </div>
         <div class="col-4 col-md-2 mb-3 text-center">
             <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 4" class="img-fluid">
+                <img src="/image/Samsung_logo_blue.png" alt="Brand 4" class="img-fluid">
             </div>
         </div>
         <div class="col-4 col-md-2 mb-3 text-center">
             <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 5" class="img-fluid">
+                <img src="/image/Dell_Logo.png" alt="Brand 5" class="img-fluid">
             </div>
         </div>
         <div class="col-4 col-md-2 mb-3 text-center">
             <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 6" class="img-fluid">
+                <img src="/image/AsusTek-black-logo.png" alt="Brand 6" class="img-fluid">
             </div>
         </div>
     </div>
@@ -348,7 +194,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <div class="card">
-                <img src="/api/placeholder/600/300" class="card-img" alt="Promotion 1">
+                <img src="https://displayadsdeepdive.com/wp-content/uploads/images/generative-ai-how-two-digital-revolutions.png" class="card-img" alt="Promotion 1">
                 <div class="card-img-overlay d-flex flex-column justify-content-center text-white" style="background: rgba(0,0,0,0.3);">
                     <h3>Mua sắm thông minh</h3>
                     <p>Tiết kiệm đến 30% cho đơn hàng đầu tiên</p>
@@ -358,7 +204,7 @@
         </div>
         <div class="col-md-6 mb-3">
             <div class="card">
-                <img src="/api/placeholder/600/300" class="card-img" alt="Promotion 2">
+                <img src="https://cdn.prod.website-files.com/658bb568ca1479f5b8e7d237/65a6537127d57163e7d54961_image%20(4).webp" class="card-img" alt="Promotion 2">
                 <div class="card-img-overlay d-flex flex-column justify-content-center text-white" style="background: rgba(0,0,0,0.3);">
                     <h3>Sản phẩm công nghệ</h3>
                     <p>Khám phá các thiết bị công nghệ mới nhất</p>
@@ -467,5 +313,5 @@
         }, 1000);
     }
     startCountdown(3600);
-    
+
 </script>

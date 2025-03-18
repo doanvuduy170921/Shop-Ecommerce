@@ -52,6 +52,18 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column
+    private String resetPasswordToken;
+
+    @Column
+    private  LocalDateTime tokenExpiryTime;
+
+    @Column
+    private  LocalDateTime passwordChangedAt;
+
+    @Column
+    private  String verificationToken;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
