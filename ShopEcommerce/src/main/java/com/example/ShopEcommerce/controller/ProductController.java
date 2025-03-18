@@ -32,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import com.example.ShopEcommerce.dto.req.AddToCardReq;
+import com.example.ShopEcommerce.dto.req.RatingReq;
 import com.example.ShopEcommerce.dto.resp.CategoryResp;
 import com.example.ShopEcommerce.dto.resp.ProductResp;
 import com.example.ShopEcommerce.entity.Product;
@@ -227,9 +228,16 @@ public class ProductController {
                 images.add("https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp");
             }
         }
+        Map<Integer, Long> ratingCounts = ratingService.countRatings(id);
         Double averageRating = ratingService.getProductIdAverageRating(id);
         Page<Rating> ratings = ratingService.getRatings(id, sortDirection, page - 1, size);
+        Integer totalRatings = ratingService.countRatingsByProductId(id);
+        int totalPages = ratings.getTotalPages();
+        model.addAttribute("ratingCounts", ratingCounts);
+        model.addAttribute("totalRatings", totalRatings);
         model.addAttribute("averageRating", averageRating);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("images", images);
         model.addAttribute("product", product);
         model.addAttribute("attributes", attributes);
@@ -253,6 +261,18 @@ public class ProductController {
         String referer = request.getHeader("Referer");
         return "redirect:" + (referer != null ? referer : "/");
 
+    }
+
+    @PostMapping("/details/rating")
+    public String rating(@ModelAttribute RatingReq ratingDto, HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        ratingService.saveRating(user.getId(), ratingDto.getProductId(), ratingDto.getRating(), ratingDto.getReview() == "" ? null : ratingDto.getReview());
+        // redirectAttributes.addFlashAttribute("successMessage", "Rating successfully");
+        return "redirect:/product/details?id=" + ratingDto.getProductId();
     }
 
 }
