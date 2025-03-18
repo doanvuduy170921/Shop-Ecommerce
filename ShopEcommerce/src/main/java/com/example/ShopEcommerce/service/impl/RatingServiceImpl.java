@@ -1,5 +1,9 @@
 package com.example.ShopEcommerce.service.impl;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +17,7 @@ import com.example.ShopEcommerce.repository.RatingRepository;
 import com.example.ShopEcommerce.service.RatingService;
 import com.example.ShopEcommerce.specs.RatingSpecification;
 
+import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -45,6 +50,23 @@ public class RatingServiceImpl implements RatingService {
     public Double getProductIdAverageRating(Long productId) {
         // TODO Auto-generated method stub
         return ratingRepository.findAverageRatingByProductId(productId);
+    }
+
+    @Override
+    public Integer countRatingsByProductId(Long productId) {
+        // TODO Auto-generated method stub
+        return ratingRepository.countByProductId(productId);
+    }
+
+    @Override
+    public Map<Integer, Long> countRatings(Long productId) {
+        List<Object[]> results = ratingRepository.countRatingsByStar(productId);
+
+        return results.stream()
+            .collect(Collectors.toMap(
+                obj -> (Integer) obj[0],  // rating (số sao)
+                obj -> (Long) obj[1]      // count (số lượng)
+            ));
     }
 
 }
