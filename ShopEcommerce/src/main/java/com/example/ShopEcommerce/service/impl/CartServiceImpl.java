@@ -30,7 +30,7 @@ public class CartServiceImpl implements CartService {
         User user = userRepository.findById(addToCardReq.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         if (cartRepository.existsCartByProductId(addToCardReq.getProductId())) {
-            Cart cart = cartRepository.findCartByProductId(addToCardReq.getProductId());
+            Cart cart = cartRepository.findByUserIdAndProductId(addToCardReq.getUserId(), addToCardReq.getProductId());
             cart.setQuantity(cart.getQuantity() + addToCardReq.getQuantity());
             cartRepository.save(cart);
             return;
