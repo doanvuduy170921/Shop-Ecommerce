@@ -11,7 +11,7 @@ import java.util.Map;
 public interface CartService {
     void addToCart(AddToCardReq addToCardReq);
     Collection<Cart> getCartItems();
-    List<Cart> findAllCarts();
+    List<Cart> findCartsbyUserid(Long userid);
     void deleteCartById(Long cart_id);
 //    void addProductToCart(Long productId, int quantity);
 //    final Map<Long, Cart> cartItems = new HashMap<>();

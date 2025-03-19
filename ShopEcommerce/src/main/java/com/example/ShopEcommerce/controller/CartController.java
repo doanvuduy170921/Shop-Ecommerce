@@ -1,6 +1,7 @@
 package com.example.ShopEcommerce.controller;
 
 import com.example.ShopEcommerce.entity.Cart;
+import com.example.ShopEcommerce.entity.User;
 import com.example.ShopEcommerce.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,13 @@ public class CartController {
     // Trang giỏ hàng
     @GetMapping("/carts")
     public String cartPage(Model model, HttpSession session) {
-        List<Cart> cartList = cartService.findAllCarts();
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        List<Cart> cartList = cartService.findCartsbyUserid(user.getId());
+
+
         int totalQuantity = cartList.stream().mapToInt(Cart::getQuantity).sum();
 
         model.addAttribute("cartList", cartList);
@@ -49,7 +56,7 @@ public class CartController {
 
     // Cập nhật session khi có thay đổi giỏ hàng
     private void updateCartSession(HttpSession session) {
-        List<Cart> cartList = cartService.findAllCarts();
+        List<Cart> cartList = cartService.findCartsbyUserid(((User) session.getAttribute("user")).getId());
         int totalQuantity = cartList.stream().mapToInt(Cart::getQuantity).sum();
         session.setAttribute("totalCartQuantity", totalQuantity);
     }

@@ -21,6 +21,10 @@
 <!--    </div>-->
 <!--</header_admin>-->
 
+<button class="menu-toggle" id="menuToggle">
+    <i class="bi bi-list"></i>
+</button>
+
 <th:block th:insert="~{component/header-admin}" />
 
 <div class="container_admin">
@@ -106,47 +110,50 @@
                     </button>
                 </a>
                 <form th:action="@{/admin/productManagement/delete/{id}(id=${product.id})}" method="post" style="display:inline;" class="delete-form" id="deleteForm">
-                    <button type="button" class="delete-btn-large" onclick="confirmDelete(this)">
+                    <button type="button" class="delete-btn-large" onclick="openConfirmModal(this, 'Bạn có chắc chắn muốn xóa sản phẩm này?')">
                         <span class="delete-icon"></span> Xóa
                     </button>
                 </form>
             </div>
         </div>
     </main_admin>
+
+    <!-- Modal Xác Nhận -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Xác nhận thao tác</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmMessage">Bạn có chắc chắn muốn thực hiện thao tác này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmActionBtn">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<!--<div id="deleteModal" class="modal">-->
-<!--    <div class="modal-content">-->
-<!--        <p>Bạn có chắc chắn muốn xóa sản phẩm này không?</p>-->
-<!--        <div class="modal-buttons">-->
-<!--            <button class="back-btn" onclick="closeModal()">Hủy</button>-->
-<!--            <button class="delete-btn-large" onclick="submitDeleteForm()">Xóa</button>-->
-<!--&lt;!&ndash;            <a>&ndash;&gt;-->
-<!--&lt;!&ndash;                <button class="delete-btn-large">Xóa</button>&ndash;&gt;-->
-<!--&lt;!&ndash;            </a>&ndash;&gt;-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    function openModal() {
-        document.getElementById('deleteModal').style.display = 'block';
+    let currentForm; // Biến lưu form cần submit
+
+    function openConfirmModal(button, message) {
+        currentForm = button.closest('form'); // Lưu form hiện tại
+        document.getElementById('confirmMessage').innerText = message;
+        let confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        confirmModal.show();
     }
 
-    function closeModal() {
-        document.getElementById('deleteModal').style.display = 'none';
-    }
-
-    function submitDeleteForm() {
-        document.getElementById('deleteForm').submit();
-        closeModal();
-    }
-
-    // Close modal if user clicks outside of it
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('deleteModal')) {
-            closeModal();
+    document.getElementById('confirmActionBtn').addEventListener('click', function () {
+        if (currentForm) {
+            currentForm.submit(); // Submit form khi người dùng nhấn xác nhận
         }
-    }
+    });
 
     function confirmDelete(button) {
         if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -157,5 +164,6 @@
         }
     }
 </script>
+<script src="/js/responsive-admin.js"></script>
 </body>
 </html>

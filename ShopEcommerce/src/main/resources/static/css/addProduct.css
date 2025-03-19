@@ -19,19 +19,31 @@
     display: flex;
     margin-bottom: 20px;
     align-items: flex-start;
+    gap: 20px;
 }
 
 .form-group label {
-    width: 120px;
+    /*width: 15%;*/
+    /*font-weight: bold;*/
+    /*color: #333;*/
+    width: 150px; /* Chiều rộng cố định cho tất cả label */
+    min-width: 150px; /* Đảm bảo không bị co lại */
     font-weight: bold;
     color: #333;
+    padding-top: 8px; /* Căn chỉnh với input */
 }
 
 .form-control {
-    flex-grow: 1;
+    /*flex-grow: 1;*/
+    /*padding: 8px;*/
+    /*border: 1px solid #ccc;*/
+    /*border-radius: 4px;*/
+    flex: 1; /* Chiếm phần còn lại của không gian */
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    width: 100%; /* Đảm bảo chiều rộng tối đa */
+    box-sizing: border-box; /* Tính cả padding vào chiều rộng */
 }
 
 
@@ -47,6 +59,7 @@
 
 .image-container, .thumbnail-container {
     display: flex;
+    flex-wrap: wrap;
     gap: 15px;
     margin-top: 5px;
 }
