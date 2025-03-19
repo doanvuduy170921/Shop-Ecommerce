@@ -38,6 +38,7 @@ INSERT INTO shop_ecommerce.users (id, created_at, updated_at, address, date_of_b
 INSERT INTO shop_ecommerce.users (id, created_at, updated_at, address, date_of_birth, is_active, password, phone_number, role_id, email, name, is_verified) VALUES (23, '2025-03-12 09:34:44.000000', null, null, null, true, null, null, null, 'tvthuyen2003@gmail.com', 'Thuyên Trương Văn', true);
 INSERT INTO shop_ecommerce.users (id, created_at, updated_at, address, date_of_birth, is_active, password, phone_number, role_id, email, name, is_verified) VALUES (24, '2025-03-12 09:39:31.000000', '2025-03-12 09:41:19.000000', null, null, true, '$2a$10$dUh.rzmNXBNzxQYU7JKxC.f9gbNPqIuJqUkGLq1G/23TgwR/TS1RC', null, 1, 'nguyenkhachoain@gmail.com', 'Hoài Nam', true);
 
+
 ALTER TABLE users
     ADD COLUMN is_verified BIT NOT NULL DEFAULT 0;
 
@@ -53,5 +54,6 @@ ALTER TABLE users
 
 ALTER TABLE users
     ADD COLUMN verification_token VARCHAR(255);
+
 
 

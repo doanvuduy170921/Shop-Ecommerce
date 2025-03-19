@@ -3,8 +3,11 @@ package com.example.ShopEcommerce.service;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import com.example.ShopEcommerce.entity.Attribute;
 import com.example.ShopEcommerce.entity.Product;
 
+import com.example.ShopEcommerce.entity.ProductAttribute;
 import org.springframework.data.domain.Page;
 
 import com.example.ShopEcommerce.dto.resp.ProductResp;
@@ -23,5 +26,6 @@ public interface ProductService {
     List<String> getImagesByProductId(Long productId);
     Page<Product> filterProducts(String keyword, String priceRange, Integer categoryId, Pageable pageable);
     Page<ProductResp> findAll();
-    
+    List<Attribute> getAllAttributes();
+    List<ProductAttribute> getAllProductAttributes();
 }

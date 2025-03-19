@@ -21,6 +21,9 @@
 <!--        <img src="user-icon.png" alt="User" class="user-icon_admin">-->
 <!--    </div>-->
 <!--</header_admin>-->
+<button class="menu-toggle" id="menuToggle">
+    <i class="bi bi-list"></i>
+</button>
 
 <th:block th:insert="~{component/header-admin}" />
 <div class="container_admin">
@@ -61,6 +64,7 @@
         <div class="content-header-admin">
             <h2>Thêm sản phẩm mới</h2>
         </div>
+
         <div class="content_admin_body">
             <div class="form-container">
                 <div th:if="${error}" class="alert alert-danger" role="alert">
@@ -123,12 +127,10 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="button-group">
                         <button type="submit" class="btn btn-primary mt-3 mr-2">Lưu</button>
                         <a th:href="@{/admin/productManagement}" class="btn btn-danger mt-3">Hủy</a>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -308,7 +310,8 @@
         // Cho phép form submit bình thường
         return true;
     });
-</script>
 
+</script>
+<script src="/js/responsive-admin.js"></script>
 </body>
 </html>

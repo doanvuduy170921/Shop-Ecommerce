@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.ShopEcommerce.entity.Attribute;
 import com.example.ShopEcommerce.entity.Product;
+import com.example.ShopEcommerce.repository.AttributeRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final AttributeRepository attributeRepository;
     private final ProductAttributeRepository productAttributeRepository;
     private final ProductImageRepository productImageRepository;
 
@@ -153,5 +156,15 @@ public class ProductServiceImpl implements ProductService {
         Sort sort = Sort.by("price").ascending();
         Pageable pageable = PageRequest.of(0, 4, sort);
         return productRepository.findAll(pageable).map(ProductMapper::toProductResp);
+    }
+
+    @Override
+    public List<Attribute> getAllAttributes() {
+        return attributeRepository.findAll();
+    }
+
+    @Override
+    public List<ProductAttribute> getAllProductAttributes() {
+        return productAttributeRepository.findAll();
     }
 }

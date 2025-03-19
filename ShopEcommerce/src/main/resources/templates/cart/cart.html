@@ -37,7 +37,7 @@
             </div>
 
             <div class="product-price">
-                <span th:text="${item.product.price}">₫19.900</span>
+                <span th:text="${item.product.price}"></span>
             </div>
 
             <div class="product-quantity">
@@ -96,6 +96,12 @@
             updateTotal(input);
         }
     }
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('input', function () {
+            updateTotal(this);
+        });
+    });
+
 
     function updateTotal(input) {
         const productItem = input.closest('.product-item');
@@ -105,7 +111,7 @@
         const totalElement = productItem.querySelector('.product-total');
 
         const total = price * quantity;
-        totalElement.innerText = '₫' + total.toLocaleString('vi-VN');
+        totalElement.innerText =total;
 
         updateTotalPrice();
     }
@@ -196,27 +202,27 @@
     // Add some sample products for demonstration if needed
     if (document.querySelectorAll('.product-item').length === 0) {
         const sampleProducts = [
-            {
-                name: 'Tất đá bóng chống trơn, Vớ đá banh chống trượt thương hiệu Nike,Đen',
-                price: '19900',
-                originalPrice: '25000',
-                variant: 'Nike,Đen',
-                quantity: 1
-            },
-            {
-                name: 'Áo thun thể thao nam nữ form rộng',
-                price: '89000',
-                originalPrice: '120000',
-                variant: 'Trắng,XL',
-                quantity: 1
-            },
-            {
-                name: 'Giày thể thao chạy bộ nhẹ thoáng khí',
-                price: '299000',
-                originalPrice: '450000',
-                variant: 'Đen,42',
-                quantity: 1
-            }
+            // {
+            //     name: 'Tất đá bóng chống trơn, Vớ đá banh chống trượt thương hiệu Nike,Đen',
+            //     price: '19900',
+            //     originalPrice: '25000',
+            //     variant: 'Nike,Đen',
+            //     quantity: 1
+            // },
+            // {
+            //     name: 'Áo thun thể thao nam nữ form rộng',
+            //     price: '89000',
+            //     originalPrice: '120000',
+            //     variant: 'Trắng,XL',
+            //     quantity: 1
+            // },
+            // {
+            //     name: 'Giày thể thao chạy bộ nhẹ thoáng khí',
+            //     price: '299000',
+            //     originalPrice: '450000',
+            //     variant: 'Đen,42',
+            //     quantity: 1
+            // }
         ];
 
         const shopContainer = document.querySelector('.shop-container');
@@ -287,6 +293,20 @@
         if (newQuantity < 1) return;
 
         input.value = newQuantity;
+
+        // // Update the product total display right away
+        // const productItem = element.closest('.product-item');
+        // const priceText = productItem.querySelector('.product-price span:last-child').innerText;
+        // const price = parseFloat(priceText.replace('₫', '').replace(/\./g, '').replace(',', '.'));
+        // const totalElement = productItem.querySelector('.product-total');
+        //
+        // const total = price * newQuantity;
+        // totalElement.innerText = total;
+        //
+        // // Update the cart summary
+        // updateSelectedCount();
+        updateTotal(input);
+
 
         let cartId = element.parentElement.querySelector("input[name='cart_id']").value;
 

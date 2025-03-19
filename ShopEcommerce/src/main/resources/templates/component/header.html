@@ -72,7 +72,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="accountDropdown">
                         <li th:if="${session.user}">
-                            <a class="dropdown-item text-center btn btn-danger" th:href="@{/infoAccount/{id}(id=${session.user.id})}">Thông tin tài khoản</a>
+                            <a class="dropdown-item text-center btn btn-danger" th:href="@{/infoAccount}">Thông tin tài khoản</a>
                             <a class="dropdown-item btn btn-danger" th:href="@{/logout}">Đăng xuất</a>
                         </li>
                         <li th:unless="${session.user}">
