@@ -40,7 +40,7 @@
         </div>
 
         <div class="updateAccount_container">
-            <form class="updateAccountForm" th:action="@{/updateAccount/{id}(id=${user.id})}" th:object="${user}" method="POST"  >
+            <form class="updateAccountForm" th:action="@{/updateAccount}" th:object="${user}" method="POST"  >
                 <div class="form-group">
                     <label for="fullName">Họ Tên:</label>
                     <input type="text" id="fullName" th:field="*{name}" class="form-control" required>

@@ -8,8 +8,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/css/management.css}">
     <link rel="stylesheet" href="../../static/css/management.css">
+    <link rel="javascript" href="../../static/js/responsive-admin.js">
 </head>
 <body>
+<button class="menu-toggle" id="menuToggle">
+    <i class="bi bi-list"></i>
+</button>
 
 <th:block th:insert="~{component/header-admin}" />
 
@@ -62,7 +66,7 @@
                 <input type="hidden" name="categoryId" id="hiddenCategoryId" th:value="${categoryId}">
                 <button type="submit" class="search-btn">Tìm kiếm</button>
             </form>
-            <a href="addProduct" style="text-decoration: none;">
+            <a href="addProduct" class="addProduct">
                 <button class="addProduct-btn">Thêm sản phẩm</button>
             </a>
         </div>
@@ -129,7 +133,7 @@
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     <form th:action="@{/admin/productManagement/delete/{id}(id=${product.id})}" method="post" class="delete-btn">
-                                        <button type="button" class="delete-btn" onclick="confirmDelete(this)">
+                                        <button type="button" class="delete-btn" onclick="openConfirmModal(this, 'Bạn có chắc chắn muốn xóa sản phẩm này?')">
                                             <i class="bi bi-x-lg"></i>
                                         </button>
                                     </form>
@@ -160,9 +164,44 @@
             </nav>
         </div>
     </main_admin>
-</div>
 
+    <!-- Modal Xác Nhận -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Xác nhận thao tác</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmMessage">Bạn có chắc chắn muốn thực hiện thao tác này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmActionBtn">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+
+    let currentForm; // Biến lưu form cần submit
+
+    function openConfirmModal(button, message) {
+        currentForm = button.closest('form'); // Lưu form hiện tại
+        document.getElementById('confirmMessage').innerText = message;
+        let confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+        confirmModal.show();
+    }
+
+    document.getElementById('confirmActionBtn').addEventListener('click', function () {
+        if (currentForm) {
+            currentForm.submit(); // Submit form khi người dùng nhấn xác nhận
+        }
+    });
+
     // Hàm xác nhận xóa sản phẩm
     function confirmDelete(button) {
         if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -316,6 +355,8 @@
             });
         }
     });
+
 </script>
+<script src="/js/responsive-admin.js"></script>
 </body>
 </html>

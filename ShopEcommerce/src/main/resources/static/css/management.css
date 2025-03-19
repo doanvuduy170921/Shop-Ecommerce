@@ -14,6 +14,7 @@ body{
 body_admin {
     background-color: #f5f5f5;
     height: 100vh;
+    display: block;
 }
 main_admin{
     background-color: #f5f5f5;
@@ -58,6 +59,7 @@ header_admin {
     justify-content: space-between;
     padding-bottom: 20px;
     position: relative;
+    transition: all 0.3s ease;
 }
 
 
@@ -105,6 +107,7 @@ nav a {
     flex: 1;
     padding: 20px;
     min-height: 100vh;
+    overflow-x: auto;
 }
 
 .content-header-admin {
@@ -114,6 +117,8 @@ nav a {
     width: 80%;
     margin: 20px auto;
     height: auto;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 h2{
     margin-left: 10%;
@@ -137,6 +142,7 @@ h2{
     z-index: 1000;
     height: auto;
     margin-top: 20px;
+    overflow-x: auto;
 }
 .search-input {
     width: 400px;
@@ -148,8 +154,10 @@ h2{
 .admin-table {
     background-color: #fff;
     border-radius: 4px;
-    overflow: hidden;
+    /*overflow: hidden;*/
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow-x: auto;
 }
 
 .admin-table th, .admin-table td {
@@ -295,67 +303,9 @@ td:last-child {
 .addProduct-btn:hover {
     background-color: #45a049;
 }
-
-
-/*.filter-header {*/
-/*    position: relative;*/
-/*}*/
-
-/*.filter-icon {*/
-/*    cursor: pointer;*/
-/*    margin-left: 5px;*/
-/*    color: #666;*/
-/*}*/
-
-/*.filter-dropdown {*/
-/*    display: none;*/
-/*    position: absolute;*/
-/*    right: 0;*/
-/*    top: 100%;*/
-/*    background-color: white;*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 4px;*/
-/*    box-shadow: 0 2px 10px rgba(0,0,0,0.1);*/
-/*    z-index: 1000;*/
-/*    min-width: 150px;*/
-/*    !* Thêm các thuộc tính mới *!*/
-/*    max-height: 300px;*/
-/*    overflow-y: auto;*/
-/*    !* Đảm bảo dropdown hiển thị bên ngoài các phần tử bị ẩn *!*/
-/*    transform: translateY(0);*/
-/*}*/
-
-/*!* Thêm lớp mới để hiển thị dropdown ở vị trí cố định khi có ít dữ liệu *!*/
-/*.filter-dropdown.fixed-position {*/
-/*    position: fixed;*/
-/*    width: min-content;*/
-/*    !* Các vị trí sẽ được thiết lập qua JavaScript *!*/
-/*}*/
-
-/*.filter-option {*/
-/*    padding: 8px 12px;*/
-/*    cursor: pointer;*/
-/*    border-bottom: 1px solid #eee;*/
-/*    white-space: nowrap; !* Ngăn văn bản bị ngắt dòng *!*/
-/*}*/
-
-/*.filter-option:last-child {*/
-/*    border-bottom: none;*/
-/*}*/
-
-/*.filter-option:hover {*/
-/*    background-color: #f5f5f5;*/
-/*}*/
-
-/*.filter-option.selected {*/
-/*    background-color: #e6f7ff;*/
-/*    font-weight: bold;*/
-/*}*/
-
-/*!* Hiển thị icon lọc rõ ràng hơn *!*/
-/*.bi-funnel {*/
-/*    font-size: 0.8em;*/
-/*}*/
+.addProduct{
+    text-decoration: none;
+}
 
 .filter-bar {
     display: flex;
@@ -492,7 +442,7 @@ td:last-child {
 
 .dropdown-content {
     /* position: absolute; */
-    top: 50%;          /* Đặt phần trên của dropdown ở giữa nút */
+    top: 50%;
     transform: translateY(-50%);
     right: 100%;
     margin-right: 10px;
@@ -515,10 +465,9 @@ td:last-child {
     height: 0;
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
-    border-left: 8px solid white; /* Tạo mũi tên cùng màu với dropdown */
+    border-left: 8px solid white;
 }
 
-/* Đảm bảo các nút và liên kết trong dropdown hiển thị đúng */
 .dropdown-content a,
 .dropdown-content button,
 .dropdown-content form {
@@ -533,11 +482,50 @@ td:last-child {
     margin: 4px 4px ; /* Thêm margin trên và dưới */
 }
 
-/*.dropdown-content a:hover,*/
-/*.dropdown-content button:hover {*/
-/*    background-color: #f1f1f1;*/
-/*}*/
+.custom-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
 
+.close-btn {
+    color: #aaa;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: black;
+}
+
+.btn-confirm {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-confirm.activate {
+    background-color: #28a745;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
 .dropdown {
     position: relative;
     display: inline-block;
@@ -548,4 +536,160 @@ td:last-child {
     align-items: center;
     gap: 8px;
 }
+
+/* Mobile menu toggle button (new) */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+}
+
+/* Alert styles */
+.alert {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .content_admin_body, .content-header-admin {
+        width: 95%;
+    }
+
+    h2 {
+        margin-left: 0;
+        text-align: center;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Show menu toggle and hide sidebar by default */
+    .menu-toggle {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -200px; /* Hide sidebar off-screen */
+        top: 0;
+        height: 100vh;
+        z-index: 1000;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        padding-top: 60px;
+    }
+
+    .sidebar.active {
+        left: 0; /* Show sidebar when active */
+    }
+
+    .content_admin {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .container_admin {
+        flex-direction: column;
+    }
+
+    .content-header-admin {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    .search-input, .search-btn {
+        width: 100%;
+    }
+
+    .action-container-admin {
+        min-width: 60px;
+    }
+
+    /* Adjust dropdown position for small screens */
+    .dropdown-content {
+        right: 0;
+        left: auto;
+        top: 100%;
+        transform: none;
+        margin-right: 0;
+    }
+
+    .dropdown-content::after {
+        display: none;
+    }
+
+    .sidebar nav ul {
+        list-style: none;
+        padding: 20px 0;
+        margin-top: 30px;
+    }
+    .form-group {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .form-group label {
+        width: 100%;
+        text-align: left;
+        padding-top: 0;
+    }
+
+    .form-control, .form-select, .form-textarea {
+        width: 100%;
+    }
+    .addProduct{
+        width: 30%;
+    }
+}
+
+@media (max-width: 480px) {
+    .content_admin_body {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .pagination a {
+        padding: 4px 8px;
+        font-size: 14px;
+    }
+
+    .sidebar nav ul {
+        list-style: none;
+        padding: 20px 0;
+        margin-top: 30px;
+    }
+}
+
 

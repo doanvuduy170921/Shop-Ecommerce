@@ -22,6 +22,10 @@
 <!--        <img src="user-icon.png" alt="User" class="user-icon_admin">-->
 <!--    </div>-->
 <!--</header_admin>-->
+
+<button class="menu-toggle" id="menuToggle">
+    <i class="bi bi-list"></i>
+</button>
 <th:block th:insert="~{component/header-admin}" />
 <div class="container_admin">
     <aside class="sidebar">
@@ -368,6 +372,7 @@
         return true;
     });
 </script>
+<script src="/js/responsive-admin.js"></script>
 </body>
 </html>
 
