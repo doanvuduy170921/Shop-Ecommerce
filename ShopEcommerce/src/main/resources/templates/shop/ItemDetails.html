@@ -16,6 +16,8 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
         />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
 
         <!-- Swiper JS -->
         <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
@@ -33,6 +35,48 @@
                     container.scrollLeft += e.deltaY; // Chuyển động ngang thay vì dọc
                 });
             });
+            document.addEventListener("DOMContentLoaded", function () {
+        const stars = document.querySelectorAll(".rating-stars .star");
+        const ratingInput = document.getElementById("selectedRating");
+
+        // Sự kiện chọn số sao
+        stars.forEach(star => {
+            star.addEventListener("click", function () {
+                let value = this.getAttribute("data-value");
+                ratingInput.value = value;
+
+                // Xóa tất cả màu cũ
+                stars.forEach(s => s.classList.remove("bi-star-fill", "text-warning"));
+                stars.forEach(s => s.classList.add("bi-star"));
+
+                // Đánh dấu sao vàng cho các sao đã chọn
+                for (let i = 0; i < value; i++) {
+                    stars[i].classList.add("bi-star-fill", "text-warning");
+                }
+            });
+        });
+
+        // Xử lý gửi đánh giá
+        // document.getElementById("ratingForm").addEventListener("submit", function (event) {
+        //     event.preventDefault();
+        //     const rating = ratingInput.value;
+        //     const comment = document.getElementById("comment").value;
+
+        //     if (rating === "0") {
+        //         alert("Vui lòng chọn số sao!");
+        //         return;
+        //     }
+
+        //     // Gửi dữ liệu lên server (thay thế bằng AJAX hoặc Fetch API)
+        //     console.log("Gửi đánh giá:", { rating, comment });
+        //     alert("Đánh giá đã được gửi!");
+
+        //     // Đóng modal sau khi gửi
+        //     let modal = new bootstrap.Modal(document.getElementById("ratingModal"));
+        //     modal.hide();
+        //     this.reset();
+        // });
+    });
         </script>
         <script th:inline="javascript">
             /* Kiểm tra nếu có thông báo thành công từ server */
@@ -153,33 +197,121 @@
         <div class="container md-4 mb-3">
             <h4>ĐÁNH GIÁ SẢN PHẨM</h4>
             <div class="bg-light p-3 rounded d-flex">
-                <div class="rating-overall me-3">
-                    <h4 class="text-danger">4.8 trên 5</h4>
-                    <div class="text-warning fs-4">⭐⭐⭐⭐⭐</div>
+                <div class="d-flex flex-grow-1">
+                    <div class="rating-overall me-3">
+                        <!-- <h4 class="text-danger">4.8 trên 5</h4>
+                        <div class="text-warning fs-4">⭐⭐⭐⭐⭐</div> -->
+                        <h4>⭐ <span th:text="${averageRating}"></span>/5</h4>
+                        <p class="text-muted" th:text="${totalRatings} + ' đánh giá'">8k đánh giá</p>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-outline-secondary btn-sm">
+                            5 Sao (<span th:text="${ratingCounts[5] ?: 0}"></span>)
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm">
+                            4 Sao (<span th:text="${ratingCounts[4] ?: 0}"></span>)
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm">
+                            3 Sao (<span th:text="${ratingCounts[3] ?: 0}"></span>)
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm">
+                            2 Sao (<span th:text="${ratingCounts[2] ?: 0}"></span>)
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm">
+                            1 Sao (<span th:text="${ratingCounts[1] ?: 0}"></span>)
+                        </button>
+                    </div>
                 </div>
-                <div class="mt-3">
-                    <button class="btn btn-outline-danger btn-sm">
-                        Tất Cả
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm">
-                        5 Sao (7,1k)
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm">
-                        4 Sao (541)
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm">
-                        3 Sao (202)
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm">
-                        2 Sao (82)
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm">
-                        1 Sao (150)
-                    </button>
+                <button class="btn btn-outline-dark ms-auto" data-bs-toggle="modal" data-bs-target="#ratingModal">Viết đánh giá</button>
+            </div>
+
+            <!-- Modal Viết Đánh Giá -->
+            <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ratingModalLabel">Viết đánh giá</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="ratingForm" th:action="@{/product/details/rating}" method="post">
+                                <!-- Chọn số sao -->
+                                <input type="hidden" name="productId" th:value="${product.id}" />
+                                <div class="mb-3">
+                                    <label class="form-label">Chọn số sao:</label>
+                                    <select class="form-select" name="rating" id="selectedRating">
+                                        <option value="5">⭐⭐⭐⭐⭐ - Tuyệt vời</option>
+                                        <option value="4">⭐⭐⭐⭐ - Tốt</option>
+                                        <option value="3">⭐⭐⭐ - Bình thường</option>
+                                        <option value="2">⭐⭐ - Không tốt</option>
+                                        <option value="1">⭐ - Tệ</option>
+                                    </select>
+                                </div>
+                                <!-- Bình luận -->
+                                <div class="mb-3">
+                                    <label for="comment" class="form-label">Bình luận:</label>
+                                    <textarea id="comment" class="form-control" name="review" rows="3"></textarea>
+                                </div>
+                                <!-- Nút gửi -->
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Đánh giá 1 -->
+
+
+            <div th:if="${#lists.isEmpty(ratings)}">
+                <p>Chưa có đánh giá nào.</p>
+            </div>
+            <ul th:unless="${#lists.isEmpty(ratings)}" style="padding-left: 0%;">
+                <li th:each="_rating : ${ratings}" class="list-unstyled">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <!-- Avatar người dùng -->
+                                <img src="https://www.gravatar.com/avatar/?d=identicon"
+                                    class="rounded-circle"
+                                    width="50"
+                                    height="50"
+                                    alt="User"
+                                />
+                                <div class="ms-3">
+                                    <h6 class="mb-1" th:text="${_rating.user.name}">Tên người dùng</h6>
+                                    <p class="text-muted small mb-0">
+                                        <span th:text="${#temporals.format(_rating.createdAt, 'yyyy-MM-dd HH:mm')}"></span> | 
+                                        <!-- Phân loại hàng: <span th:text="${_rating.category}">Không có</span> -->
+                                    </p>
+                                    <!-- Hiển thị số sao (rating) -->
+                                    <div class="text-warning">
+                                        <span th:utext="${'⭐'.repeat(_rating.rating)}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Đánh giá chi tiết -->
+                            <!-- <p><strong>Tính năng nổi bật:</strong> <span th:text="${rating.featureHighlight}"></span></p>
+                            <p><strong>Chất lượng sản phẩm:</strong> <span th:text="${rating.quality}"></span></p> -->
+                            <p th:if="${_rating.review != null}" th:text="${_rating.review}"></p>
+            
+                            <!-- Ảnh đánh giá (nếu có) -->
+                            <!-- <div class="d-flex" th:if="${not #lists.isEmpty(rating.images)}">
+                                <img th:each="img : ${rating.images}"
+                                    th:src="${img}"
+                                    class="me-2 rounded"
+                                    width="100"
+                                    alt="Ảnh đánh giá"
+                                />
+                            </div> -->
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
             <div class="card mt-3">
                 <div class="card-body">
                     <div class="d-flex">
@@ -192,7 +324,7 @@
                         />
                         <div class="ms-3">
                             <h6 class="mb-1">2yn_qafxcn</h6>
-                            <p class="text-muted small">
+                            <p class="text-muted small mb-0">
                                 2024-09-22 16:53 | Phân loại hàng: Màu trắng có
                                 bao bì
                             </p>
@@ -207,7 +339,7 @@
                         đã. Giá cực kỳ tốt. Giao nhanh. Đóng gói cẩn thận. Nên
                         mua lắm ạ.
                     </p>
-                    <div class="d-flex">
+                    <!-- <div class="d-flex">
                         <img
                             src="https://via.placeholder.com/100"
                             class="me-2 rounded"
@@ -221,7 +353,7 @@
                             alt="Ảnh đánh giá"
                         />
                     </div>
-                    <div class="mt-2 text-muted small">👍 6</div>
+                    <div class="mt-2 text-muted small">👍 6</div> -->
                 </div>
             </div>
 
@@ -266,6 +398,43 @@
                     </div>
                     <div class="mt-2 text-muted small">👍 6</div>
                 </div>
+            </div>
+            <div class="d-flex justify-content-center mt-4">
+                <nav>
+                    <ul class="pagination">
+                        <li
+                            class="page-item"
+                            th:classappend="${currentPage == 1} ? 'disabled'"
+                        >
+                            <a
+                                class="page-link"
+                                th:href="@{/product/details(page=${currentPage - 1}, id=${product.id})}"
+                                >&laquo;</a
+                            >
+                        </li>
+                        <li
+                            class="page-item"
+                            th:each="i : ${#numbers.sequence(1, totalPages)}"
+                            th:classappend="${i == currentPage} ? 'active'"
+                        >
+                            <a
+                                class="page-link"
+                                th:href="@{/product/details(page=${i}, id=${product.id})}"
+                                th:text="${i}"
+                            ></a>
+                        </li>
+                        <li
+                            class="page-item"
+                            th:classappend="${currentPage == totalPages} ? 'disabled'"
+                        >
+                            <a
+                                class="page-link"
+                                th:href="@{/product/details(page=${currentPage + 1}, id=${product.id})}"
+                                >&raquo;</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

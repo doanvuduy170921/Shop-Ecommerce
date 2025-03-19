@@ -2,6 +2,7 @@ package com.example.ShopEcommerce.controller;
 
 import com.example.ShopEcommerce.entity.Product;
 import com.example.ShopEcommerce.entity.ProductImage;
+import com.example.ShopEcommerce.entity.Rating;
 import com.example.ShopEcommerce.repository.ProductImageRepository;
 import com.example.ShopEcommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import com.example.ShopEcommerce.dto.req.AddToCardReq;
+import com.example.ShopEcommerce.dto.req.RatingReq;
 import com.example.ShopEcommerce.dto.resp.CategoryResp;
 import com.example.ShopEcommerce.dto.resp.ProductResp;
 import com.example.ShopEcommerce.entity.Product;
@@ -38,6 +40,7 @@ import com.example.ShopEcommerce.entity.User;
 import com.example.ShopEcommerce.service.CartService;
 import com.example.ShopEcommerce.service.CategoryService;
 import com.example.ShopEcommerce.service.ProductService;
+import com.example.ShopEcommerce.service.RatingService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -53,6 +56,7 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final CartService cartService;
+    private final RatingService ratingService;
 
     private final ProductRepository productRepository;
 
@@ -210,7 +214,12 @@ public class ProductController {
     }
 
     @GetMapping("/details")
-    public String getProductDetail(@RequestParam Long id, Model model) {
+    public String getProductDetail(
+            @RequestParam Long id,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "desc") String sortDirection,
+            Model model) {
         ProductResp product = productService.getProductById(id);
         Map<String, Object> attributes = productService.getAttributesByProductId(id);
         List<String> images = productService.getImagesByProductId(id);
@@ -219,9 +228,20 @@ public class ProductController {
                 images.add("https://down-vn.img.susercontent.com/file/sg-11134301-7rdvg-lyx2wlnb9vtuba.webp");
             }
         }
+        Map<Integer, Long> ratingCounts = ratingService.countRatings(id);
+        Double averageRating = ratingService.getProductIdAverageRating(id);
+        Page<Rating> ratings = ratingService.getRatings(id, sortDirection, page - 1, size);
+        Integer totalRatings = ratingService.countRatingsByProductId(id);
+        int totalPages = ratings.getTotalPages();
+        model.addAttribute("ratingCounts", ratingCounts);
+        model.addAttribute("totalRatings", totalRatings);
+        model.addAttribute("averageRating", averageRating);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("images", images);
         model.addAttribute("product", product);
         model.addAttribute("attributes", attributes);
+        model.addAttribute("ratings", ratings);
         return "shop/ItemDetails";
     }
 
@@ -241,6 +261,18 @@ public class ProductController {
         String referer = request.getHeader("Referer");
         return "redirect:" + (referer != null ? referer : "/");
 
+    }
+
+    @PostMapping("/details/rating")
+    public String rating(@ModelAttribute RatingReq ratingDto, HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        ratingService.saveRating(user.getId(), ratingDto.getProductId(), ratingDto.getRating(), ratingDto.getReview() == "" ? null : ratingDto.getReview());
+        // redirectAttributes.addFlashAttribute("successMessage", "Rating successfully");
+        return "redirect:/product/details?id=" + ratingDto.getProductId();
     }
 
 }
