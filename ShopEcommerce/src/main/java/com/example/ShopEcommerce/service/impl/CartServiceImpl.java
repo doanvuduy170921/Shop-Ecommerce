@@ -29,19 +29,17 @@ public class CartServiceImpl implements CartService {
     public void addToCart(AddToCardReq addToCardReq) {
         User user = userRepository.findById(addToCardReq.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        if (cartRepository.existsCartByProductId(addToCardReq.getProductId())) {
-            Cart cart = cartRepository.findCartByProductId(addToCardReq.getProductId());
-            cart.setQuantity(cart.getQuantity() + addToCardReq.getQuantity());
-            cartRepository.save(cart);
-            return;
-        }
         Product product = productRepository.findById(addToCardReq.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+        Cart cart = cartRepository.findByUserIdAndProductId(addToCardReq.getUserId(), addToCardReq.getProductId())
+                .orElse(new Cart());
 
-        Cart cart = new Cart();
-        cart.setUser(user);
-        cart.setProduct(product);
-        cart.setQuantity(addToCardReq.getQuantity());
+        if (cart.getId() == null) {
+            cart.setUser(user);
+            cart.setProduct(product);
+            cart.setQuantity(0);
+        }
+        cart.setQuantity(cart.getQuantity() + addToCardReq.getQuantity());
 
         cartRepository.save(cart);
     }
@@ -77,8 +75,6 @@ public class CartServiceImpl implements CartService {
     public List<Cart> findCartsbyUserid(Long user_id) {
         return cartRepository.findByUserId(user_id);
     }
-
-
 
     // @Override
     // public void updateCart(Long cart_id, Integer quantity) {
