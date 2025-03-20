@@ -14,17 +14,26 @@
 
 .filter {
     display: block;
+    position: sticky;
+    top: calc(91.2px + 1rem);
+}
+
+.menu-button-detail {
+    display: block;
+    background: #007bff;
+    color: white;
+    padding: 10px;
 }
 
 @media (max-width: 768px) {
     .filter {
         display: none;
-        position: fixed;
-        top: 0;
+        /* position: sticky;*/
+        top: 0; 
         left: 0;
-        margin-top: 50px;
+        /* margin-top: 50px; */
         width: 250px;
-        height: calc(100% - 50px);;
+        height: calc(100% - 100px);;
         background: white;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
         z-index: 1000;
@@ -32,26 +41,33 @@
         overflow-y: auto;
     }
 
+    .filter-container {
+        padding: 0%;
+        width: 0%;
+        /* height: 500px; */
+    }
+
     .filter.active {
         display: block;
+        top: 91.2px;
+        position: fixed;
     }
 
     .menu-button {
-        display: block;
+        display: flex;
         /* position: fixed; */
-        top: 10px;
+        position: sticky;
+        top: calc(91.2px + 1rem);
         left: 10px;
-        background: #007bff;
-        color: white;
         border: none;
-        padding: 10px;
+        justify-content: flex-end;
         font-size: 16px;
         cursor: pointer;
-        z-index: 1100;
+        z-index: 1001;
     }
 
     .menu-button.active {
-        z-index: -1;
+        display: none;
     }
 
     .close-filter {

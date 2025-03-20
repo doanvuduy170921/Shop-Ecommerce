@@ -4,6 +4,7 @@ import com.example.ShopEcommerce.entity.Product;
 import com.example.ShopEcommerce.entity.ProductImage;
 import com.example.ShopEcommerce.entity.User;
 import com.example.ShopEcommerce.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,39 +27,114 @@ public class ProfileController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/infoAccount/{id}")
-    public String infoAccount(@PathVariable Long id, Model model){
-        User user = userService.findById(id);
+//    @GetMapping("/infoAccount/{id}")
+//    public String infoAccount(@PathVariable Long id, Model model, HttpSession session){
+//        User user = userService.findById(id);
+//        if (user == null) {
+//            return "redirect:/infoAccount";
+//        }
+//        model.addAttribute("user", user);
+//        return "management/infoAccount";
+//    }
+//
+//    @GetMapping("/updateAccount/{id}")
+//    public String updateAccount(@PathVariable Long id, Model model,HttpSession session){
+//        User user = userService.findById(id);
+//        if (user == null) {
+//            return "redirect:/updateAccount";
+//        }
+//        model.addAttribute("user", user);
+//        return "management/updateAccount";
+//    }
+//
+//    @PostMapping("/updateAccount/{id}")
+//    public String updateAccount(
+//            @PathVariable Long id,
+//            @ModelAttribute("user") User updatedUser,
+//            @RequestParam(value = "oldPassword", required = false) String oldPassword,
+//            @RequestParam(value = "newPassword", required = false) String newPassword,
+//            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+//            RedirectAttributes redirectAttributes,
+//            HttpSession session) {
+//
+//        User existingUser = userService.findById(id);
+//        if (existingUser == null) {
+//            redirectAttributes.addFlashAttribute("error", "Người dùng không tồn tại!");
+//            return "redirect:/updateAccount/" + id;
+//        }
+//
+//        existingUser.setName(updatedUser.getName());
+//        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+//        existingUser.setAddress(updatedUser.getAddress());
+//        existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
+//        existingUser.setEmail(updatedUser.getEmail());
+//
+//        if (newPassword != null && !newPassword.isEmpty()) {
+//            if (!passwordEncoder.matches(oldPassword, existingUser.getPassword())) {
+//                redirectAttributes.addFlashAttribute("error", "Mật khẩu cũ không đúng!");
+//                return "redirect:/updateAccount/" + id;
+//            }
+//            if (!newPassword.equals(confirmPassword)) {
+//                redirectAttributes.addFlashAttribute("error", "Xác nhận mật khẩu không khớp!");
+//                return "redirect:/updateAccount/" + id;
+//            }
+//            existingUser.setPassword(passwordEncoder.encode(newPassword));
+//        }
+//
+//        userService.updateUser(existingUser);
+//
+//        redirectAttributes.addFlashAttribute("success", "Cập nhật tài khoản thành công!");
+//        return "redirect:/infoAccount/" + id;
+//    }
+
+    @GetMapping("/infoAccount")
+    public String infoAccount( Model model, HttpSession session){
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findById(loggedInUser.getId());
         if (user == null) {
-            return "redirect:/infoAccount";
+            return "redirect:/login";
         }
         model.addAttribute("user", user);
         return "management/infoAccount";
     }
 
-    @GetMapping("/updateAccount/{id}")
-    public String updateAccount(@PathVariable Long id, Model model){
-        User user = userService.findById(id);
+    @GetMapping("/updateAccount")
+    public String updateAccount(Model model,HttpSession session){
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findById(loggedInUser.getId());
         if (user == null) {
-            return "redirect:/updateAccount";
+            return "redirect:/login";
         }
         model.addAttribute("user", user);
         return "management/updateAccount";
     }
 
-    @PostMapping("/updateAccount/{id}")
+    @PostMapping("/updateAccount")
     public String updateAccount(
-            @PathVariable Long id,
             @ModelAttribute("user") User updatedUser,
             @RequestParam(value = "oldPassword", required = false) String oldPassword,
             @RequestParam(value = "newPassword", required = false) String newPassword,
             @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
 
-        User existingUser = userService.findById(id);
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+
+        User existingUser = userService.findById(loggedInUser.getId());
         if (existingUser == null) {
             redirectAttributes.addFlashAttribute("error", "Người dùng không tồn tại!");
-            return "redirect:/updateAccount/" + id;
+            return "redirect:/updateAccount";
         }
 
         existingUser.setName(updatedUser.getName());
@@ -70,11 +146,11 @@ public class ProfileController {
         if (newPassword != null && !newPassword.isEmpty()) {
             if (!passwordEncoder.matches(oldPassword, existingUser.getPassword())) {
                 redirectAttributes.addFlashAttribute("error", "Mật khẩu cũ không đúng!");
-                return "redirect:/updateAccount/" + id;
+                return "redirect:/updateAccount";
             }
             if (!newPassword.equals(confirmPassword)) {
                 redirectAttributes.addFlashAttribute("error", "Xác nhận mật khẩu không khớp!");
-                return "redirect:/updateAccount/" + id;
+                return "redirect:/updateAccount";
             }
             existingUser.setPassword(passwordEncoder.encode(newPassword));
         }
@@ -82,18 +158,22 @@ public class ProfileController {
         userService.updateUser(existingUser);
 
         redirectAttributes.addFlashAttribute("success", "Cập nhật tài khoản thành công!");
-        return "redirect:/infoAccount/" + id;
+        return "redirect:/infoAccount";
     }
 
-    @PostMapping("/infoAccount/deactivate/{id}")
-    public String deactivateUser(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    @PostMapping("/infoAccount/deactivate")
+    public String deactivateUser(RedirectAttributes redirectAttributes, HttpSession session) {
         try {
-            userService.activateUser(id);
+            User loggedInUser = (User) session.getAttribute("user");
+            if (loggedInUser == null) {
+                return "redirect:/login";
+            }
+            userService.activateUser(loggedInUser.getId());
             redirectAttributes.addFlashAttribute("successMessage", "Tài khoản đã xóa thành công");
             return "redirect:/login";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Lỗi khi xóa tài khoản: " + e.getMessage());
-            return "redirect:/infoAccount/" + id;
+            return "redirect:/infoAccount";
         }
     }
 

@@ -29,19 +29,17 @@ public class CartServiceImpl implements CartService {
     public void addToCart(AddToCardReq addToCardReq) {
         User user = userRepository.findById(addToCardReq.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        if (cartRepository.existsCartByProductId(addToCardReq.getProductId())) {
-            Cart cart = cartRepository.findCartByProductId(addToCardReq.getProductId());
-            cart.setQuantity(cart.getQuantity() + addToCardReq.getQuantity());
-            cartRepository.save(cart);
-            return;
-        }
         Product product = productRepository.findById(addToCardReq.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+        Cart cart = cartRepository.findByUserIdAndProductId(addToCardReq.getUserId(), addToCardReq.getProductId())
+                .orElse(new Cart());
 
-        Cart cart = new Cart();
-        cart.setUser(user);
-        cart.setProduct(product);
-        cart.setQuantity(addToCardReq.getQuantity());
+        if (cart.getId() == null) {
+            cart.setUser(user);
+            cart.setProduct(product);
+            cart.setQuantity(0);
+        }
+        cart.setQuantity(cart.getQuantity() + addToCardReq.getQuantity());
 
         cartRepository.save(cart);
     }
@@ -59,8 +57,14 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<Cart> findAllCartsByUserId(Long userId) {
-        return cartRepository.getCartByUserId(userId);
+    public void updateCart(Long cartId, Integer quantity) {
+        {
+            Cart cart = cartRepository.findById(cartId).orElse(null);
+            if (cart != null) {
+                cart.setQuantity(quantity);
+                cartRepository.save(cart);
+            }
+        }
     }
 
     public Collection<Cart> getCartItems() {
@@ -68,8 +72,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<Cart> findAllCarts() {
-        return cartRepository.findAll();
+    public List<Cart> findCartsbyUserid(Long user_id) {
+        return cartRepository.findByUserId(user_id);
     }
 
     // @Override
@@ -85,7 +89,8 @@ public class CartServiceImpl implements CartService {
     // return item;
     // });
     // User user = null;
-
+    // Product product = null;
     // cartItems.putIfAbsent(productId, new Cart(product, quantity, user));
     // }
+
 }

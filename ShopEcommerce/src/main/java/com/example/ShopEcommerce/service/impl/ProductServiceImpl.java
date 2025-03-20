@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.ShopEcommerce.entity.Attribute;
 import com.example.ShopEcommerce.entity.Product;
+import com.example.ShopEcommerce.repository.AttributeRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,6 +23,7 @@ import com.example.ShopEcommerce.mapper.ProductMapper;
 import com.example.ShopEcommerce.repository.ProductAttributeRepository;
 import com.example.ShopEcommerce.repository.ProductImageRepository;
 import com.example.ShopEcommerce.repository.ProductRepository;
+import com.example.ShopEcommerce.repository.RatingRepository;
 import com.example.ShopEcommerce.service.ProductService;
 import com.example.ShopEcommerce.specs.ProductSpecification;
 
@@ -31,29 +34,47 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final AttributeRepository attributeRepository;
     private final ProductAttributeRepository productAttributeRepository;
     private final ProductImageRepository productImageRepository;
+    private final RatingRepository ratingRepository;
 
     @Override
     public Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size, String sortDirection,
-            Integer minPrice, Integer maxPrice) {
+                                                        Integer minPrice, Integer maxPrice, String keyword) {
         // TODO Auto-generated method stub
         Sort sort = sortDirection.equalsIgnoreCase("desc") ? Sort.by("price").descending()
                 : Sort.by("price").ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        Specification<Product> spec = ProductSpecification.hasPriceBetween(minPrice, maxPrice);
+        Specification<Product> spec = Specification.where(null);
+
+        // Ưu tiên lọc theo categoryId trước
         if (categoryId > 0) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category").get("id"),
-                    categoryId));
+            spec = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category").get("id"), categoryId);
         }
 
-        return productRepository.findAll(spec, pageable).map(ProductMapper::toProductResp);
+        // Sau đó mới lọc theo khoảng giá nếu có
+        if (minPrice != null || maxPrice != null) {
+            Specification<Product> priceSpec = ProductSpecification.hasPriceBetween(minPrice, maxPrice);
+            spec = spec.and(priceSpec);
+        }
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            Specification<Product> keywordSpec = (root, query, criteriaBuilder) ->
+                    criteriaBuilder.or(
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + keyword.toLowerCase() + "%"),
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + keyword.toLowerCase() + "%")
+                    );
+            spec = spec.and(keywordSpec);
+        }
+
+        return productRepository.findAll(spec, pageable).map(product -> ProductMapper.toProductResp(product, ratingRepository));
     }
 
     @Override
     public ProductResp getProductById(Long id) {
         // TODO Auto-generated method stub
-        return ProductMapper.toProductResp(productRepository.findById(id).orElse(null));
+        return ProductMapper.toProductResp(productRepository.findById(id).orElse(null), ratingRepository);
     }
 
     @Override
@@ -94,6 +115,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
+        productAttributeRepository.deleteByProductId(id);
+//        attributeRepository.deleteUnusedAttributes();
         productRepository.deleteById(id);
     }
 
@@ -152,13 +175,16 @@ public class ProductServiceImpl implements ProductService {
         // TODO Auto-generated method stub
         Sort sort = Sort.by("price").ascending();
         Pageable pageable = PageRequest.of(0, 4, sort);
-        return productRepository.findAll(pageable).map(ProductMapper::toProductResp);
+        return productRepository.findAll(pageable).map(product -> ProductMapper.toProductResp(product, ratingRepository));
     }
 
+    @Override
+    public List<Attribute> getAllAttributes() {
+        return attributeRepository.findAll();
+    }
 
-
-
-    public List<Product> getLaptops() {
-        return productRepository.findByCategory_Id(1L);
+    @Override
+    public List<ProductAttribute> getAllProductAttributes() {
+        return productAttributeRepository.findAll();
     }
 }

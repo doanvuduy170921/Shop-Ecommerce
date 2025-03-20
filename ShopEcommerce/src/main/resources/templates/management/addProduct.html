@@ -21,6 +21,9 @@
 <!--        <img src="user-icon.png" alt="User" class="user-icon_admin">-->
 <!--    </div>-->
 <!--</header_admin>-->
+<button class="menu-toggle" id="menuToggle">
+    <i class="bi bi-list"></i>
+</button>
 
 <th:block th:insert="~{component/header-admin}" />
 <div class="container_admin">
@@ -61,6 +64,7 @@
         <div class="content-header-admin">
             <h2>Thêm sản phẩm mới</h2>
         </div>
+
         <div class="content_admin_body">
             <div class="form-container">
                 <div th:if="${error}" class="alert alert-danger" role="alert">
@@ -98,6 +102,17 @@
                         <input type="text" inputmode="decimal" pattern="[0-9,\.]*" id="price" name="price" class="form-control" required>
                     </div>
 
+<!--                    <div class="form-group">-->
+<!--                        <label>Thuộc tính:</label>-->
+<!--                        <div class="group-attribute">-->
+<!--                            <select name="attribute_group" class="form-select">-->
+<!--                                <option value="">Chọn nhóm thuộc tính</option>-->
+<!--                                <option th:each="attribute : ${attributes_group}" th:value="${attribute.id}" th:text="${attribute.name}"></option>-->
+<!--                            </select>-->
+<!--                            <input type="text" name="attribute" class="form-control" placeholder="Nhập thuộc tính">-->
+<!--                            <input type="text" name="attribute_value[]" class="form-control" placeholder="Nhập giá trị">-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="form-group">
                         <label>Ảnh:</label>
                         <div style="flex-grow: 1;">
@@ -123,12 +138,10 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="button-group">
                         <button type="submit" class="btn btn-primary mt-3 mr-2">Lưu</button>
                         <a th:href="@{/admin/productManagement}" class="btn btn-danger mt-3">Hủy</a>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -308,7 +321,26 @@
         // Cho phép form submit bình thường
         return true;
     });
-</script>
 
+    function addAttribute() {
+        let container = document.getElementById("attributes");
+        let newAttribute = document.createElement("div");
+        newAttribute.classList.add("attribute-item");
+        newAttribute.innerHTML = `
+            <select name="attribute_id[]">
+                <option value="">Chọn thuộc tính</option>
+                <option th:each="attribute : ${attributes}" th:value="${attribute.id}" th:text="${attribute.name}"></option>
+            </select>
+            <input type="text" name="attribute_value[]" placeholder="Nhập giá trị">
+            <button type="button" onclick="removeAttribute(this)">Xóa</button>
+        `;
+        container.appendChild(newAttribute);
+    }
+
+    function removeAttribute(button) {
+        button.parentElement.remove();
+    }
+</script>
+<script src="/js/responsive-admin.js"></script>
 </body>
 </html>

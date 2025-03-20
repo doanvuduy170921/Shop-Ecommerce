@@ -1,10 +1,7 @@
 package com.example.ShopEcommerce.controller;
 
 import com.example.ShopEcommerce.dto.resp.CategoryResp;
-import com.example.ShopEcommerce.entity.Category;
-import com.example.ShopEcommerce.entity.Product;
-import com.example.ShopEcommerce.entity.ProductImage;
-import com.example.ShopEcommerce.entity.User;
+import com.example.ShopEcommerce.entity.*;
 import com.example.ShopEcommerce.service.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
@@ -25,6 +22,7 @@ import java.io.IOException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -34,16 +32,22 @@ public class ManagementController {
     private final FileUploadService fileUploadService;
     private final CategoryService categoryService;
     private final ProductImageService productImageService;
+    private final AttributeGroupService attributeGroupService;
+    private final AttributeService attributeService;
+    private final ProductAttributeService productAttributeService;
 
     public ManagementController(UserService userService,
                                 ProductService productService,
                                 FileUploadService fileUploadService,
-                                CategoryService categoryService, ProductImageService productImageService) {
+                                CategoryService categoryService, ProductImageService productImageService, AttributeGroupService attributeGroupService, AttributeService attributeService, ProductAttributeService productAttributeService) {
         this.userService = userService;
         this.productService = productService;
         this.fileUploadService = fileUploadService;
         this.categoryService = categoryService;
         this.productImageService = productImageService;
+        this.attributeGroupService = attributeGroupService;
+        this.attributeService = attributeService;
+        this.productAttributeService = productAttributeService;
     }
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -94,7 +98,6 @@ public class ManagementController {
             // Lấy danh sách ảnh của sản phẩm trước khi xóa
             List<ProductImage> productImages = productImageService.getImagesByProductId(id);
 
-            // Xóa file ảnh từ ổ D:/upload
             for (ProductImage image : productImages) {
                 fileUploadService.deleteFile(image.getImageUrl());
             }
@@ -102,6 +105,7 @@ public class ManagementController {
             productImageService.deleteByProductId(id);
 
             productService.deleteProduct(id);
+
 
             redirectAttributes.addFlashAttribute("success", "Xóa sản phẩm thành công!");
         } catch (Exception e) {
@@ -206,6 +210,11 @@ public class ManagementController {
     @GetMapping("/addProduct")
     public String addProduct(Model model){
         List<CategoryResp> categories = categoryService.getAllCategories();
+        List<Attribute> attributes = attributeService.getAllAttributes();
+        List<AttributeGroup> attributesGroup = attributeGroupService.getAllAttributeGroups();
+
+        model.addAttribute("attributes_group", attributesGroup);
+        model.addAttribute("attributes", attributes);
         model.addAttribute("categories", categories);
         return "management/addProduct";
     }
@@ -272,10 +281,15 @@ public class ManagementController {
     public String updateProduct(@PathVariable("id") Long id, Model model){
         Product product = productService.findById(id);
         List<CategoryResp> categories = categoryService.getAllCategories();
+        List<Attribute> attributes = attributeService.getAllAttributes();
+        List<AttributeGroup> attributesGroup = attributeGroupService.getAllAttributeGroups();
+
 
         if (product == null) {
             return "redirect:/admin/updateProduct";
         }
+        model.addAttribute("attributes_group", attributesGroup);
+        model.addAttribute("attributes", attributes);
         model.addAttribute("product", product);
         model.addAttribute("categories", categories);
         return "management/updateProduct";
@@ -376,7 +390,7 @@ public class ManagementController {
 
         List<CategoryResp> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
-        redirectAttributes.addFlashAttribute("success", "Cập nhật sản phẩm thành công!");
+        redirectAttributes.addFlashAttribute("success", "Cập nhật sản phẩm có id: "+id+" thành công!");
         return "redirect:/admin/productManagement";
     }
 

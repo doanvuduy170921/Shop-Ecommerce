@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Chi Tiết Sản Phẩm</title>
+        <title>Danh Sách Sản Phẩm</title>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -41,22 +41,22 @@
         <div
             class="container container-item-detail mb-3 pt-1 d-flex"
         >
-            <div class="filter-container">
-                <div class="filter position-fixed">
+            <div class="filter-container pt-3 pb-3">
+                <div class="filter">
                     <button class="close-filter d-md-none" onclick="toggleFilter()">✖</button>
                     <div class="category-list bg-light p-3">
                         <h6 class="fw-bold">TẤT CẢ DANH MỤC</h6>
                         <ul class="list-unstyled bg-light">
                             <li th:each="category : ${categories}">
-                                <a
-                                    th:href="@{/product(categoryId=${category.id})}"
+                                <a  
+                                    th:href="@{/product(categoryId=${category.id}, minPrice=${priceFrom}, maxPrice=${priceTo}, sortDirection=${sortDirection}, keyword=${keyword})}"
                                     th:text="${category.name}"
                                     th:class="${category.id == selectedCategoryId} ? 'fw-bold text-danger'"
                                 ></a>
                             </li>
                         </ul>
                     </div>
-                    <div class="search-filter bg-light p-3">
+                    <!-- <div class="search-filter bg-light p-3">
                         <h6 class="fw-bold">BỘ LỌC TÌM KIẾM</h6>
                         <p class="text-muted">Theo Danh Mục</p>
                         <ul class="list-unstyled bg-light">
@@ -72,7 +72,7 @@
                             </li>
                             <li><input type="checkbox" /> Pin Laptop (95k+)</li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="price-filter bg-light p-3">
                         <h6 class="fw-bold">Lọc theo giá</h6>
                         <input
@@ -80,14 +80,14 @@
                             class="form-control mb-2"
                             placeholder="Từ"
                             id="minPrice"
-                            th:value="${minPrice}"
+                            th:value="${priceFrom}"
                         />
                         <input
                             type="number"
                             class="form-control mb-2"
                             placeholder="Đến"
                             id="maxPrice"
-                            th:value="${maxPrice}"
+                            th:value="${priceTo}"
                         />
                         <button
                             class="btn btn-primary w-100"
@@ -100,13 +100,14 @@
                 </div>
             </div>
             
-            <div class="main col-md-9 offset-md-3 p-3">
-                <button class="menu-button d-md-none btn btn-outline-primary" onclick="toggleFilter()">☰ Bộ Lọc</button>
+            <div class="main col-md-9 p-3">
+                <div class="menu-button w-100">
+                    <button class="menu-button-detail d-md-none btn btn-outline-primary" onclick="toggleFilter()">☰ Lọc</button>
+                </div>
                 <div
                     class="sort-filter d-flex justify-content-between align-items-center mb-3"
                 >
-                    
-                    <div>
+                    <!-- <div>
                         <button class="btn btn-outline-primary">
                             Phổ Biến
                         </button>
@@ -116,7 +117,7 @@
                         <button class="btn btn-outline-secondary">
                             Bán Chạy
                         </button>
-                    </div>
+                    </div> -->
                     <div>
                         <select
                             class="form-select"
@@ -137,7 +138,9 @@
                             </option>
                         </select>
                     </div>
+                    
                 </div>
+                
                 <div class="item-list row d-flex flex-wrap justify-content-start">
                     <div class="col-md-3 mb-4" th:each="product : ${products}">
                         <div class="card h-100 shadow-sm border-0">
@@ -162,9 +165,8 @@
                                     class="d-flex justify-content-between align-items-center"
                                 >
                                     <!-- <small class="text-muted" th:text="${product.rating} + ' ⭐ | Đã bán ' + ${product.sold}"></small> -->
-                                    <small class="text-muted"
-                                        >4.6 ⭐ | Đã bán 14.3k</small
-                                    >
+                                    <small class="text-muted" th:text="${product.averageRating} + ' ⭐ '">4.6 ⭐ | Đã bán 14.3k</small>
+                                        
                                 </div>
                                 <!-- <span class="badge bg-danger text-white" th:if="${product.discount > 0}" th:text="'Giảm giá ' + ${product.discount} + '%'"></span> -->
                                 <span class="badge bg-danger text-white"
@@ -174,7 +176,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center mt-4">
+                <div class="d-flex justify-content-center mt-4"  th:if="${totalPages > 1}">
                     <nav>
                         <ul class="pagination">
                             <li
@@ -183,7 +185,7 @@
                             >
                                 <a
                                     class="page-link"
-                                    th:href="@{/product(page=${currentPage - 1}, categoryId=${selectedCategoryId})}"
+                                    th:href="@{/product(page=${currentPage - 1}, categoryId=${selectedCategoryId}, minPrice=${priceFrom}, maxPrice=${priceTo}, sortDirection=${sortDirection}, keyword=${keyword})}"
                                     >&laquo;</a
                                 >
                             </li>
@@ -194,7 +196,7 @@
                             >
                                 <a
                                     class="page-link"
-                                    th:href="@{/product(page=${i}, categoryId=${selectedCategoryId})}"
+                                    th:href="@{/product(page=${i}, categoryId=${selectedCategoryId}, minPrice=${priceFrom}, maxPrice=${priceTo}, sortDirection=${sortDirection}, keyword=${keyword})}"
                                     th:text="${i}"
                                 ></a>
                             </li>
@@ -204,7 +206,7 @@
                             >
                                 <a
                                     class="page-link"
-                                    th:href="@{/product(page=${currentPage + 1}, categoryId=${selectedCategoryId})}"
+                                    th:href="@{/product(page=${currentPage + 1}, categoryId=${selectedCategoryId}, minPrice=${priceFrom}, maxPrice=${priceTo}, sortDirection=${sortDirection}, keyword=${keyword})}"
                                     >&raquo;</a
                                 >
                             </li>
@@ -213,7 +215,9 @@
                 </div>
             </div>
         </div>
+        <th:block th:insert="~{component/footer.html}"></th:block>
     </body>
+    <th:block th:insert="~{component/footer.html}" />
     <script>
         function updateSort() {
             let selectedSort = document.getElementById("sortSelect").value;
