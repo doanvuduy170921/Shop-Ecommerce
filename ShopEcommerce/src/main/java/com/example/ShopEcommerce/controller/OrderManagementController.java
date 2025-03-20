@@ -4,8 +4,10 @@ package com.example.ShopEcommerce.controller;
 import com.example.ShopEcommerce.dto.OrderDisplayDTO;
 import com.example.ShopEcommerce.entity.Order;
 import com.example.ShopEcommerce.entity.OrderDetail;
+import com.example.ShopEcommerce.entity.User;
 import com.example.ShopEcommerce.service.OrderDetailService;
 import com.example.ShopEcommerce.service.OrdersService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -34,7 +37,16 @@ public class OrderManagementController {
 	public String orderManagement(@RequestParam(name = "keyword", required = false) String keyword,
 								  @RequestParam(name = "page", defaultValue = "1") int page,
 								  @RequestParam(name = "size", defaultValue = "8") int size,
-								  Model model) {
+								  Model model,
+								  HttpSession session, RedirectAttributes redirectAttributes) {
+
+		User user = (User) session.getAttribute("user");
+		if (user != null && user.getRole() != null && user.getRole().getId() == 1) {
+			// Xóa hoàn toàn session
+			session.removeAttribute("user");
+			redirectAttributes.addFlashAttribute("infoMsg", "Bạn đã đăng xuất khỏi tài khoản.");
+			return "redirect:/login";
+		}
 		Pageable pageable = PageRequest.of(page - 1, size);
 		Page<OrderDisplayDTO> orderPage = orderService.getOrdersWithProductInfo(keyword, pageable);
 
