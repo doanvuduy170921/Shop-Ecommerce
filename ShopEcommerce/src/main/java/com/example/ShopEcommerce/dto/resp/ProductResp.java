@@ -22,5 +22,7 @@ public class ProductResp {
 
     private String description;
 
+    private Double averageRating;
+
     private CategoryResp category;
 }
