@@ -24,5 +24,7 @@ public class ProductResp {
 
     private Double averageRating;
 
+    private int totalRating;
+
     private CategoryResp category;
 }
