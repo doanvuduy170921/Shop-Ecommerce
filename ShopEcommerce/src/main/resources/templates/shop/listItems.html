@@ -163,9 +163,8 @@
                                     class="d-flex justify-content-between align-items-center"
                                 >
                                     <!-- <small class="text-muted" th:text="${product.rating} + ' ⭐ | Đã bán ' + ${product.sold}"></small> -->
-                                    <small class="text-muted"
-                                        >4.6 ⭐ | Đã bán 14.3k</small
-                                    >
+                                    <small class="text-muted" th:text="${product.averageRating} + ' ⭐ '">4.6 ⭐ | Đã bán 14.3k</small>
+                                        
                                 </div>
                                 <!-- <span class="badge bg-danger text-white" th:if="${product.discount > 0}" th:text="'Giảm giá ' + ${product.discount} + '%'"></span> -->
                                 <span class="badge bg-danger text-white"
@@ -175,7 +174,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center mt-4">
+                <div class="d-flex justify-content-center mt-4"  th:if="${totalPages > 1}">
                     <nav>
                         <ul class="pagination">
                             <li
