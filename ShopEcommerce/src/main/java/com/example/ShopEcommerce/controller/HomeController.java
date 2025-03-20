@@ -19,10 +19,8 @@ public class HomeController {
     private final ProductService productService;
     @GetMapping("")
     public String home(Model model) {
-        
         Page<ProductResp> products = productService.findAll();
         model.addAttribute("products", products);
-
         return "index";
     }
 }

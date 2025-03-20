@@ -246,7 +246,7 @@ public class ProductController {
     public String homePage(Model model) {
         List<Product> laptops = productService.getLaptops();
         model.addAttribute("laptops", laptops);
-        return "home"; // Trả về trang home.html
+        return "index"; // Trả về trang home.html
     }
 
 }
