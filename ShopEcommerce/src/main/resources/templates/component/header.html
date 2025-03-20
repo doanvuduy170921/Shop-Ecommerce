@@ -26,62 +26,64 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Search form với kích thước tối ưu -->
-            <form class="d-flex mx-auto navbar-search position-relative" style="width: 35%;" th:action="@{/product}" method="get">
-                <input class="form-control me-2 rounded-pill py-1 ps-3" name="keyword" th:value="${keyword}" type="search" placeholder="Tìm kiếm sản phẩm...">
-                <button class="btn btn-primary btn-sm rounded-pill position-absolute end-0" type="submit" style="top: 2px; bottom: 2px; right: 2px;">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-                <!-- Kết quả tìm kiếm - positioned below the search input -->
+            <div class="search-container position-relative mx-auto" style="width: 35%;">
+                <!-- Search form -->
+                <form class="d-flex navbar-search" id="search-form" th:action="@{/search-page}" method="get">
+                    <input id="search-input" class="form-control me-2 rounded-pill py-2 ps-3" name="keyword" th:value="${keyword}" type="search" placeholder="Tìm kiếm sản phẩm...">
+<!--                    <button class="btn btn-primary rounded-pill position-absolute end-0 d-flex align-items-center justify-content-center" type="submit" style="top: 4px; bottom: 4px; right: 4px; width: 34px; height: calc(100% - 8px);">-->
+<!--                        <i class="fas fa-search"></i>-->
+<!--                    </button>-->
+                </form>
                 <div id="search-results" class="position-absolute bg-white shadow rounded w-100 mt-1 z-index-dropdown" style="display: none; max-height: 300px; overflow-y: auto; left: 0; right: 0;">
                 </div>
             </div>
             <ul class="navbar-nav ms-auto mb-0">
                 <li class="nav-item">
-                    <a class="nav-link active py-2" th:href="@{/home}">
+                    <a class="nav-link py-2" th:href="@{/home}"
+                       th:classappend="${currentUri != null && currentUri.startsWith('/home') ? 'active' : ''}">
                         <i class="fas fa-home"></i>
                         <span class="d-none d-xl-inline ms-1">Trang chủ</span>
                     </a>
                 </li>
-                <li class="nav-item dropdown" th:onclick="|window.location.href='/product'|">
-                    <a class="nav-link dropdown-toggle py-2" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+
+                <li class="nav-item dropdown" onclick="window.location.href='/product'">
+                    <a class="nav-link dropdown-toggle py-2" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                       th:href="@{/product}"
+                       th:classappend="${currentUri != null && #strings.contains(currentUri, '/product') ? 'active' : ''}">
                         <i class="fas fa-th-large"></i>
                         <span class="d-none d-xl-inline ms-1">Danh mục</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 py-2">
                         <li th:each="category : ${global_categories}">
-                            <a class="dropdown-item py-1" th:href="@{/product(categoryId=${category.id})}" th:text="${category.name}">
+                            <a class="dropdown-item py-1" th:href="@{/product(categoryId=${category.id})}"
+                               th:text="${category.name}">
                                 <i class="fas fa-mobile-alt text-primary me-2"></i>
                             </a>
                         </li>
-<!--                        <li><a class="dropdown-item py-1" href="#"><i class="fas fa-laptop text-primary me-2"></i> Laptop</a></li>-->
-<!--                        <li><a class="dropdown-item py-1" href="#"><i class="fas fa-tshirt text-primary me-2"></i> Thời trang</a></li>-->
-<!--                        <li><a class="dropdown-item py-1" href="#"><i class="fas fa-home text-primary me-2"></i> Đồ gia dụng</a></li>-->
                         <li><hr class="dropdown-divider my-1"></li>
                         <li><a class="dropdown-item py-1" href="#"><i class="fas fa-th text-primary me-2"></i> Tất cả danh mục</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item mx-1">
-                    <a class="nav-link py-2" th:href="@{/order}" title="Yêu thích">
+                    <a class="nav-link py-2" th:href="@{/order}" title="Yêu thích"
+                       th:classappend="${currentUri != null && currentUri.startsWith('/order') ? 'active' : ''}">
                         <i class="fas fa-heart"></i>
                         <span class="d-none d-xl-inline ms-1">Đơn hàng</span>
                     </a>
                 </li>
 
                 <li class="nav-item mx-1">
-                    <a class="nav-link py-2 position-relative" th:href="@{/cart/carts}" title="Giỏ hàng">
+                    <a class="nav-link py-2 position-relative" th:href="@{/cart/carts}" title="Giỏ hàng"
+                       th:classappend="${currentUri != null && currentUri.startsWith('/cart') ? 'active' : ''}">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="d-none d-xl-inline ms-1">Giỏ hàng</span>
-<!--                        <span id="cart-count" class="badge bg-danger rounded-pill position-absolute"-->
-<!--                              style="font-size: 0.6rem; top: 0; right: -5px;"-->
-<!--                              th:text="${session.totalCartQuantity}">0</span>-->
                     </a>
                 </li>
 
                 <li class="nav-item ms-1 dropdown" th:classappend="${session.user} ? 'pl-35' : ''">
-                    <a class="nav-link btn btn-primary btn-sm rounded-pill px-3 py-1" href="#" role="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link btn btn-primary btn-sm rounded-pill px-3 py-1" href="#" role="button" id="accountDropdown"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user"></i>
                         <span th:if="${session.user}" th:text="${session.user.name}" class="ms-1">Đăng nhập</span>
                     </a>
@@ -96,6 +98,9 @@
                     </ul>
                 </li>
             </ul>
+
+
+
         </div>
     </div>
 </nav>
@@ -114,37 +119,89 @@
 
 <!--</script>-->
 <script>
-    document.getElementById("search-input").addEventListener("input", function() {
-        let query = this.value.trim();
-        let resultsDiv = document.getElementById("search-results");
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        const searchForm = document.getElementById('search-form');
 
-        if (query.length < 2) {  // Chỉ tìm khi nhập từ 2 ký tự trở lên
-            resultsDiv.style.display = "none";
-            return;
+        // Xử lý autocomplete khi nhập vào ô tìm kiếm
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+
+            if (query.length >= 2) {
+                fetch(`/api/search?query=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        searchResults.innerHTML = '';
+                        searchResults.style.display = 'block';
+
+                        if (data.length === 0) {
+                            searchResults.innerHTML = '<div class="p-3 text-center">Không tìm thấy kết quả</div>';
+                            return;
+                        }
+
+                        data.forEach(product => {
+                            const resultItem = document.createElement('div');
+                            resultItem.className = 'p-2 border-bottom search-result-item';
+                            resultItem.innerHTML = `
+                                <div class="d-flex align-items-center">
+                                    <img src="${product.thumbnail}" alt="${product.name}" class="me-2"
+                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                    <div>
+                                        <div class="fw-medium">${product.name}</div>
+                                        <div class="text-danger">${formatPrice(product.price)}đ</div>
+                                    </div>
+                                </div>
+                            `;
+
+                            // Click vào sản phẩm để chuyển đến trang tìm kiếm
+                            resultItem.style.cursor = 'pointer';
+                            resultItem.addEventListener('click', function() {
+                                window.location.href = `/api/search-page?q=${encodeURIComponent(product.name)}&productId=${product.id}`;
+                            });
+
+                            searchResults.appendChild(resultItem);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi tải kết quả tìm kiếm:', error);
+                    });
+            } else {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        // Ẩn danh sách khi click ra ngoài
+        document.addEventListener('click', function(event) {
+            if (!searchResults.contains(event.target) && event.target !== searchInput) {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        // Xử lý tìm kiếm khi nhấn Enter
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const query = searchInput.value.trim();
+
+            if (query) {
+                window.location.href = `/api/search-page?q=${encodeURIComponent(query)}`;
+            }
+        });
+
+        // Hàm định dạng giá tiền
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN').format(price);
         }
-
-        fetch(`/api/search?query=${encodeURIComponent(query)}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length === 0) {
-                    resultsDiv.innerHTML = "<p class='text-muted p-3 m-0'>Không có kết quả</p>";
-                } else {
-                    resultsDiv.innerHTML = data.map(item =>
-                        `<a href="/san-pham/${item.id}" class="d-block p-3 text-dark text-decoration-none border-bottom hover-bg-light">${item.name}</a>`
-                    ).join("");
-                }
-                resultsDiv.style.display = "block";
-            })
-            .catch(error => console.error("Lỗi tìm kiếm:", error));
     });
 
-    // Close search results when clicking outside
-    document.addEventListener("click", function(event) {
-        const searchContainer = document.querySelector(".search-container");
-        const searchResults = document.getElementById("search-results");
+    document.addEventListener("DOMContentLoaded", function () {
+        let links = document.querySelectorAll("nav a");
+        let currentPath = window.location.pathname;
 
-        if (!searchContainer.contains(event.target)) {
-            searchResults.style.display = "none";
-        }
+        links.forEach(link => {
+            if (link.getAttribute("href") === currentPath) {
+                link.classList.add("active");
+            }
+        });
     });
 </script>
