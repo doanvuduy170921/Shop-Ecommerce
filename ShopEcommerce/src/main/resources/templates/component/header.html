@@ -1,5 +1,17 @@
 
+<style>
+    .hover-bg-light:hover {
+        background-color: #f8f9fa;
+    }
 
+    .z-index-dropdown {
+        z-index: 1050;
+    }
+
+    #search-results a:last-child {
+        border-bottom: none !important;
+    }
+</style>
 <!-- Header/Navbar - Phiên bản tối ưu cho màn hình 1200px -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
@@ -21,7 +33,10 @@
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-
+                <!-- Kết quả tìm kiếm - positioned below the search input -->
+                <div id="search-results" class="position-absolute bg-white shadow rounded w-100 mt-1 z-index-dropdown" style="display: none; max-height: 300px; overflow-y: auto; left: 0; right: 0;">
+                </div>
+            </div>
             <ul class="navbar-nav ms-auto mb-0">
                 <li class="nav-item">
                     <a class="nav-link active py-2" th:href="@{/home}">
@@ -98,3 +113,38 @@
 <!--    document.addEventListener('DOMContentLoaded', updateCartCount);-->
 
 <!--</script>-->
+<script>
+    document.getElementById("search-input").addEventListener("input", function() {
+        let query = this.value.trim();
+        let resultsDiv = document.getElementById("search-results");
+
+        if (query.length < 2) {  // Chỉ tìm khi nhập từ 2 ký tự trở lên
+            resultsDiv.style.display = "none";
+            return;
+        }
+
+        fetch(`/api/search?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length === 0) {
+                    resultsDiv.innerHTML = "<p class='text-muted p-3 m-0'>Không có kết quả</p>";
+                } else {
+                    resultsDiv.innerHTML = data.map(item =>
+                        `<a href="/san-pham/${item.id}" class="d-block p-3 text-dark text-decoration-none border-bottom hover-bg-light">${item.name}</a>`
+                    ).join("");
+                }
+                resultsDiv.style.display = "block";
+            })
+            .catch(error => console.error("Lỗi tìm kiếm:", error));
+    });
+
+    // Close search results when clicking outside
+    document.addEventListener("click", function(event) {
+        const searchContainer = document.querySelector(".search-container");
+        const searchResults = document.getElementById("search-results");
+
+        if (!searchContainer.contains(event.target)) {
+            searchResults.style.display = "none";
+        }
+    });
+</script>
