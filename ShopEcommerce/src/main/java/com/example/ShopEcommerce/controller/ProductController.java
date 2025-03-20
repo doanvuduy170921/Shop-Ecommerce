@@ -194,10 +194,12 @@ public class ProductController {
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             @RequestParam(required = false) Integer minPrice,
-            @RequestParam(required = false) Integer maxPrice) {
+            @RequestParam(required = false) Integer maxPrice,
+            @RequestParam(required = false) String keyword 
+            ) {
         // Gọi service để lấy danh sách sản phẩm
         Page<ProductResp> products = productService.getAllProductsByCategoryId(categoryId, page - 1, 12, sortDirection,
-                minPrice, maxPrice);
+                minPrice, maxPrice, keyword);
         List<CategoryResp> categories = categoryService.getAllCategories();
         int totalPages = products.getTotalPages();
 
@@ -208,6 +210,7 @@ public class ProductController {
         model.addAttribute("selectedCategoryId", categoryId);
         model.addAttribute("priceFrom", minPrice);
         model.addAttribute("priceTo", maxPrice);
+        model.addAttribute("keyword", keyword);
 
         // Xử lý dữ liệu hoặc trả về view tương ứng
         return "shop/listItems"; // Trả về tên view để hiển thị danh sách sản phẩm

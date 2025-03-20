@@ -15,8 +15,8 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Search form với kích thước tối ưu -->
-            <form class="d-flex mx-auto navbar-search position-relative" style="width: 35%;">
-                <input class="form-control me-2 rounded-pill py-1 ps-3" type="search" placeholder="Tìm kiếm sản phẩm...">
+            <form class="d-flex mx-auto navbar-search position-relative" style="width: 35%;" th:action="@{/product}" method="get">
+                <input class="form-control me-2 rounded-pill py-1 ps-3" name="keyword" th:value="${keyword}" type="search" placeholder="Tìm kiếm sản phẩm...">
                 <button class="btn btn-primary btn-sm rounded-pill position-absolute end-0" type="submit" style="top: 2px; bottom: 2px; right: 2px;">
                     <i class="fas fa-search"></i>
                 </button>
