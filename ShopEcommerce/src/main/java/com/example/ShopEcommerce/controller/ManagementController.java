@@ -532,7 +532,7 @@ public class ManagementController {
     public String logoutUser(HttpSession session, RedirectAttributes redirectAttributes) {
         session.invalidate();
         redirectAttributes.addFlashAttribute("successMsg", "Đăng xuất thành công!");
-        return "redirect:/home";
+        return "redirect:/login";
     }
 
 }

@@ -48,15 +48,15 @@
                         <h6 class="fw-bold">TẤT CẢ DANH MỤC</h6>
                         <ul class="list-unstyled bg-light">
                             <li th:each="category : ${categories}">
-                                <a
-                                    th:href="@{/product(categoryId=${category.id})}"
+                                <a  
+                                    th:href="@{/product(categoryId=${category.id}, minPrice=${priceFrom}, maxPrice=${priceTo}, sortDirection=${sortDirection}, keyword=${keyword})}"
                                     th:text="${category.name}"
                                     th:class="${category.id == selectedCategoryId} ? 'fw-bold text-danger'"
                                 ></a>
                             </li>
                         </ul>
                     </div>
-                    <div class="search-filter bg-light p-3">
+                    <!-- <div class="search-filter bg-light p-3">
                         <h6 class="fw-bold">BỘ LỌC TÌM KIẾM</h6>
                         <p class="text-muted">Theo Danh Mục</p>
                         <ul class="list-unstyled bg-light">
@@ -72,7 +72,7 @@
                             </li>
                             <li><input type="checkbox" /> Pin Laptop (95k+)</li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="price-filter bg-light p-3">
                         <h6 class="fw-bold">Lọc theo giá</h6>
                         <input
@@ -80,14 +80,14 @@
                             class="form-control mb-2"
                             placeholder="Từ"
                             id="minPrice"
-                            th:value="${minPrice}"
+                            th:value="${priceFrom}"
                         />
                         <input
                             type="number"
                             class="form-control mb-2"
                             placeholder="Đến"
                             id="maxPrice"
-                            th:value="${maxPrice}"
+                            th:value="${priceTo}"
                         />
                         <button
                             class="btn btn-primary w-100"
@@ -107,7 +107,7 @@
                 <div
                     class="sort-filter d-flex justify-content-between align-items-center mb-3"
                 >
-                    <div>
+                    <!-- <div>
                         <button class="btn btn-outline-primary">
                             Phổ Biến
                         </button>
@@ -117,7 +117,7 @@
                         <button class="btn btn-outline-secondary">
                             Bán Chạy
                         </button>
-                    </div>
+                    </div> -->
                     <div>
                         <select
                             class="form-select"
@@ -138,7 +138,9 @@
                             </option>
                         </select>
                     </div>
+                    
                 </div>
+                
                 <div class="item-list row d-flex flex-wrap justify-content-start">
                     <div class="col-md-3 mb-4" th:each="product : ${products}">
                         <div class="card h-100 shadow-sm border-0">
@@ -183,7 +185,7 @@
                             >
                                 <a
                                     class="page-link"
-                                    th:href="@{/product(page=${currentPage - 1}, categoryId=${selectedCategoryId})}"
+                                    th:href="@{/product(page=${currentPage - 1}, categoryId=${selectedCategoryId}, minPrice=${priceFrom}, maxPrice=${priceTo}, sortDirection=${sortDirection}, keyword=${keyword})}"
                                     >&laquo;</a
                                 >
                             </li>
@@ -194,7 +196,7 @@
                             >
                                 <a
                                     class="page-link"
-                                    th:href="@{/product(page=${i}, categoryId=${selectedCategoryId})}"
+                                    th:href="@{/product(page=${i}, categoryId=${selectedCategoryId}, minPrice=${priceFrom}, maxPrice=${priceTo}, sortDirection=${sortDirection}, keyword=${keyword})}"
                                     th:text="${i}"
                                 ></a>
                             </li>
@@ -204,7 +206,7 @@
                             >
                                 <a
                                     class="page-link"
-                                    th:href="@{/product(page=${currentPage + 1}, categoryId=${selectedCategoryId})}"
+                                    th:href="@{/product(page=${currentPage + 1}, categoryId=${selectedCategoryId}, minPrice=${priceFrom}, maxPrice=${priceTo}, sortDirection=${sortDirection}, keyword=${keyword})}"
                                     >&raquo;</a
                                 >
                             </li>

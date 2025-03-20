@@ -26,66 +26,64 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Search form với kích thước tối ưu -->
-            <!-- Container for search form and results to manage positioning -->
             <div class="search-container position-relative mx-auto" style="width: 35%;">
                 <!-- Search form -->
-                <form th:action="@{/search-page}" class="d-flex navbar-search" method="GET" id="search-form">
+                <form class="d-flex navbar-search" id="search-form" th:action="@{/search-page}" method="get">
                     <input id="search-input" class="form-control me-2 rounded-pill py-2 ps-3" name="keyword" th:value="${keyword}" type="search" placeholder="Tìm kiếm sản phẩm...">
 <!--                    <button class="btn btn-primary rounded-pill position-absolute end-0 d-flex align-items-center justify-content-center" type="submit" style="top: 4px; bottom: 4px; right: 4px; width: 34px; height: calc(100% - 8px);">-->
 <!--                        <i class="fas fa-search"></i>-->
 <!--                    </button>-->
                 </form>
-
-                <!-- Kết quả tìm kiếm - positioned below the search input -->
                 <div id="search-results" class="position-absolute bg-white shadow rounded w-100 mt-1 z-index-dropdown" style="display: none; max-height: 300px; overflow-y: auto; left: 0; right: 0;">
                 </div>
             </div>
             <ul class="navbar-nav ms-auto mb-0">
                 <li class="nav-item">
-                    <a class="nav-link active py-2" th:href="@{/home}" >
+                    <a class="nav-link py-2" th:href="@{/home}"
+                       th:classappend="${currentUri != null && currentUri.startsWith('/home') ? 'active' : ''}">
                         <i class="fas fa-home"></i>
-                        <span class=" d-xl-inline ms-1">Trang chủ</span>
+                        <span class="d-none d-xl-inline ms-1">Trang chủ</span>
                     </a>
                 </li>
-                <li class="nav-item dropdown" th:onclick="|window.location.href='/product'|">
-                    <a class="nav-link dropdown-toggle py-2" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+
+                <li class="nav-item dropdown" onclick="window.location.href='/product'">
+                    <a class="nav-link dropdown-toggle py-2" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                       th:href="@{/product}"
+                       th:classappend="${currentUri != null && #strings.contains(currentUri, '/product') ? 'active' : ''}">
                         <i class="fas fa-th-large"></i>
-                        <span class=" d-xl-inline ms-1">Danh mục</span>
+                        <span class="d-none d-xl-inline ms-1">Danh mục</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 py-2">
                         <li th:each="category : ${global_categories}">
-                            <a class="dropdown-item py-1" th:href="@{/product(categoryId=${category.id})}" th:text="${category.name}">
+                            <a class="dropdown-item py-1" th:href="@{/product(categoryId=${category.id})}"
+                               th:text="${category.name}">
                                 <i class="fas fa-mobile-alt text-primary me-2"></i>
                             </a>
                         </li>
-<!--                        <li><a class="dropdown-item py-1" href="#"><i class="fas fa-laptop text-primary me-2"></i> Laptop</a></li>-->
-<!--                        <li><a class="dropdown-item py-1" href="#"><i class="fas fa-tshirt text-primary me-2"></i> Thời trang</a></li>-->
-<!--                        <li><a class="dropdown-item py-1" href="#"><i class="fas fa-home text-primary me-2"></i> Đồ gia dụng</a></li>-->
                         <li><hr class="dropdown-divider my-1"></li>
                         <li><a class="dropdown-item py-1" href="#"><i class="fas fa-th text-primary me-2"></i> Tất cả danh mục</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item mx-1">
-                    <a class="nav-link py-2" th:href="@{/order}" title="Yêu thích">
+                    <a class="nav-link py-2" th:href="@{/order}" title="Yêu thích"
+                       th:classappend="${currentUri != null && currentUri.startsWith('/order') ? 'active' : ''}">
                         <i class="fas fa-heart"></i>
-                        <span class=" d-xl-inline ms-1">Đơn hàng</span>
+                        <span class="d-none d-xl-inline ms-1">Đơn hàng</span>
                     </a>
                 </li>
 
                 <li class="nav-item mx-1">
-                    <a class="nav-link py-2 position-relative" th:href="@{/cart/carts}" title="Giỏ hàng">
+                    <a class="nav-link py-2 position-relative" th:href="@{/cart/carts}" title="Giỏ hàng"
+                       th:classappend="${currentUri != null && currentUri.startsWith('/cart') ? 'active' : ''}">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class=" d-xl-inline ms-1">Giỏ hàng</span>
-<!--                        <span id="cart-count" class="badge bg-danger rounded-pill position-absolute"-->
-<!--                              style="font-size: 0.6rem; top: 0; right: -5px;"-->
-<!--                              th:text="${session.totalCartQuantity}">0</span>-->
+                        <span class="d-none d-xl-inline ms-1">Giỏ hàng</span>
                     </a>
                 </li>
 
                 <li class="nav-item ms-1 dropdown" th:classappend="${session.user} ? 'pl-35' : ''">
-                    <a class="nav-link btn btn-primary btn-sm rounded-pill px-3 py-1" href="#" role="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link btn btn-primary btn-sm rounded-pill px-3 py-1" href="#" role="button" id="accountDropdown"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user"></i>
                         <span th:if="${session.user}" th:text="${session.user.name}" class="ms-1">Đăng nhập</span>
                     </a>
@@ -100,6 +98,9 @@
                     </ul>
                 </li>
             </ul>
+
+
+
         </div>
     </div>
 </nav>
@@ -123,7 +124,7 @@
         const searchResults = document.getElementById('search-results');
         const searchForm = document.getElementById('search-form');
 
-        // Handle search input changes for autocomplete
+        // Xử lý autocomplete khi nhập vào ô tìm kiếm
         searchInput.addEventListener('input', function() {
             const query = this.value.trim();
 
@@ -143,52 +144,64 @@
                             const resultItem = document.createElement('div');
                             resultItem.className = 'p-2 border-bottom search-result-item';
                             resultItem.innerHTML = `
-                            <div class="d-flex align-items-center">
-                                <img src="${product.thumbnail}" alt="${product.name}" class="me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                                <div>
-                                    <div class="fw-medium">${product.name}</div>
-                                    <div class="text-danger">${formatPrice(product.price)}đ</div>
+                                <div class="d-flex align-items-center">
+                                    <img src="${product.thumbnail}" alt="${product.name}" class="me-2"
+                                         style="width: 40px; height: 40px; object-fit: cover;">
+                                    <div>
+                                        <div class="fw-medium">${product.name}</div>
+                                        <div class="text-danger">${formatPrice(product.price)}đ</div>
+                                    </div>
                                 </div>
-                            </div>
-                        `;
+                            `;
 
-                            // Make the entire result item clickable
+                            // Click vào sản phẩm để chuyển đến trang tìm kiếm
                             resultItem.style.cursor = 'pointer';
                             resultItem.addEventListener('click', function() {
-                                window.location.href = `/search?q=${encodeURIComponent(query)}&productId=${product.id}`;
+                                window.location.href = `/api/search-page?q=${encodeURIComponent(product.name)}&productId=${product.id}`;
                             });
 
                             searchResults.appendChild(resultItem);
                         });
                     })
                     .catch(error => {
-                        console.error('Error fetching search results:', error);
+                        console.error('Lỗi khi tải kết quả tìm kiếm:', error);
                     });
             } else {
                 searchResults.style.display = 'none';
             }
         });
 
-        // Close search results when clicking outside
+        // Ẩn danh sách khi click ra ngoài
         document.addEventListener('click', function(event) {
             if (!searchResults.contains(event.target) && event.target !== searchInput) {
                 searchResults.style.display = 'none';
             }
         });
 
-        // Handle form submission
+        // Xử lý tìm kiếm khi nhấn Enter
         searchForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const query = searchInput.value.trim();
 
             if (query) {
-                window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                window.location.href = `/api/search-page?q=${encodeURIComponent(query)}`;
             }
         });
 
-        // Helper function to format price
+        // Hàm định dạng giá tiền
         function formatPrice(price) {
             return new Intl.NumberFormat('vi-VN').format(price);
         }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let links = document.querySelectorAll("nav a");
+        let currentPath = window.location.pathname;
+
+        links.forEach(link => {
+            if (link.getAttribute("href") === currentPath) {
+                link.classList.add("active");
+            }
+        });
     });
 </script>
