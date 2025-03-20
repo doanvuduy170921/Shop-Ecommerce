@@ -29,18 +29,17 @@ public class CartServiceImpl implements CartService {
     public void addToCart(AddToCardReq addToCardReq) {
         User user = userRepository.findById(addToCardReq.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        Cart cart = cartRepository.findByUserIdAndProductId(addToCardReq.getUserId(), addToCardReq.getProductId());
-        if (cart != null) {
-            cart.setQuantity(cart.getQuantity() + addToCardReq.getQuantity());
-            cartRepository.save(cart);
-            return;
-        }
         Product product = productRepository.findById(addToCardReq.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+        Cart cart = cartRepository.findByUserIdAndProductId(addToCardReq.getUserId(), addToCardReq.getProductId())
+                .orElse(new Cart());
 
-        cart.setUser(user);
-        cart.setProduct(product);
-        cart.setQuantity(addToCardReq.getQuantity());
+        if (cart.getId() == null) {
+            cart.setUser(user);
+            cart.setProduct(product);
+            cart.setQuantity(0);
+        }
+        cart.setQuantity(cart.getQuantity() + addToCardReq.getQuantity());
 
         cartRepository.save(cart);
     }
