@@ -8,19 +8,19 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <style>
-
-    header_admin {
+    .header-admin {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       background-color: white;
       z-index: 1000;
-      /*padding: 10px 20px;*/
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      height: 60px;
     }
 
     body {
@@ -33,58 +33,68 @@
       cursor: pointer;
     }
 
-    .user-icon_admin {
+    .user-icon-admin {
       background: none !important;
       background-color: transparent !important;
       font-size: 24px;
     }
 
-    .profile-menu {
-      display: none; /* Ẩn ban đầu */
+    .profile-menu-container {
+      display: none;
       position: absolute;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 40px;
+      right: 0;
       background-color: white;
-      padding: 8px 12px;
       border-radius: 5px;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
       font-size: 14px;
       white-space: nowrap;
+      min-width: 120px;
+      z-index: 1001;
+    }
+
+    .profile-menu-container.show {
+      display: block;
+    }
+
+    .profile-menu {
+      display: block;
+      padding: 8px 16px;
       text-decoration: none;
       color: black;
     }
 
-    .profile-menu.show {
-      display: block; /* Hiện khi có class 'show' */
+    .profile-menu:hover {
+      background-color: #f8f9fa;
     }
   </style>
 </head>
 <body>
-<header_admin>
+<header class="header-admin">
   <a class="navbar-brand d-flex align-items-center">
     <i class="fas fa-shopping-bag me-1 text-primary" style="font-size: 1.3rem;"></i>
     <span style="font-weight: 700; font-size: 1.3rem;">Shop<span class="text-primary">Ecommerce</span></span>
   </a>
-  <div class="user-container" onclick="toggleProfile()">
-    <i class="fa-solid fa-user user-icon_admin"></i>
-<!--    <a class="profile-menu" id="profileMenu" th:href="@{/admin/ProfileAdmin/{id}(id=${session.user.id})}">Profile</a>-->
-    <a class="profile-menu" id="profileMenu" th:href="@{/admin/ProfileAdmin}">Profile</a>
-
+  <div class="user-container">
+    <i class="fa-solid fa-user user-icon-admin"></i>
+    <div class="profile-menu-container" id="profileMenu">
+      <a class="profile-menu" th:href="@{/admin/ProfileAdmin}">Profile</a>
+      <a class="profile-menu" th:href="@{/admin/logoutAdmin}">Đăng xuất</a>
+    </div>
   </div>
-</header_admin>
+</header>
 
 <script>
-  function toggleProfile() {
+  // Thêm sự kiện click cho user-container
+  document.querySelector(".user-container").addEventListener("click", function(event) {
+    event.stopPropagation(); // Ngăn sự kiện lan truyền
     document.getElementById("profileMenu").classList.toggle("show");
-  }
+  });
 
   // Ẩn menu khi click ra ngoài
   document.addEventListener("click", function(event) {
-    let userContainer = document.querySelector(".user-container");
     let profileMenu = document.getElementById("profileMenu");
-
-    if (!userContainer.contains(event.target)) {
+    if (profileMenu.classList.contains("show")) {
       profileMenu.classList.remove("show");
     }
   });
