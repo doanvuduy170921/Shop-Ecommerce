@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 public interface ProductService {
-    Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size, String sortDirection, Integer minPrice, Integer maxPrice);
+    Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size, String sortDirection, Integer minPrice, Integer maxPrice, String keyword);
     ProductResp getProductById(Long id);
     Map<String, Object> getAttributesByProductId(Long productId);
     List<Product> searchProducts(String keyword);

@@ -27,16 +27,12 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Search form với kích thước tối ưu -->
-            <!-- Container for search form and results to manage positioning -->
-            <div class="search-container position-relative mx-auto" style="width: 35%;">
-                <!-- Search form -->
-                <form class="d-flex navbar-search">
-                    <input id="search-input" class="form-control me-2 rounded-pill py-2 ps-3" type="search" placeholder="Tìm kiếm sản phẩm...">
-<!--                    <button class="btn btn-primary rounded-pill position-absolute end-0 d-flex align-items-center justify-content-center" type="submit" style="top: 4px; bottom: 4px; right: 4px; width: 34px; height: calc(100% - 8px);">-->
-<!--                        <i class="fas fa-search"></i>-->
-<!--                    </button>-->
-                </form>
-
+            <form class="d-flex mx-auto navbar-search position-relative" style="width: 35%;" th:action="@{/product}" method="get">
+                <input class="form-control me-2 rounded-pill py-1 ps-3" name="keyword" th:value="${keyword}" type="search" placeholder="Tìm kiếm sản phẩm...">
+                <button class="btn btn-primary btn-sm rounded-pill position-absolute end-0" type="submit" style="top: 2px; bottom: 2px; right: 2px;">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
                 <!-- Kết quả tìm kiếm - positioned below the search input -->
                 <div id="search-results" class="position-absolute bg-white shadow rounded w-100 mt-1 z-index-dropdown" style="display: none; max-height: 300px; overflow-y: auto; left: 0; right: 0;">
                 </div>
