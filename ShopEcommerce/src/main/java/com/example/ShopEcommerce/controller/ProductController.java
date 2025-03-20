@@ -217,7 +217,7 @@ public class ProductController {
     public String getProductDetail(
             @RequestParam Long id,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "1") int size,
             @RequestParam(defaultValue = "desc") String sortDirection,
             Model model) {
         ProductResp product = productService.getProductById(id);

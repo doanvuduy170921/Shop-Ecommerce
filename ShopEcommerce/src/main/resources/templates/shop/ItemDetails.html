@@ -97,10 +97,10 @@
         <nav class="container container-item-detail mt-3 mb-3" aria-label="breadcrumb">
             <ol class="breadcrumb" style="margin-bottom: 0;">
                 <li class="breadcrumb-item">
-                    <a href="/">Trang chủ</a>
+                    <a th:href="@{/home}">Trang chủ</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="/category" th:href="@{/category/{id}(id=${product.category.id})}" th:text="${product.category.name}"></a>
+                    <a th:href="@{/product(categoryId=${product.category.id})}" th:text="${product.category.name}"></a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page" th:text="${product.name}"></li>
             </ol>
@@ -312,7 +312,7 @@
                 </li>
             </ul>
 
-            <div class="card mt-3">
+            <!-- <div class="card mt-3">
                 <div class="card-body">
                     <div class="d-flex">
                         <img
@@ -339,7 +339,11 @@
                         đã. Giá cực kỳ tốt. Giao nhanh. Đóng gói cẩn thận. Nên
                         mua lắm ạ.
                     </p>
-                    <!-- <div class="d-flex">
+                    
+                </div>
+            </div> -->
+
+            <!-- <div class="d-flex">
                         <img
                             src="https://via.placeholder.com/100"
                             class="me-2 rounded"
@@ -354,11 +358,9 @@
                         />
                     </div>
                     <div class="mt-2 text-muted small">👍 6</div> -->
-                </div>
-            </div>
 
             <!-- Đánh giá 2 -->
-            <div class="card mt-3">
+            <!-- <div class="card mt-3">
                 <div class="card-body">
                     <div class="d-flex">
                         <img
@@ -398,8 +400,8 @@
                     </div>
                     <div class="mt-2 text-muted small">👍 6</div>
                 </div>
-            </div>
-            <div class="d-flex justify-content-center mt-4">
+            </div> -->
+            <div class="d-flex justify-content-center mt-4" th:if="${totalPages > 1}">
                 <nav>
                     <ul class="pagination">
                         <li
