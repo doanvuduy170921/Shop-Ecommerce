@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -206,6 +206,7 @@
     </style>
 </head>
 <body>
+<th:block th:insert="~{component/header.html}"></th:block>
 <div class="container">
     <div class="header">
         <div class="success-icon">✓</div>
@@ -302,8 +303,8 @@
     </div>
 
     <div class="actions">
-        <a href="#" class="btn">Theo dõi đơn hàng</a>
-        <a href="#" class="btn btn-secondary">Tiếp tục mua sắm</a>
+        <a th:href="@{/order}" class="btn">Theo dõi đơn hàng</a>
+        <a th:href="@{/product}" class="btn btn-secondary">Tiếp tục mua sắm</a>
     </div>
 
     <div class="footer">
@@ -311,5 +312,6 @@
         <p>&copy; 2025 Shop Online. Tất cả các quyền được bảo lưu.</p>
     </div>
 </div>
+<th:block th:insert="~{component/footer.html}"></th:block>
 </body>
 </html>

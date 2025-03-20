@@ -71,13 +71,12 @@
             <div class="summary-right">
                 <span class="total-text">Tổng thanh toán (0 sản phẩm):</span>
                 <span class="total-price">₫0</span>
-                <button class="checkout-btn">Mua Hàng</button>
+                <a th:href="@{/order-confirm}" class="checkout-btn">Mua Hàng</a>
             </div>
         </div>
     </div>
 </div>
 <th:block th:insert="~{component/footer.html}"></th:block>
-
 <script>
     updateSelectedCount();
 
