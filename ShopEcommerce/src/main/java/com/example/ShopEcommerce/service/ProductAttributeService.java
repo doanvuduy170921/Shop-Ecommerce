@@ -15,4 +15,7 @@ public class ProductAttributeService {
     public ProductAttribute saveProductAttribute(ProductAttribute productAttribute) {
         return productAttributeRepository.save(productAttribute);
     }
+    public void deleteProductAttributesByProductId(Long productId) {
+        productAttributeRepository.deleteByProductId(productId);
+    }
 }

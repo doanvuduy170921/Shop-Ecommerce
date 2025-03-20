@@ -207,7 +207,7 @@ public class AuthController {
         user.setName(registerForm.getFullName());
         user.setDateOfBirth(registerForm.getBirthDate());
         user.setPassword(encoder.encode(registerForm.getPassword()));
-        user.setIsVerified(false);
+        user.setIsVerified(true);
 
 
         Role defaultRole = roleRepository.findById(1L).orElse(null);

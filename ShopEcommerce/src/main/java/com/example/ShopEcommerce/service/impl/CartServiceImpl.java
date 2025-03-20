@@ -76,8 +76,6 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findByUserId(user_id);
     }
 
-
-
     // @Override
     // public void updateCart(Long cart_id, Integer quantity) {
     // Cart cart = cartRepository.findById(cart_id).orElseThrow(null);

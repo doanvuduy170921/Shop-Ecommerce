@@ -2,7 +2,9 @@ package com.example.ShopEcommerce.service;
 
 import com.example.ShopEcommerce.dto.AttributeDTO;
 import com.example.ShopEcommerce.entity.Attribute;
+import com.example.ShopEcommerce.entity.ProductAttribute;
 import com.example.ShopEcommerce.repository.AttributeRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,15 +26,28 @@ public class AttributeService {
                 .collect(Collectors.toList());
     }
 
-    public Attribute findAttributeById(Integer id) {
-        return attributeRepository.findById(id).orElse(null);
-    }
-
     private AttributeDTO convertToDTO(Attribute attribute) {
         AttributeDTO dto = new AttributeDTO();
         dto.setId(attribute.getId());
         dto.setName(attribute.getName());
         return dto;
     }
+    public Attribute findAttributeById(int id) {
+        return attributeRepository.findById(id).orElse(null);
+    }
 
+    public List<Attribute> getAllAttributes() {
+        return attributeRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteAttributeById(Integer id) {
+        attributeRepository.deleteById(id);
+    }
+    public Attribute saveAttribute(Attribute productAttribute) {
+        return attributeRepository.save(productAttribute);
+    }
+    public void deleteUnusedAttributes() {
+        attributeRepository.deleteUnusedAttributes();
+    }
 }

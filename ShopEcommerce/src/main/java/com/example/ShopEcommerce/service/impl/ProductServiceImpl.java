@@ -97,6 +97,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
+        productAttributeRepository.deleteByProductId(id);
+//        attributeRepository.deleteUnusedAttributes();
         productRepository.deleteById(id);
     }
 
