@@ -82,7 +82,7 @@
     </div>
     <div class="row">
         <div class="col-6 col-md-3" th:each="product : ${products}">
-            <form class="card product-card" th:action="@{/product/details/add-to-cart}" method="post">
+            <form class="card product-card" th:action="@{/product/details/add-to-cart}" method="post" th:onclick="|window.location.href='/product/details?id='+${product.id}|">
                 <input type="hidden" name="productId" th:value="${product.id}">
                 <input type="hidden" name="quantity" value="1">
                 <span class="flash-sale-badge">-30%</span>

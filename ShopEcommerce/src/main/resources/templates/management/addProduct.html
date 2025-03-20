@@ -102,6 +102,17 @@
                         <input type="text" inputmode="decimal" pattern="[0-9,\.]*" id="price" name="price" class="form-control" required>
                     </div>
 
+<!--                    <div class="form-group">-->
+<!--                        <label>Thuộc tính:</label>-->
+<!--                        <div class="group-attribute">-->
+<!--                            <select name="attribute_group" class="form-select">-->
+<!--                                <option value="">Chọn nhóm thuộc tính</option>-->
+<!--                                <option th:each="attribute : ${attributes_group}" th:value="${attribute.id}" th:text="${attribute.name}"></option>-->
+<!--                            </select>-->
+<!--                            <input type="text" name="attribute" class="form-control" placeholder="Nhập thuộc tính">-->
+<!--                            <input type="text" name="attribute_value[]" class="form-control" placeholder="Nhập giá trị">-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="form-group">
                         <label>Ảnh:</label>
                         <div style="flex-grow: 1;">
@@ -311,6 +322,24 @@
         return true;
     });
 
+    function addAttribute() {
+        let container = document.getElementById("attributes");
+        let newAttribute = document.createElement("div");
+        newAttribute.classList.add("attribute-item");
+        newAttribute.innerHTML = `
+            <select name="attribute_id[]">
+                <option value="">Chọn thuộc tính</option>
+                <option th:each="attribute : ${attributes}" th:value="${attribute.id}" th:text="${attribute.name}"></option>
+            </select>
+            <input type="text" name="attribute_value[]" placeholder="Nhập giá trị">
+            <button type="button" onclick="removeAttribute(this)">Xóa</button>
+        `;
+        container.appendChild(newAttribute);
+    }
+
+    function removeAttribute(button) {
+        button.parentElement.remove();
+    }
 </script>
 <script src="/js/responsive-admin.js"></script>
 </body>

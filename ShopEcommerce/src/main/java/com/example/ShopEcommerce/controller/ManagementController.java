@@ -98,7 +98,6 @@ public class ManagementController {
             // Lấy danh sách ảnh của sản phẩm trước khi xóa
             List<ProductImage> productImages = productImageService.getImagesByProductId(id);
 
-            // Xóa file ảnh từ ổ D:/upload
             for (ProductImage image : productImages) {
                 fileUploadService.deleteFile(image.getImageUrl());
             }
@@ -106,6 +105,7 @@ public class ManagementController {
             productImageService.deleteByProductId(id);
 
             productService.deleteProduct(id);
+
 
             redirectAttributes.addFlashAttribute("success", "Xóa sản phẩm thành công!");
         } catch (Exception e) {
@@ -210,7 +210,11 @@ public class ManagementController {
     @GetMapping("/addProduct")
     public String addProduct(Model model){
         List<CategoryResp> categories = categoryService.getAllCategories();
+        List<Attribute> attributes = attributeService.getAllAttributes();
+        List<AttributeGroup> attributesGroup = attributeGroupService.getAllAttributeGroups();
 
+        model.addAttribute("attributes_group", attributesGroup);
+        model.addAttribute("attributes", attributes);
         model.addAttribute("categories", categories);
         return "management/addProduct";
     }
@@ -277,10 +281,15 @@ public class ManagementController {
     public String updateProduct(@PathVariable("id") Long id, Model model){
         Product product = productService.findById(id);
         List<CategoryResp> categories = categoryService.getAllCategories();
+        List<Attribute> attributes = attributeService.getAllAttributes();
+        List<AttributeGroup> attributesGroup = attributeGroupService.getAllAttributeGroups();
+
 
         if (product == null) {
             return "redirect:/admin/updateProduct";
         }
+        model.addAttribute("attributes_group", attributesGroup);
+        model.addAttribute("attributes", attributes);
         model.addAttribute("product", product);
         model.addAttribute("categories", categories);
         return "management/updateProduct";
