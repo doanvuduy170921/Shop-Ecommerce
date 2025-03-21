@@ -41,18 +41,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductResp> getAllProductsByCategoryId(int categoryId, int page, int size, String sortDirection,
-            Integer minPrice, Integer maxPrice, String keyword) {
+                                                        Integer minPrice, Integer maxPrice, String keyword) {
         // TODO Auto-generated method stub
         Sort sort = sortDirection.equalsIgnoreCase("desc") ? Sort.by("price").descending()
                 : Sort.by("price").ascending();
         Pageable pageable = PageRequest.of(page, size, sort);
         Specification<Product> spec = Specification.where(null);
-        
+
         // Ưu tiên lọc theo categoryId trước
         if (categoryId > 0) {
             spec = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category").get("id"), categoryId);
         }
-    
+
         // Sau đó mới lọc theo khoảng giá nếu có
         if (minPrice != null || maxPrice != null) {
             Specification<Product> priceSpec = ProductSpecification.hasPriceBetween(minPrice, maxPrice);
@@ -60,11 +60,11 @@ public class ProductServiceImpl implements ProductService {
         }
 
         if (keyword != null && !keyword.trim().isEmpty()) {
-            Specification<Product> keywordSpec = (root, query, criteriaBuilder) -> 
-                criteriaBuilder.or(
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + keyword.toLowerCase() + "%"),
-                    criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + keyword.toLowerCase() + "%")
-                );
+            Specification<Product> keywordSpec = (root, query, criteriaBuilder) ->
+                    criteriaBuilder.or(
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + keyword.toLowerCase() + "%"),
+                            criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + keyword.toLowerCase() + "%")
+                    );
             spec = spec.and(keywordSpec);
         }
 
