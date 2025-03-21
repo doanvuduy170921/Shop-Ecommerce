@@ -58,7 +58,19 @@ public class ManagementController {
                                     @RequestParam(name = "categoryId", required = false) Integer categoryId,
                                     @RequestParam(name = "page", defaultValue = "1") int page,
                                     @RequestParam(name = "size", defaultValue = "8") int size,
-                                    Model model) {
+                                    Model model,
+                                    HttpSession session, RedirectAttributes redirectAttributes) {
+
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        if (user.getRole() != null && user.getRole().getId() == 1) {
+            // Xóa hoàn toàn session
+            session.removeAttribute("user");
+            redirectAttributes.addFlashAttribute("infoMsg", "Bạn đã đăng xuất khỏi tài khoản.");
+            return "redirect:/login";
+        }
 
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<Product> productsPage = productService.filterProducts(keyword, priceRange, categoryId, pageable);
@@ -121,8 +133,19 @@ public class ManagementController {
     public String accountManagement(@RequestParam(name = "keyword", required = false) String keyword,
                                     @RequestParam(name = "page", defaultValue = "1") int page,
                                     @RequestParam(name = "size", defaultValue = "8") int size,
-                                    Model model) {
+                                    Model model,
+                                    HttpSession session, RedirectAttributes redirectAttributes) {
 //        List<User> users = userService.searchUsers(keyword);
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        if (user.getRole() != null && user.getRole().getId() == 1) {
+            // Xóa hoàn toàn session
+            session.removeAttribute("user");
+            redirectAttributes.addFlashAttribute("infoMsg", "Bạn đã đăng xuất khỏi tài khoản.");
+            return "redirect:/login";
+        }
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<User> userPage = userService.searchUsersPaginated(keyword,keyword, pageable);
 
