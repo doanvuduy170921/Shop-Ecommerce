@@ -7,13 +7,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1e40af;
+            --accent-color: #f97316;
+            --text-color: #333;
+            --light-gray: #f3f4f6;
+            --dark-gray: #4b5563;
+        }
 
-<<<<<<< HEAD
-=======
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-color);
@@ -444,61 +452,72 @@
                 height: 3rem;
             }
         }
->>>>>>> e3d52bbfa67680c56efa5ec5039a3557c2e630c4
     </style>
 </head>
 <body>
 <th:block th:insert="~{component/header}" />
 <th:block th:insert="~{component/banner}" />
+
 <!-- Features -->
 <div class="container my-5">
+    <h2 class="text-center mb-4 section-heading" data-aos="fade-up">Lợi ích khi mua sắm</h2>
     <div class="row">
-        <div class="col-md-3 text-center mb-3">
-            <div class="p-3">
-                <i class="fas fa-truck fa-2x text-primary mb-2"></i>
+        <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-card p-4 text-center">
+                <div class="feature-icon mx-auto">
+                    <i class="fas fa-truck fa-lg"></i>
+                </div>
                 <h5>Giao hàng nhanh chóng</h5>
-                <p class="small text-muted">Giao hàng trong vòng 24h</p>
+                <p class="text-muted mb-0">Giao hàng trong vòng 24h</p>
             </div>
         </div>
-        <div class="col-md-3 text-center mb-3">
-            <div class="p-3">
-                <i class="fas fa-undo fa-2x text-primary mb-2"></i>
+        <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-card p-4 text-center">
+                <div class="feature-icon mx-auto">
+                    <i class="fas fa-undo fa-lg"></i>
+                </div>
                 <h5>Đổi trả dễ dàng</h5>
-                <p class="small text-muted">30 ngày đổi trả miễn phí</p>
+                <p class="text-muted mb-0">30 ngày đổi trả miễn phí</p>
             </div>
         </div>
-        <div class="col-md-3 text-center mb-3">
-            <div class="p-3">
-                <i class="fas fa-lock fa-2x text-primary mb-2"></i>
+        <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="feature-card p-4 text-center">
+                <div class="feature-icon mx-auto">
+                    <i class="fas fa-lock fa-lg"></i>
+                </div>
                 <h5>Thanh toán an toàn</h5>
-                <p class="small text-muted">Bảo mật thông tin 100%</p>
+                <p class="text-muted mb-0">Bảo mật thông tin 100%</p>
             </div>
         </div>
-        <div class="col-md-3 text-center mb-3">
-            <div class="p-3">
-                <i class="fas fa-headset fa-2x text-primary mb-2"></i>
+        <div class="col-md-3 mb-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="feature-card p-4 text-center">
+                <div class="feature-icon mx-auto">
+                    <i class="fas fa-headset fa-lg"></i>
+                </div>
                 <h5>Hỗ trợ 24/7</h5>
-                <p class="small text-muted">Luôn sẵn sàng phục vụ</p>
+                <p class="text-muted mb-0">Luôn sẵn sàng phục vụ</p>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Categories -->
 <div class="container mb-5">
-    <h2 class="text-center mb-4">Danh mục sản phẩm</h2>
+    <h2 class="text-center mb-4 section-heading" data-aos="fade-up">Danh mục sản phẩm</h2>
     <div class="row">
-        <div class="col-6 col-md-2 mb-3" th:each="category : ${global_categories}">
-            <a th:href="@{/product(categoryId=${category.id})}">
-                <div class="category-card" >
-                    <i class="fas fa-mobile-alt category-icon"></i>
-                    <h6 th:text="${category.name}"></h6>
+        <div class="col-6 col-md-2 mb-3" th:each="category : ${global_categories}" data-aos="fade-up" data-aos-delay="100">
+            <a th:href="@{/product(categoryId=${category.id})}" class="text-decoration-none">
+                <div class="category-card">
+                    <h6 th:text="${category.name}" class="mb-0"></h6>
                 </div>
             </a>
         </div>
-        <div class="col-6 col-md-2 mb-3">
-            <div class="category-card">
-                <i class="fas fa-ellipsis-h category-icon"></i>
-                <h6>Xem thêm</h6>
-            </div>
+        <div class="col-6 col-md-2 mb-3" data-aos="fade-up" data-aos-delay="200">
+            <a th:href="@{/product}" class="text-decoration-none">
+                <div class="category-card">
+                    <h6 class="mb-0">Xem thêm</h6>
+                </div>
+            </a>
         </div>
     </div>
 </div>
@@ -506,28 +525,24 @@
 <!-- Flash Sale -->
 <div class="container mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Flash Sale</h2>
-        <div class="d-flex align-items-center">
-            <span class="me-2">Kết thúc sau:</span>
-            <div id="countdown" class="bg-danger text-white p-2 rounded">05:23:45</div>
-            <a href="#" class="btn btn-outline-primary ms-3">Xem tất cả</a>
+        <h2 class="section-heading mb-0" data-aos="fade-right">Flash Sale</h2>
+        <div class="d-flex align-items-center" data-aos="fade-left">
+            <span class="me-2 fw-bold">Kết thúc sau:</span>
+            <div id="countdown" class="text-white">05:23:45</div>
+            <a th:href="@{/product}" class="btn btn-outline-primary ms-3">Xem tất cả</a>
         </div>
     </div>
     <div class="row">
-        <div class="col-6 col-md-3" th:each="product : ${products}">
-            <form class="card product-card" th:action="@{/product/details/add-to-cart}" method="post">
+        <div class="col-6 col-md-3 mb-4" th:each="product : ${products}" data-aos="fade-up" data-aos-delay="100">
+            <form class="product-card h-100" th:action="@{/product/details/add-to-cart}" method="post">
                 <input type="hidden" name="productId" th:value="${product.id}">
                 <input type="hidden" name="quantity" value="1">
-                <span class="flash-sale-badge">-30%</span>
-                <!-- Thêm thẻ a để chuyển hướng khi click vào hình ảnh -->
-                <a th:href="@{/product/details(id=${product.id})}">
-                    <img th:src="${product.thumbnail}" class="card-img-top" alt="Product 1">
-                </a>
-                <div class="card-body">
-                    <!-- Thêm thẻ a để chuyển hướng khi click vào tên sản phẩm -->
-                    <a th:href="@{/product/details(id=${product.id})}" class="text-decoration-none">
-                        <h5 class="card-title" th:text="${product.name}"></h5>
-                    </a>
+                <div style="width: 20%;" class="flash-sale-badge animate__animated animate__pulse animate__infinite">-30%</div>
+                <div class="product-image-container position-relative" th:onclick="|window.location.href='/product/details?id='+${product.id}|">
+                    <img th:src="${product.thumbnail}" class="card-img-top" alt="Product Image">
+                </div>
+                <div class="card-body" th:onclick="|window.location.href='/product/details?id='+${product.id}|">
+                    <h5 class="card-title" th:text="${product.name}"></h5>
                     <div class="d-flex justify-content-between mb-2">
                         <strong class="text-danger" th:text="${product.price}"></strong>
                         <del class="text-muted">4.990.000đ</del>
@@ -536,153 +551,81 @@
                         <small class="text-muted" th:text="${product.averageRating} + ' ⭐ | ' + ${product.totalRating} + ' đánh giá'">4.6 ⭐ | Đã bán 14.3k</small>
                     </div>
                 </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary" type="submit">Thêm vào giỏ</button>
+                <div class="card-footer bg-white p-0">
+                    <button class="btn btn-primary add-to-cart-btn w-100" type="submit">
+                        <i class="fas fa-shopping-cart me-2"></i>Thêm vào giỏ
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-
 <!-- Popular Products -->
 <div class="container mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Sản phẩm phổ biến</h2>
-        <a href="#" class="btn btn-outline-primary">Xem tất cả</a>
+        <h2 class="section-heading mb-0" data-aos="fade-right">Sản phẩm phổ biến</h2>
+        <a th:href="@{/product}" class="btn btn-outline-primary" data-aos="fade-left">Xem tất cả</a>
     </div>
-    <div class="row" >
-        <div class="col-6 col-md-3" th:each="product : ${products}">
-            <div class="card product-card">
+    <div class="row">
+        <div class="col-6 col-md-3 mb-4" th:each="product : ${products}" data-aos="fade-up" data-aos-delay="100">
+            <div class="product-card h-100" th:onclick="|window.location.href='/product/details?id='+${product.id}|">
                 <form th:action="@{/product/details/add-to-cart}" method="post">
                     <input type="hidden" name="productId" th:value="${product.id}">
                     <input type="hidden" name="quantity" value="1">
-                    <img th:src="${product.thumbnail}" class="card-img-top" alt="Product 5">
+                    <img th:src="${product.thumbnail}" class="card-img-top" alt="Product Image">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${product.name}">Laptop Ultrabook</h5>
+                        <h5 class="card-title" th:text="${product.name}"></h5>
                         <div class="d-flex justify-content-between mb-2">
-                            <strong th:text="${product.price}">19.990.000đ</strong>
+                            <strong class="text-danger" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '₫'"></strong>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <small class="text-muted" th:text="${product.averageRating} + ' ⭐ | ' + ${product.totalRating} + ' đánh giá'">4.6 ⭐ | Đã bán 14.3k</small>
                         </div>
                     </div>
                     <div class="card-footer bg-white d-grid">
-                        <button type="submit" class="btn btn-primary">Thêm vào giỏ</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-shopping-cart me-2"></i>Thêm vào giỏ
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
-        <!-- <div class="col-6 col-md-3">
-            <div class="card product-card">
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 6">
-                <div class="card-body">
-                    <h5 class="card-title">Áo thun nam</h5>
-                    <div class="d-flex justify-content-between mb-2">
-                        <strong>199.000đ</strong>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="ms-1 text-muted">(354)</span>
-                        </div>
-                        <span class="text-success"><small>Đã bán 1025</small></span>
-                    </div>
-                </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card product-card">
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 7">
-                <div class="card-body">
-                    <h5 class="card-title">Nồi cơm điện</h5>
-                    <div class="d-flex justify-content-between mb-2">
-                        <strong>890.000đ</strong>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="ms-1 text-muted">(186)</span>
-                        </div>
-                        <span class="text-success"><small>Đã bán 421</small></span>
-                    </div>
-                </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card product-card">
-                <img src="/api/placeholder/300/300" class="card-img-top" alt="Product 8">
-                <div class="card-body">
-                    <h5 class="card-title">Máy lọc không khí</h5>
-                    <div class="d-flex justify-content-between mb-2">
-                        <strong>3.490.000đ</strong>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                            <span class="ms-1 text-muted">(95)</span>
-                        </div>
-                        <span class="text-success"><small>Đã bán 152</small></span>
-                    </div>
-                </div>
-                <div class="card-footer bg-white d-grid">
-                    <button class="btn btn-primary">Thêm vào giỏ</button>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>
 
 <!-- Featured Brands -->
 <div class="container mb-5">
-    <h2 class="text-center mb-4">Thương hiệu nổi bật</h2>
+    <h2 class="text-center mb-4 section-heading" data-aos="fade-up">Thương hiệu nổi bật</h2>
     <div class="row">
-        <div class="col-4 col-md-2 mb-3 text-center">
-            <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 1" class="img-fluid">
+        <div class="col-4 col-md-2 mb-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="brand-card">
+                <img src="/image/Samsung_logo_blue.png" alt="Samsung" class="img-fluid">
             </div>
         </div>
-        <div class="col-4 col-md-2 mb-3 text-center">
-            <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 2" class="img-fluid">
+        <div class="col-4 col-md-2 mb-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="brand-card">
+                <img src="/image/AsusTek-black-logo.png" alt="Asus" class="img-fluid">
             </div>
         </div>
-        <div class="col-4 col-md-2 mb-3 text-center">
-            <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 3" class="img-fluid">
+        <div class="col-4 col-md-2 mb-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="brand-card">
+                <img src="/image/Dell_Logo.png" alt="Dell" class="img-fluid">
             </div>
         </div>
-        <div class="col-4 col-md-2 mb-3 text-center">
-            <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 4" class="img-fluid">
+        <div class="col-4 col-md-2 mb-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="brand-card">
+                <img src="/image/Samsung_logo_blue.png" alt="Samsung" class="img-fluid">
             </div>
         </div>
-        <div class="col-4 col-md-2 mb-3 text-center">
-            <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 5" class="img-fluid">
+        <div class="col-4 col-md-2 mb-3" data-aos="fade-up" data-aos-delay="500">
+            <div class="brand-card">
+                <img src="/image/Dell_Logo.png" alt="Dell" class="img-fluid">
             </div>
         </div>
-        <div class="col-4 col-md-2 mb-3 text-center">
-            <div class="p-3 border rounded">
-                <img src="/api/placeholder/120/60" alt="Brand 6" class="img-fluid">
+        <div class="col-4 col-md-2 mb-3" data-aos="fade-up" data-aos-delay="600">
+            <div class="brand-card">
+                <img src="/image/AsusTek-black-logo.png" alt="Asus" class="img-fluid">
             </div>
         </div>
     </div>
@@ -691,23 +634,25 @@
 <!-- Two Banner Ads -->
 <div class="container mb-5">
     <div class="row">
-        <div class="col-md-6 mb-3">
-            <div class="card">
-                <img src="/api/placeholder/600/300" class="card-img" alt="Promotion 1">
-                <div class="card-img-overlay d-flex flex-column justify-content-center text-white" style="background: rgba(0,0,0,0.3);">
-                    <h3>Mua sắm thông minh</h3>
-                    <p>Tiết kiệm đến 30% cho đơn hàng đầu tiên</p>
-                    <a href="#" class="btn btn-light">Xem ngay</a>
+        <div class="col-md-6 mb-4" data-aos="fade-right">
+            <div class="promo-card">
+                <img src="https://lh3.googleusercontent.com/VL3D-JOqEYUQAJ_oMTG5VEq_CmOponIHJ9kZ_yE5IszOKBA27dlI8IPS-VL4lqFzNdenG9PhZ_2JiQdil6ovzRCOndgHDds=w1469"
+                     class="w-100 h-100" alt="Promotion 1" style="object-fit: cover;">
+                <div class="overlay">
+                    <h3 class="animate__animated animate__fadeInLeft">Mua sắm thông minh</h3>
+                    <p class="text-white animate__animated animate__fadeInLeft animate__delay-1s">Tiết kiệm đến 30% cho đơn hàng đầu tiên</p>
+                    <a th:href="@{/product}" class="btn animate__animated animate__fadeInLeft animate__delay-2s">Xem ngay</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-3">
-            <div class="card">
-                <img src="/api/placeholder/600/300" class="card-img" alt="Promotion 2">
-                <div class="card-img-overlay d-flex flex-column justify-content-center text-white" style="background: rgba(0,0,0,0.3);">
-                    <h3>Sản phẩm công nghệ</h3>
-                    <p>Khám phá các thiết bị công nghệ mới nhất</p>
-                    <a href="#" class="btn btn-light">Khám phá</a>
+        <div class="col-md-6 mb-4" data-aos="fade-left">
+            <div class="promo-card">
+                <img src="https://lh3.googleusercontent.com/8RMnl7l1ZDdPmQC56ElKviNXwRfM_EUJ5t4S8Ca0M69VoMteM2Ky9QRHn7Qg1K5LFSytHzw5KKFw8WAfLJ5AbMvHnJBpeqY=w1480"
+                     class="w-100 h-100" alt="Promotion 2" style="object-fit: cover;">
+                <div class="overlay">
+                    <h3 class="animate__animated animate__fadeInLeft">Sản phẩm công nghệ</h3>
+                    <p class="text-white animate__animated animate__fadeInLeft animate__delay-1s">Khám phá các thiết bị công nghệ mới nhất</p>
+                    <a th:href="@{/product}" class="btn animate__animated animate__fadeInLeft animate__delay-2s">Khám phá</a>
                 </div>
             </div>
         </div>
@@ -715,29 +660,41 @@
 </div>
 
 <!-- Newsletter -->
-<section class="newsletter mb-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-10 text-center">
-                <h3>Đăng ký nhận thông tin</h3>
-                <p>Nhận thông tin về sản phẩm mới, khuyến mãi và ưu đãi đặc biệt</p>
-                <div class="input-group mb-3 w-75 mx-auto">
-                    <input type="email" class="form-control" placeholder="Nhập email của bạn">
-                    <button class="btn btn-primary" type="button">Đăng ký</button>
+<div class="container mb-5">
+    <div class="newsletter" data-aos="fade-up">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10 text-center">
+                    <h3 class="animate__animated animate__fadeInUp">Đăng ký nhận thông tin</h3>
+                    <p class="animate__animated animate__fadeInUp animate__delay-1s">Nhận thông tin về sản phẩm mới, khuyến mãi và ưu đãi đặc biệt</p>
+                    <div class="input-group mb-3 w-75 mx-auto animate__animated animate__fadeInUp animate__delay-2s">
+                        <input type="email" class="form-control" placeholder="Nhập email của bạn">
+                        <button class="btn" type="button">Đăng ký</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
 <!-- Back to top button -->
-<button type="button" class="btn btn-primary btn-floating btn-lg" id="btn-back-to-top" style="position: fixed; bottom: 20px; right: 20px; display: none;">
+<button type="button" class="btn" id="btn-back-to-top">
     <i class="fas fa-arrow-up"></i>
 </button>
 
 <th:block th:insert="~{component/footer.html}" />
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        once: true
+    });
+
     // Back to top button
     const backToTopButton = document.getElementById("btn-back-to-top");
 
@@ -750,11 +707,16 @@
     };
 
     backToTopButton.addEventListener("click", function() {
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        // Smooth scroll to top
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
 
-    // Update countdown timer
+    // Continuing from where the code was cut off
+
+    // Update countdown timer with animation
     function updateCountdown() {
         const countdownEl = document.getElementById('countdown');
         let time = countdownEl.innerText;
@@ -773,44 +735,106 @@
             }
         }
 
-        countdownEl.innerText = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        // Add animation when seconds change
+        countdownEl.classList.add('animate__animated', 'animate__heartBeat');
+
+        // Format the time with leading zeros
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        countdownEl.innerText = formattedTime;
+
+        // Remove animation after it completes
+        setTimeout(() => {
+            countdownEl.classList.remove('animate__animated', 'animate__heartBeat');
+        }, 1000);
     }
 
+    // Update countdown every second
     setInterval(updateCountdown, 1000);
-</script>
-<script th:inline="javascript">
-    /* Kiểm tra nếu có thông báo thành công từ server */
 
-    /*<![CDATA[*/
+    // Lazy load images
+    document.addEventListener("DOMContentLoaded", function() {
+        const lazyImages = document.querySelectorAll("img.lazy");
 
-    var successMessage = /*[[${successMessage}]]*/ null;
+        if ("IntersectionObserver" in window) {
+            const imageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const image = entry.target;
+                        image.src = image.dataset.src;
+                        image.classList.remove("lazy");
+                        imageObserver.unobserve(image);
+                    }
+                });
+            });
 
-    if (successMessage && successMessage !== "null") {
-        alert(successMessage);
+            lazyImages.forEach(function(image) {
+                imageObserver.observe(image);
+            });
+        } else {
+            // Fallback for browsers that don't support Intersection Observer
+            let lazyLoadThrottleTimeout;
+
+            function lazyLoad() {
+                if (lazyLoadThrottleTimeout) {
+                    clearTimeout(lazyLoadThrottleTimeout);
+                }
+
+                lazyLoadThrottleTimeout = setTimeout(function() {
+                    const scrollTop = window.pageYOffset;
+
+                    lazyImages.forEach(function(img) {
+                        if (img.offsetTop < window.innerHeight + scrollTop) {
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy');
+                        }
+                    });
+
+                    if (lazyImages.length === 0) {
+                        document.removeEventListener("scroll", lazyLoad);
+                        window.removeEventListener("resize", lazyLoad);
+                        window.removeEventListener("orientationchange", lazyLoad);
+                    }
+                }, 20);
+            }
+
+            document.addEventListener("scroll", lazyLoad);
+            window.addEventListener("resize", lazyLoad);
+            window.addEventListener("orientationchange", lazyLoad);
+        }
+    });
+
+    // Add to cart animation
+    const addToCartButtons = document.querySelectorAll('.card-footer .btn-primary');
+
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent triggering the parent onclick event
+
+            // Add animation
+            this.innerHTML = '<i class="fas fa-check me-2"></i>Đã thêm';
+            this.classList.add('btn-success');
+
+            // Reset after 2 seconds
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-shopping-cart me-2"></i>Thêm vào giỏ';
+                this.classList.remove('btn-success');
+            }, 2000);
+        });
+    });
+
+    // Skeleton loading
+    function removeSkeleton() {
+        const skeletons = document.querySelectorAll('.skeleton');
+        skeletons.forEach(skeleton => {
+            skeleton.classList.remove('skeleton');
+        });
     }
 
-    /*]]>*/
+    // Remove skeleton class after content is loaded
+    window.addEventListener('load', removeSkeleton);
+
+    // Fallback for removing skeleton in case load event doesn't fire
+    setTimeout(removeSkeleton, 3000);
 </script>
 </body>
 </html>
-<script>
-    function startCountdown(duration) {
-        let timer = duration, hours, minutes, seconds;
-        setInterval(function () {
-            hours = Math.floor(timer / 3600);
-            minutes = Math.floor((timer % 3600) / 60);
-            seconds = timer % 60;
-
-            document.getElementById('timer').textContent =
-                (hours < 10 ? "0" : "") + hours + ":" +
-                (minutes < 10 ? "0" : "") + minutes + ":" +
-                (seconds < 10 ? "0" : "") + seconds;
-
-            if (--timer < 0) {
-                timer = duration;
-            }
-        }, 1000);
-    }
-    startCountdown(3600);
-
-</script>

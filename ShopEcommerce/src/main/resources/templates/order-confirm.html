@@ -295,13 +295,26 @@
         </tr>
         </thead>
         <tbody>
-        <!-- Thay thế dữ liệu cứng bằng dữ liệu động từ model -->
-        <tr th:each="cart : ${selectedCarts}">
-            <td th:text="${cart.product.name}">Tên sản phẩm</td>
-            <td><img th:src="${cart.product.thumbnail}" alt="Hình sản phẩm" class="product-image"></td>
-            <td th:text="${#numbers.formatDecimal(cart.product.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'">Đơn giá</td>
-            <td th:text="${cart.quantity}">Số lượng</td>
-            <td th:text="${#numbers.formatDecimal(cart.product.price * cart.quantity, 0, 'COMMA', 0, 'POINT')} + ' ₫'">Thành tiền</td>
+        <tr>
+            <td>Áo thun nam cổ tròn</td>
+            <td><img src="/api/placeholder/60/60" alt="Áo thun nam" class="product-image"></td>
+            <td>250.000 ₫</td>
+            <td>2</td>
+            <td>500.000 ₫</td>
+        </tr>
+        <tr>
+            <td>Quần jean nữ ống đứng</td>
+            <td><img src="/api/placeholder/60/60" alt="Quần jean nữ" class="product-image"></td>
+            <td>450.000 ₫</td>
+            <td>1</td>
+            <td>450.000 ₫</td>
+        </tr>
+        <tr>
+            <td>Giày thể thao nam</td>
+            <td><img src="/api/placeholder/60/60" alt="Giày thể thao" class="product-image"></td>
+            <td>780.000 ₫</td>
+            <td>1</td>
+            <td>780.000 ₫</td>
         </tr>
         </tbody>
     </table>
@@ -407,17 +420,4 @@
 </div>
 <!--<th:block th:insert="~{component/footer.html}"></th:block>-->
 </body>
-<script>
-    document.querySelectorAll('input[name="shipping"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            const shippingFee = this.value === 'standard' ? 30000 : 60000;
-            document.getElementById('shipping-fee').textContent = shippingFee.toLocaleString('vi-VN') + ' ₫';
-
-            // Tính lại tổng thanh toán
-            const subtotal = [[${#aggregates.sum(selectedCarts.![product.price * quantity])}]];
-            const total = subtotal + shippingFee;
-            document.getElementById('total-payment').textContent = total.toLocaleString('vi-VN') + ' ₫';
-        });
-    });
-</script>
 </html>

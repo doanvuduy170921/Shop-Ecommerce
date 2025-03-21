@@ -71,122 +71,13 @@
             <div class="summary-right">
                 <span class="total-text">Tổng thanh toán (0 sản phẩm):</span>
                 <span class="total-price">₫0</span>
-                <form id="checkout-form" th:action="@{/order/confirm}" method="post">
-                    <input type="hidden" name="selectedItems" id="selectedItems">
-                    <button type="submit" class="checkout-btn">Mua Hàng</button>
-                </form>
+                <a th:href="@{/order-confirm}" class="checkout-btn">Mua Hàng</a>
             </div>
         </div>
     </div>
 </div>
 <th:block th:insert="~{component/footer.html}"></th:block>
 <script>
-    // Cập nhật event listener cho form checkout
-    document.getElementById("checkout-form").addEventListener("submit", function (e) {
-        // Ngăn form submit mặc định để kiểm tra logic trước
-        e.preventDefault();
-
-        // Lấy danh sách các sản phẩm được chọn
-        let selectedItems = [];
-        document.querySelectorAll(".product-checkbox:checked").forEach(checkbox => {
-            const cartId = checkbox.closest(".product-item").querySelector("input[name='cart_id']").value;
-            selectedItems.push(cartId);
-        });
-
-        // Kiểm tra nếu không có sản phẩm nào được chọn
-        if (selectedItems.length === 0) {
-            alert("Vui lòng chọn ít nhất một sản phẩm để mua hàng");
-            return;
-        }
-
-        // Cập nhật giá trị input hidden
-        document.getElementById("selectedItems").value = selectedItems.join(",");
-        console.log("Đang gửi cart_ids: " + selectedItems.join(","));
-
-        // Tiếp tục submit form
-        this.submit();
-    });
-
-    // Cập nhật hiển thị số lượng và giá tiền trong trang
-    function updateSelectedCount() {
-        const selectedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
-        const count = selectedCheckboxes.length;
-
-        // Cập nhật text "Chọn Tất Cả (x)"
-        document.querySelector('.select-all').textContent = `Chọn Tất Cả (${count})`;
-
-        // Đếm tổng số sản phẩm được chọn (số lượng)
-        let totalItems = 0;
-        selectedCheckboxes.forEach(checkbox => {
-            const productItem = checkbox.closest('.product-item');
-            const quantity = parseInt(productItem.querySelector('.quantity-input').value);
-            totalItems += quantity;
-        });
-
-        // Cập nhật text "Tổng thanh toán (x sản phẩm):"
-        document.querySelector('.total-text').textContent = `Tổng thanh toán (${totalItems} sản phẩm):`;
-
-        // Cập nhật tổng giá tiền
-        updateTotalPrice();
-    }
-
-    // Cập nhật tổng giá tiền của các sản phẩm được chọn
-    function updateTotalPrice() {
-        let totalPrice = 0;
-
-        document.querySelectorAll('.product-checkbox:checked').forEach(checkbox => {
-            const productItem = checkbox.closest('.product-item');
-            const totalText = productItem.querySelector('.product-total').textContent;
-            const price = parseFloat(totalText.replace(/[^\d]/g, ''));
-
-            if (!isNaN(price)) {
-                totalPrice += price;
-            }
-        });
-
-        // Cập nhật hiển thị tổng giá tiền
-        document.querySelector('.total-price').textContent = '₫' + totalPrice.toLocaleString('vi-VN');
-    }
-
-    // Cập nhật khi thay đổi số lượng sản phẩm
-    function updateTotal(input) {
-        const productItem = input.closest('.product-item');
-        const priceText = productItem.querySelector('.product-price span:last-child').textContent;
-        const price = parseFloat(priceText.replace(/[^\d]/g, ''));
-        const quantity = parseInt(input.value);
-
-        if (isNaN(price) || isNaN(quantity)) return;
-
-        const total = price * quantity;
-        productItem.querySelector('.product-total').textContent = '₫' + total.toLocaleString('vi-VN');
-
-        // Gửi AJAX cập nhật giỏ hàng nếu cần
-        const cartId = productItem.querySelector('input[name="cart_id"]').value;
-        updateCartServer(cartId, quantity);
-
-        // Cập nhật tổng tiền và số lượng
-        updateSelectedCount();
-    }
-
-    // Gửi cập nhật số lượng lên server
-    function updateCartServer(cartId, quantity) {
-        fetch('/cart/update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `cart_id=${cartId}&quantity=${quantity}`
-        })
-            .then(response => {
-                if (!response.ok) throw new Error('Lỗi cập nhật giỏ hàng');
-                return response.text();
-            })
-            .then(data => {
-                console.log('Cập nhật giỏ hàng thành công');
-            })
-            .catch(error => {
-                console.error('Lỗi:', error);
-            });
-    }
-
     updateSelectedCount();
 
     // xu ly +

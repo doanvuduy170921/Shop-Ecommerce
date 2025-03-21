@@ -82,8 +82,8 @@ public class ProductController {
     // 📌 Upload ảnh
     @PostMapping("/{productId}/upload")
     public String uploadImage(@PathVariable Long productId,
-                              @RequestParam("files") List<MultipartFile> files,
-                              RedirectAttributes redirectAttributes) {
+            @RequestParam("files") List<MultipartFile> files,
+            RedirectAttributes redirectAttributes) {
         try {
             // Thêm log để xác nhận ID từ đường dẫn
             System.out.println("Received productId from URL: " + productId);
@@ -195,8 +195,8 @@ public class ProductController {
             @RequestParam(required = false, defaultValue = "asc") String sortDirection,
             @RequestParam(required = false) Integer minPrice,
             @RequestParam(required = false) Integer maxPrice,
-            @RequestParam(required = false) String keyword
-    ) {
+            @RequestParam(required = false) String keyword 
+            ) {
         // Gọi service để lấy danh sách sản phẩm
         Page<ProductResp> products = productService.getAllProductsByCategoryId(categoryId, page - 1, 12, sortDirection,
                 minPrice, maxPrice, keyword);
@@ -250,7 +250,7 @@ public class ProductController {
 
     @PostMapping("/details/add-to-cart")
     public String addToCart(@ModelAttribute AddToCardReq entity, RedirectAttributes redirectAttributes,
-                            HttpSession session, HttpServletRequest request) {
+            HttpSession session, HttpServletRequest request) {
         // TODO: process POST request
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -268,7 +268,7 @@ public class ProductController {
 
     @PostMapping("/details/rating")
     public String rating(@ModelAttribute RatingReq ratingDto, HttpSession session,
-                         RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";

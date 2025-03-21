@@ -55,7 +55,49 @@ ALTER TABLE users
 ALTER TABLE users
     ADD COLUMN verification_token VARCHAR(255);
 
+update categories set name = 'Điện thoại di động' where id = 1;
+update categories set name = 'Máy tính bảng' where id = 2;
+update categories set name = 'Laptop' where id = 3;
+update categories set name = 'Máy ảnh' where id = 4;
+update categories set name = 'Tai nghe' where id = 5;
+update categories set name = 'Loa' where id = 6;
+update categories set name = 'Đồng hồ thông minh' where id = 7;
+update categories set name = 'Phụ kiện điện tử' where id = 8;
+update categories set name = 'Thiết bị mạng' where id = 9;
+update categories set name = 'Thiết bị lưu trữ' where id = 10;
 
 
+update products set thumbnail = '/uploads/b3421009-4206-4cbf-800a-c6471118b739_98724c03-c83c-48fd-b160-8e0a828bfbd3_iPhone-14-plus-thumb-xanh-600x600.jpg' where id = 1;
+update products set thumbnail = '/uploads/60021417-3aad-4979-b799-30fd72cfb690_thiet-ke-chua-co-ten-12_1718610325.webp' where id = 2;
+update products set thumbnail = '/uploads/3439ab91-8e4b-44cd-b9b9-bbeadc90971b_56563_macbook_air_m1__4_.png' where id = 3;
+update products set thumbnail = '/uploads/8713542c-c0db-4780-aef1-01d2b078bfef_may-anh-3.webp' where id = 4;
+update products set thumbnail = '/uploads/c549c371-37bf-4273-8cda-64d4739463b7_tai nghe.jpg' where id = 5;
+update products set thumbnail = '/uploads/a8b9340f-6699-4a03-8716-1e7ef50a29b0_loa3.webp' where id = 6;
+update products set thumbnail = '/uploads/67999e79-af67-4102-bf40-5ad66363e2fe_tai-nghe-logitech.png' where id = 7;
+update products set thumbnail = '/uploads/dd232b6b-ddb1-46af-ade5-d60d0cf61825_ram3.jpeg' where id = 8;
+update products set thumbnail = '/uploads/bbe62775-5bdb-4b33-849c-21dfbc08e5cd_tbm3.jpeg' where id = 9;
+update products set thumbnail = '/uploads/00000132-ebc2-45b9-8e65-1a2cfabfd021_usb3.webp' where id = 10;
+
+update product_images set image_url = '/uploads/86df6bb5-7379-4431-b18d-209dd942ad03_tải xuống.jpeg' where id = 1;
+update product_images set image_url = '/uploads/c3508d56-6cdc-46a0-b20b-17e92427fb3b_1845356723.jpeg' where id = 2;
+update product_images set image_url = '/uploads/946c9a27-c7c2-43f6-ba08-a3189a194b31_tai-xuong-3c38de40-1ea1-402c-8755-f7f44f869175.webp' where id = 3;
+update product_images set image_url = '/uploads/11f9b292-67c8-4503-ad87-f5089481441e_vn-11134207-7r98o-lmy5d2vs5ujj78.jpeg' where id = 4;
+update product_images set image_url = '/uploads/63c47d38-ca43-4c11-b979-15b2716facd3_a1-1299-1654544892.webp' where id = 5;
+update product_images set image_url = '/uploads/5e3eefd9-277b-4b1a-9ba6-ca66fd5f202c_macbook.jpeg' where id = 6;
+update product_images set image_url = '/uploads/2c5e2fad-892d-4c7c-9f22-9f2c7c798f63_mayanh2.webp' where id = 7;
+update product_images set image_url = '/uploads/7bccbd11-9770-427f-9a6c-c16b16218125_mayanh1.webp' where id = 8;
+update product_images set image_url = '/uploads/59f2edf7-8540-4002-b39d-2cf8666ae284_tai-nghe-logitech.png' where id = 9;
+update product_images set image_url = '/uploads/2d2cebc1-8dfc-4696-863e-f4de23c905fa_tai-nghe2.webp' where id = 10;
+
+update product_images set image_url = '/uploads/921c32c9-aa9c-43ca-a568-f0a20c69fe84_loa2.webp' where id = 11;
+update product_images set image_url = '/uploads/c04b6092-b1aa-4806-9661-9ea88112d780_loa1.jpeg' where id = 12;
+update product_images set image_url = '/uploads/bbc0fd07-369c-4ba5-87ce-782e318600bb_tai-nghe2.webp' where id = 13;
+update product_images set image_url = '/uploads/648264e0-eb9b-488c-bfe2-c49d06fe8d2c_tai nghe.jpg' where id = 14;
+update product_images set image_url = '/uploads/773992fe-0326-4207-b4c6-555d2c3bbfda_ram2.jpg' where id = 15;
+update product_images set image_url = '/uploads/b41b167f-5fb4-4549-9096-feedb5e35789_ram1.jpg' where id = 16;
+update product_images set image_url = '/uploads/01cb051c-9cf6-47f9-a39e-9c4552c7f99d_tbm2.jpg' where id = 17;
+update product_images set image_url = '/uploads/98c94d1a-2dc0-435b-b8fa-61571645690e_tbm1.webp' where id = 18;
+update product_images set image_url = '/uploads/10b570bd-a245-4b58-91a9-2c68622029b1_usb2.jpg' where id = 19;
+update product_images set image_url = '/uploads/2cb36902-360b-4dc3-ab82-96e37160fae3_usb1.jpg' where id = 20;
 
 
