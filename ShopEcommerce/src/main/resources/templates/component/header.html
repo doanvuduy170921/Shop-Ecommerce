@@ -39,7 +39,7 @@
             </div>
             <ul class="navbar-nav ms-auto mb-0">
                 <li class="nav-item">
-                    <a class="nav-link py-2" th:if="${session.user != null && session.user.role != null && session.user.role.id == 2}" th:href="@{/home}"
+                    <a class="nav-link py-2" th:href="@{/home}"
                        th:classappend="${currentUri != null && currentUri.startsWith('/home') ? 'active' : ''}">
                         <i class="fas fa-home"></i>
                         <span class="d-none d-xl-inline ms-1">Trang chủ</span>
