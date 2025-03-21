@@ -165,13 +165,13 @@
                                     class="d-flex justify-content-between align-items-center"
                                 >
                                     <!-- <small class="text-muted" th:text="${product.rating} + ' ⭐ | Đã bán ' + ${product.sold}"></small> -->
-                                    <small class="text-muted" th:text="${product.averageRating} + ' ⭐ '">4.6 ⭐ | Đã bán 14.3k</small>
+                                    <small class="text-muted" th:text="${product.averageRating} + ' ⭐ | ' + ${product.totalRating} + ' đánh giá'">4.6 ⭐ | Đã bán 14.3k</small>
                                         
                                 </div>
                                 <!-- <span class="badge bg-danger text-white" th:if="${product.discount > 0}" th:text="'Giảm giá ' + ${product.discount} + '%'"></span> -->
-                                <span class="badge bg-danger text-white"
+                                <!-- <span class="badge bg-danger text-white"
                                     >Giảm giá 28%</span
-                                >
+                                > -->
                             </div>
                         </div>
                     </div>
@@ -217,7 +217,6 @@
         </div>
         <th:block th:insert="~{component/footer.html}"></th:block>
     </body>
-    <th:block th:insert="~{component/footer.html}" />
     <script>
         function updateSort() {
             let selectedSort = document.getElementById("sortSelect").value;

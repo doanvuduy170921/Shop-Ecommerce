@@ -16,6 +16,8 @@ public class ProductMapper {
         if (ratingRepository != null) {
             Double averageRating = ratingRepository.findAverageRatingByProductId(product.getId());
             productResp.setAverageRating(averageRating);
+            Integer totalRating = ratingRepository.countByProductId(product.getId());
+            productResp.setTotalRating(totalRating);
         }
         productResp.setCategory(CategoryMapper.toCategoryResp(product.getCategory()));
         return productResp;
