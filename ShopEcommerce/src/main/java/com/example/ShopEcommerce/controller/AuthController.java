@@ -168,11 +168,6 @@ public class AuthController {
 
 
 
-
-
-
-
-
     @GetMapping("/register")
     public String showRegister(Model model) {
         model.addAttribute("registerForm", new RegisterForm());
