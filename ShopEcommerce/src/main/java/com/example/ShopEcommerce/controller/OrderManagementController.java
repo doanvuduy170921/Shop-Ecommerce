@@ -41,7 +41,10 @@ public class OrderManagementController {
 								  HttpSession session, RedirectAttributes redirectAttributes) {
 
 		User user = (User) session.getAttribute("user");
-		if (user != null && user.getRole() != null && user.getRole().getId() == 1) {
+		if (user == null) {
+			return "redirect:/login";
+		}
+		if (user.getRole() != null && user.getRole().getId() == 1) {
 			// Xóa hoàn toàn session
 			session.removeAttribute("user");
 			redirectAttributes.addFlashAttribute("infoMsg", "Bạn đã đăng xuất khỏi tài khoản.");

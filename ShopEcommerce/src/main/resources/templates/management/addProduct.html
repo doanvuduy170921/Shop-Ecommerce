@@ -322,24 +322,6 @@
         return true;
     });
 
-    function addAttribute() {
-        let container = document.getElementById("attributes");
-        let newAttribute = document.createElement("div");
-        newAttribute.classList.add("attribute-item");
-        newAttribute.innerHTML = `
-            <select name="attribute_id[]">
-                <option value="">Chọn thuộc tính</option>
-                <option th:each="attribute : ${attributes}" th:value="${attribute.id}" th:text="${attribute.name}"></option>
-            </select>
-            <input type="text" name="attribute_value[]" placeholder="Nhập giá trị">
-            <button type="button" onclick="removeAttribute(this)">Xóa</button>
-        `;
-        container.appendChild(newAttribute);
-    }
-
-    function removeAttribute(button) {
-        button.parentElement.remove();
-    }
 </script>
 <script src="/js/responsive-admin.js"></script>
 </body>
